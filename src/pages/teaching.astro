@@ -2,27 +2,7 @@
 import BaseLayout from '../components/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
-import type { TeachingEntry } from '../types/teaching';
-
-// ── Page content ──────────────────────────────────────────────────────────────
-const currentCourse: TeachingEntry | null = null;
-// Example:
-// const currentCourse: TeachingEntry = {
-//   title: 'Math 308 — Matrix Algebra',
-//   term: 'Spring 2026',
-//   year: 2026,
-//   termOrder: 2,
-//   role: 'TA',
-//   institution: 'University of Washington',
-//   url: 'https://canvas.uw.edu/courses/...',
-// };
-
-const canvasNote = 'Course materials and announcements are on Canvas.';
-
-// Reverse-chronological — sorted automatically, just add entries in any order.
-// termOrder: higher = later in year (e.g. Autumn=3, Spring=2, Winter=1).
-const pastCourses: TeachingEntry[] = [];
-// ─────────────────────────────────────────────────────────────────────────────
+import { currentCourse, canvasNote, pastCourses } from '../data/teaching';
 
 const sorted = [...pastCourses].sort(
   (a, b) => b.year - a.year || b.termOrder - a.termOrder

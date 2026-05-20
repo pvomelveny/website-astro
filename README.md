@@ -11,6 +11,7 @@ src/
   data/
     site.ts          ← Global personal info: name, email, GitHub, Scholar, CV URL
     research.ts      ← All publications and talks (papers, preprints, talks arrays)
+    teaching.ts      ← Teaching history (currentCourse, pastCourses)
 
   content/
     notes/           ← One .mdx file per note — filename becomes the URL slug
@@ -64,33 +65,33 @@ Each page has a `// ── Page content ──` block near the top of its `---` 
 
 ### Update the teaching page
 
-All teaching data lives in the `// ── Page content ──` block at the top of **`src/pages/teaching.astro`**.
+All teaching data lives in **`src/data/teaching.ts`**.
 
-**Current course** — set `currentCourse` to an object (or `null` when not teaching):
+**Current course** — set `currentCourse` to an object, or `null` when not teaching:
 
 ```ts
-const currentCourse: TeachingEntry = {
+export const currentCourse: TeachingEntry | null = {
   title: 'Math 308 — Matrix Algebra',
   term: 'Spring 2026',
   year: 2026,
-  termOrder: 2,       // controls sort order, see below
-  role: 'TA',         // 'TA' or 'Instructor'
+  termOrder: 2,
+  role: 'TA',                   // 'TA' or 'Instructor'
   institution: 'University of Washington',
   url: 'https://canvas.uw.edu/courses/...',  // optional — omit if no link
 };
 ```
 
-When `url` is set the Canvas note renders as a link; without it, it's plain text. Edit `canvasNote` to change the message.
+When `url` is set the Canvas note renders as a link; without it, plain text. Edit `canvasNote` to change the message.
 
-**Past courses** — append objects to `pastCourses`. The list sorts automatically, so order doesn't matter:
+**Past courses** — append to `pastCourses`. The list sorts automatically, so order doesn't matter:
 
 ```ts
-const pastCourses: TeachingEntry[] = [
+export const pastCourses: TeachingEntry[] = [
   {
     title: 'Math 407 — Linear Programming',
     term: 'Autumn 2025',
     year: 2025,
-    termOrder: 3,
+    termOrder: 4,
     role: 'TA',
     institution: 'University of Washington',
   },
