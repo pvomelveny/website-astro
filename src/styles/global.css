@@ -33,6 +33,21 @@ body {
 
 a { color: inherit; }
 
+/* Shared page typography */
+.page-title {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 0.75rem;
+}
+
+.page-intro {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
 /* KaTeX display math */
 .katex-display { overflow-x: auto; margin: 1.5rem 0; }
 
