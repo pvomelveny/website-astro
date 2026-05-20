@@ -1,13 +1,12 @@
 ---
 import type { Paper, Preprint } from '../types/research';
-import { site } from '../data/site';
 
 interface Props {
   paper: Paper | Preprint;
 }
 
 const { paper } = Astro.props;
-const { title, authors, year, tags, links, abstract } = paper;
+const { title, coauthors, year, tags, links, abstract } = paper;
 const venue  = 'venue'  in paper ? paper.venue  : undefined;
 const volume = 'volume' in paper ? paper.volume : undefined;
 const pages  = 'pages'  in paper ? paper.pages  : undefined;
@@ -19,39 +18,17 @@ function venueString(): string {
   if (pages) v += `, pp. ${pages}`;
   return v;
 }
-
-/**
- * Collapse a full name to bare concatenated initials.
- * "Patrick Von O'Melveny" → "PVO"
- * The owner's entry in site.fullName must include all name parts
- * (including middle name/initial) for this to produce the right result.
- */
-function toInitials(fullName: string): string {
-  return fullName
-    .trim()
-    .split(/\s+/)
-    .map((p) => p[0].toUpperCase())
-    .join('');
-}
 ---
 
 <div class="paper">
   <div class="paper-row">
     <div class="paper-main">
       <div class="paper-title">{title}</div>
-      <div class="paper-authors">
-        {authors.map((a, i) => {
-          const isOwner = a === site.fullName;
-          // Owner: show initials in ink color. Co-authors: full name, muted.
-          const display = isOwner ? toInitials(a) : a;
-          return (
-            <>
-              {i > 0 && ', '}
-              {isOwner ? <em>{display}</em> : display}
-            </>
-          );
-        })}
-      </div>
+      {coauthors && coauthors.length > 0 && (
+        <div class="paper-authors">
+          <span class="with-label">with</span> {coauthors.join(', ')}
+        </div>
+      )}
       <div class="paper-venue">
         {venue
           ? <><span class="journal" set:html={venueString()} />, {year}</>
@@ -108,15 +85,15 @@ function toInitials(fullName: string): string {
   }
 
   .paper-authors {
-    font-size: 13px;
-    color: var(--muted);
+    font-size: 14px;
+    color: var(--ink);
     margin-bottom: 0.35rem;
   }
 
-  /* Site owner's name (initials form) rendered in ink to stand out from co-authors. */
-  .paper-authors em {
-    color: var(--ink);
-    font-style: normal;
+  .with-label {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
   }
 
   .paper-venue {

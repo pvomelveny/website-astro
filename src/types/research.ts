@@ -6,11 +6,8 @@ export interface PaperLinks {
 
 export interface Paper {
   title: string;
-  /** Alphabetical by last name, as is standard in mathematics.
-   *  The site owner's entry must match `site.fullName` exactly — it will be
-   *  displayed as bare concatenated initials (e.g. "PVO") in ink color.
-   *  All other entries are shown as full names in muted color. */
-  authors: string[];
+  /** Co-authors only — omit yourself. Rendered as "with Name, Name". */
+  coauthors?: string[];
   year: number;
   /** Journal or conference name, rendered italic. */
   venue: string;
@@ -29,11 +26,8 @@ export interface PreprintLinks {
 
 export interface Preprint {
   title: string;
-  /** Alphabetical by last name, as is standard in mathematics.
-   *  The site owner's entry must match `site.fullName` exactly — it will be
-   *  displayed as bare concatenated initials (e.g. "PVO") in ink color.
-   *  All other entries are shown as full names in muted color. */
-  authors: string[];
+  /** Co-authors only — omit yourself. Rendered as "with Name, Name". */
+  coauthors?: string[];
   year: number;
   tags: string[];
   links: PreprintLinks;
