@@ -5,10 +5,8 @@ import type { TeachingEntry } from '../types/teaching';
  *
  * Set `currentCourse` to the active course, or null when not teaching.
  * Append past courses to `pastCourses` in any order — the page sorts them
- * reverse-chronologically by year then termOrder.
- *
- * termOrder: use a consistent scheme within a year so sorting is correct,
- * e.g. Winter=1, Spring=2, Summer=3, Autumn=4.
+ * reverse-chronologically by parsing the `term` string automatically.
+ * Term order within a year: Winter < Spring < Summer < Fall.
  */
 
 export const currentCourse: TeachingEntry | null = null;

@@ -4,8 +4,18 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import { currentCourse, canvasNote, pastCourses } from '../data/teaching';
 
+const TERM_ORDER: Record<string, number> = {
+  winter: 1, spring: 2, summer: 3, fall: 4, autumn: 4,
+};
+
+/** Parse "Fall 2025" → sortable integer 20254, "Winter 2026" → 20261. */
+function termSortKey(term: string): number {
+  const [name, year] = term.trim().toLowerCase().split(/\s+/);
+  return parseInt(year ?? '0') * 10 + (TERM_ORDER[name] ?? 0);
+}
+
 const sorted = [...pastCourses].sort(
-  (a, b) => b.year - a.year || b.termOrder - a.termOrder
+  (a, b) => termSortKey(b.term) - termSortKey(a.term)
 );
 ---
 

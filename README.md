@@ -73,8 +73,6 @@ All teaching data lives in **`src/data/teaching.ts`**.
 export const currentCourse: TeachingEntry | null = {
   title: 'Math 308 — Matrix Algebra',
   term: 'Spring 2026',
-  year: 2026,
-  termOrder: 2,
   role: 'TA',                   // 'TA' or 'Instructor'
   institution: 'University of Washington',
   url: 'https://canvas.uw.edu/courses/...',  // optional — omit if no link
@@ -83,30 +81,26 @@ export const currentCourse: TeachingEntry | null = {
 
 When `url` is set the Canvas note renders as a link; without it, plain text. Edit `canvasNote` to change the message.
 
-**Past courses** — append to `pastCourses`. The list sorts automatically, so order doesn't matter:
+**Past courses** — append to `pastCourses` in any order; the list sorts automatically:
 
 ```ts
 export const pastCourses: TeachingEntry[] = [
   {
     title: 'Math 407 — Linear Programming',
-    term: 'Autumn 2025',
-    year: 2025,
-    termOrder: 4,
+    term: 'Fall 2025',
     role: 'TA',
     institution: 'University of Washington',
   },
   {
     title: 'Math 308 — Matrix Algebra',
     term: 'Spring 2025',
-    year: 2025,
-    termOrder: 2,
     role: 'TA',
     institution: 'University of Washington',
   },
 ];
 ```
 
-`termOrder` is only used for sorting within a year — use a consistent scheme, e.g. Winter=1, Spring=2, Summer=3, Autumn=4. The `term` string is what actually displays.
+Sorting is derived automatically from the `term` string. Order within a year: Winter → Spring → Summer → Fall.
 
 ### Add a publication or talk
 

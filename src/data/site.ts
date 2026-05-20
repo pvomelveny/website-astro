@@ -13,6 +13,7 @@ export const site = {
   /** Global links */
   email: "p0@uw.edu",
   github: "https://github.com/pvomelveny",
-  scholar: "https://scholar.google.com/",
+  scholar:
+    "https://scholar.google.com/citations?user=0tgH7DYAAAAJ&hl=en&oi=sra",
   cvUrl: "/cv.pdf",
 } as const;
