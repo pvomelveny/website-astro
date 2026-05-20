@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../components/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+
+// ── Page content ──────────────────────────────────────────────────────────────
+const role                = 'PhD candidate in mathematics';
+const university          = 'University Name';
+const department          = 'Department of Mathematics';
+const advisor             = 'Prof. Advisor Name';
+const undergradInstitution = 'Undergraduate Institution';
+
+const bio: string[] = [
+  `I am a ${role} in the ${department} at ${university}, advised by ${advisor}.
+   My research focuses on combinatorial optimization and discrete mathematics.`,
+  `Before coming to ${university}, I studied mathematics at ${undergradInstitution}.`,
+];
+
+const researchStatement = `I am particularly interested in the polyhedral structure
+  of combinatorial optimization problems and what it reveals about their complexity.
+  Much of my work centers on understanding when LP relaxations are integral, and on
+  finding families of valid inequalities that tighten relaxations in practice.`;
+// ─────────────────────────────────────────────────────────────────────────────
+---
+
+<BaseLayout title="About" description={`About ${site.fullName}.`}>
+  <Nav active="about" />
+
+  <div class="page-header">
+    <h1 class="page-title">About</h1>
+  </div>
+
+  <div class="content">
+    <div class="about-body">
+      {bio.map((paragraph) => <p>{paragraph}</p>)}
+
+      <h2>Research interests</h2>
+      <p>{researchStatement}</p>
+
+      <div class="cv-link">
+        <a href={site.cvUrl} target="_blank" rel="noopener">Download CV (PDF)</a>
+      </div>
+    </div>
+  </div>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding: 3rem var(--pad-h) 2rem;
+    max-width: var(--notes-max);
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .page-title {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--ink);
+  }
+
+  .content {
+    padding: 2.5rem var(--pad-h);
+    max-width: var(--notes-max);
+  }
+
+  .about-body p {
+    font-size: 16px;
+    line-height: 1.85;
+    color: var(--ink);
+    margin-bottom: 1.25rem;
+  }
+
+  .about-body h2 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--ink);
+    margin: 2rem 0 0.85rem;
+  }
+
+  .cv-link { margin-top: 2rem; }
+
+  .cv-link a {
+    font-size: 14px;
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 0.5px;
+    text-underline-offset: 3px;
+  }
+
+  .cv-link a:hover { color: var(--accent-hover); }
+</style>

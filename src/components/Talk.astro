@@ -1,0 +1,50 @@
+---
+import type { Talk } from '../types/research';
+
+interface Props {
+  talk: Talk;
+}
+
+const { talk } = Astro.props;
+const { title, venue, location, year, month, links } = talk;
+
+const meta = [venue, location, [month, year].filter(Boolean).join(' ')]
+  .filter(Boolean)
+  .join(' · ');
+---
+
+<div class="talk">
+  <div class="talk-title">{title}</div>
+  <div class="talk-meta">{meta}</div>
+  {links?.slides && (
+    <div class="talk-links">
+      <a href={links.slides} target="_blank" rel="noopener">slides</a>
+    </div>
+  )}
+</div>
+
+<style>
+  .talk { margin-bottom: 1.5rem; }
+
+  .talk-title {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-style: italic;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+
+  .talk-meta {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+
+  .talk-links a {
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 0.5px;
+    text-underline-offset: 2px;
+  }
+</style>

@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../components/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import Paper from '../components/Paper.astro';
+import Talk from '../components/Talk.astro';
+import researchData from '../data/research';
+
+// ── Page content ──────────────────────────────────────────────────────────────
+const intro = `My work sits at the intersection of combinatorial optimization and
+  discrete mathematics. I am particularly drawn to questions about polyhedral
+  structure and what it reveals about the complexity of optimization problems.`;
+// ─────────────────────────────────────────────────────────────────────────────
+
+const { papers, preprints, talks } = researchData;
+---
+
+<BaseLayout title="Research" description="Research papers, preprints, and talks.">
+  <Nav active="research" />
+
+  <div class="page-header">
+    <h1 class="page-title">Research</h1>
+    <p class="page-intro">{intro}</p>
+  </div>
+
+  <div class="content">
+    {papers.length > 0 && (
+      <div class="r-section">
+        <div class="r-section-label">papers</div>
+        {papers.map((paper, i) => (
+          <>
+            {i > 0 && <div class="divider-light" />}
+            <Paper paper={paper} />
+          </>
+        ))}
+      </div>
+    )}
+
+    {preprints.length > 0 && (
+      <div class="r-section">
+        <div class="r-section-label">preprints</div>
+        {preprints.map((paper, i) => (
+          <>
+            {i > 0 && <div class="divider-light" />}
+            <Paper paper={paper} />
+          </>
+        ))}
+      </div>
+    )}
+
+    {talks.length > 0 && (
+      <div class="r-section">
+        <div class="r-section-label">talks</div>
+        {talks.map((talk, i) => (
+          <>
+            {i > 0 && <div class="divider-light" />}
+            <Talk talk={talk} />
+          </>
+        ))}
+      </div>
+    )}
+
+    {papers.length === 0 && preprints.length === 0 && talks.length === 0 && (
+      <p class="empty">Publications coming soon.</p>
+    )}
+  </div>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding: 3rem var(--pad-h) 2rem;
+    max-width: var(--content-max);
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .page-title {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 0.75rem;
+  }
+
+  .page-intro {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 560px;
+  }
+
+  .content {
+    padding: 2.5rem var(--pad-h);
+    max-width: var(--content-max);
+  }
+
+  .r-section { margin-bottom: 3rem; }
+
+  .r-section-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 0.5px solid var(--surface);
+  }
+
+  .divider-light {
+    height: 0.5px;
+    background: var(--surface);
+    margin: 1.75rem 0;
+  }
+
+  .empty { font-size: 15px; color: var(--muted); }
+</style>
+
+<script>
+  import { initAbstractToggles } from '../scripts/abstracts';
+  initAbstractToggles();
+</script>

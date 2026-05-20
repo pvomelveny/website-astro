@@ -1,0 +1,28 @@
+---
+import NoteLayout from '../../components/NoteLayout.astro';
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const notes = await getCollection('notes');
+  return notes.map((note) => ({
+    // Astro 6 glob loader sets `id` to the filename including extension (e.g. "my-note.mdx").
+    // Strip it so the route is /notes/my-note rather than /notes/my-note.mdx.
+    params: { slug: note.id.replace(/\.mdx?$/, '') },
+    props: { note },
+  }));
+};
+
+const { note } = Astro.props;
+const { Content } = await render(note);
+---
+
+<NoteLayout
+  title={note.data.title}
+  subtitle={note.data.subtitle}
+  date={note.data.date}
+  tag={note.data.tag}
+  description={note.data.description}
+>
+  <Content />
+</NoteLayout>

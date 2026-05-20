@@ -1,0 +1,268 @@
+---
+import BaseLayout from "../components/BaseLayout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { getCollection } from "astro:content";
+import { site } from "../data/site";
+
+// ── Page content ──────────────────────────────────────────────────────────────
+const role = "PhD student";
+const department = "Department of Mathematics";
+const university = "University of Washington";
+const advisor = "Thomas Rothvoss";
+const bio = `I work on problems in combinatorial optimization and discrete
+  mathematics, with a particular interest in the structure of polyhedra and the
+  geometry of linear programs. I am advised by ${advisor}.`;
+
+const researchInterests = [
+  "combinatorial optimization",
+  "polyhedral combinatorics",
+  "integer programming",
+];
+
+const photo = "/photo.jpg"; // path relative to public/; set to "" to hide
+// ─────────────────────────────────────────────────────────────────────────────
+
+const allNotes = await getCollection("notes");
+const recentNotes = allNotes
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+
+function formatMonth(date: Date): string {
+  return date.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+}
+---
+
+<BaseLayout title={site.fullName} description={`${role} at ${university}.`}>
+  <Nav />
+
+  <div class="hero">
+    <div class="hero-text">
+      <div class="hero-role">{role}</div>
+      <div class="hero-dept">{department} · {university}</div>
+      <p class="hero-bio">{bio}</p>
+      <div class="hero-actions">
+        <a href="/research" class="btn-primary">view research</a>
+        <a href={site.cvUrl} class="btn-secondary">download cv</a>
+      </div>
+    </div>
+    {photo && (
+      <div class="hero-photo">
+        <img src={photo} alt={site.fullName} width="200" height="240" />
+      </div>
+    )}
+  </div>
+
+  <div class="section-divider"></div>
+
+  <div class="home-section">
+    <div class="section-label">research interests</div>
+    <div class="interest-tags">
+      {researchInterests.map((tag) => <span class="interest-tag">{tag}</span>)}
+    </div>
+  </div>
+
+  {
+    recentNotes.length > 0 && (
+      <>
+        <div class="section-divider" />
+        <div class="home-section">
+          <div class="section-label">recent notes</div>
+          <div class="recent-notes">
+            {recentNotes.map((note) => (
+              <div class="note-row">
+                <div class="note-title">
+                  <a href={`/notes/${note.id.replace(/\.mdx?$/, "")}`}>
+                    {note.data.title}
+                    <span class="note-tag">{note.data.tag}</span>
+                  </a>
+                </div>
+                <div class="note-date">{formatMonth(note.data.date)}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </>
+    )
+  }
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 4rem;
+    padding: 4rem var(--pad-h) 3.5rem;
+    align-items: start;
+    max-width: var(--content-max);
+  }
+
+  .hero-role {
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1.5;
+    margin-bottom: 0.4rem;
+    font-family: var(--font-display);
+    font-weight: 400;
+  }
+
+  .hero-dept {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 1.75rem;
+  }
+
+  .hero-bio {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--ink);
+    max-width: 520px;
+  }
+
+  .hero-bio a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 0.5px;
+    text-underline-offset: 3px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1.25rem;
+    margin-top: 2rem;
+    align-items: center;
+  }
+
+  .btn-primary {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 300;
+    background: var(--accent);
+    color: #f7f2e7;
+    padding: 0.55rem 1.25rem;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-hover);
+  }
+
+  .btn-secondary {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: underline;
+    text-decoration-thickness: 0.5px;
+    text-underline-offset: 3px;
+    font-family: var(--font-body);
+  }
+
+  .btn-secondary:hover {
+    color: var(--ink);
+  }
+
+  .hero-photo img {
+    width: 200px;
+    height: 240px;
+    object-fit: cover;
+    margin-top: 0.5rem;
+    border: 0.5px solid var(--border);
+  }
+
+  .section-divider {
+    height: 0.5px;
+    background: var(--border);
+    margin: 0 var(--pad-h);
+  }
+
+  .home-section {
+    padding: 2.75rem var(--pad-h);
+    max-width: var(--content-max);
+  }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .interest-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .interest-tag {
+    font-size: 13px;
+    color: var(--muted);
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    padding: 0.3rem 0.75rem;
+  }
+
+  .recent-notes {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .note-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.9rem 0;
+    border-bottom: 0.5px solid var(--surface);
+    gap: 2rem;
+  }
+
+  .note-row:first-child {
+    border-top: 0.5px solid var(--surface);
+  }
+
+  .note-title {
+    font-size: 15px;
+    color: var(--ink);
+  }
+
+  .note-title a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .note-title a:hover {
+    color: var(--accent);
+  }
+
+  .note-tag {
+    display: inline-block;
+    font-size: 11px;
+    color: var(--muted);
+    background: var(--surface);
+    padding: 1px 7px;
+    margin-left: 0.5rem;
+    letter-spacing: 0.03em;
+  }
+
+  .note-date {
+    font-size: 12px;
+    color: var(--muted);
+    white-space: nowrap;
+    letter-spacing: 0.03em;
+  }
+
+  @media (max-width: 680px) {
+    .hero {
+      grid-template-columns: 1fr;
+      padding: 2rem var(--pad-h);
+    }
+    .hero-photo {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,165 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Nav from './Nav.astro';
+import Footer from './Footer.astro';
+import type { NoteTag } from '../types/note';
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  date: Date;
+  tag: NoteTag;
+  description: string;
+}
+
+const { title, subtitle, date, tag, description } = Astro.props;
+
+const formattedDate = date.toLocaleDateString('en-US', {
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<BaseLayout title={title} description={description}>
+  <Nav active="notes" />
+
+  <div class="post-header">
+    <div class="post-meta">
+      <span>{formattedDate}</span>
+      <span class="post-tag-pill">{tag}</span>
+    </div>
+    <h1 class="post-title">{title}</h1>
+    {subtitle && <p class="post-subtitle">{subtitle}</p>}
+  </div>
+
+  <div class="post-body">
+    <div class="note-content">
+      <slot />
+    </div>
+  </div>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .post-header {
+    padding: 3rem var(--pad-h) 2rem;
+    border-bottom: 0.5px solid var(--border);
+    max-width: var(--content-max);
+  }
+
+  .post-meta {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+  }
+
+  .post-tag-pill {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    padding: 1px 8px;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+  }
+
+  .post-title {
+    font-family: var(--font-display);
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 1.25;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+  }
+
+  .post-subtitle {
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  .post-body {
+    padding: 2.5rem var(--pad-h);
+    max-width: var(--content-max);
+  }
+
+  @media (max-width: 680px) {
+    .post-header { padding: 2rem var(--pad-h) 1.5rem; }
+    .post-body { padding: 2rem var(--pad-h); }
+  }
+</style>
+
+<!--
+  Sidenote positioning — global styles target .sidenote/.sn-ref inside slot content.
+  On wide screens: CSS float is the no-JS fallback; JS replaces floats with
+  position:absolute for precise per-ref vertical alignment.
+  On narrow screens: sidenotes appear inline in document flow.
+-->
+<style is:global>
+  .note-content {
+    position: relative;
+  }
+
+  /* Prose styles */
+  .note-content p {
+    font-size: 16px;
+    line-height: 1.85;
+    color: var(--ink);
+    margin-bottom: 1.25rem;
+  }
+
+  .note-content p a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 0.5px;
+    text-underline-offset: 3px;
+  }
+
+  .note-content h2 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--ink);
+    margin: 2rem 0 0.85rem;
+  }
+
+  /* Sidenotes: float right as no-JS fallback on wide screens */
+  @media (min-width: 681px) {
+    .note-content .sidenote {
+      float: right;
+      clear: right;
+      width: 200px;
+      margin-left: 3rem;
+      margin-bottom: 1rem;
+    }
+  }
+
+  /* Sidenotes: inline block on narrow screens */
+  @media (max-width: 680px) {
+    .note-content .sidenote {
+      display: block;
+      float: none;
+      width: 100%;
+      margin: 1rem 0;
+    }
+  }
+
+  /* JS-enhanced state: absolute positioning (class added by sidenotes.ts) */
+  .note-content.js-sidenotes .sidenote {
+    position: absolute;
+    float: none;
+    width: 200px;
+  }
+</style>
+
+<script>
+  import { alignSidenotes } from '../scripts/sidenotes';
+
+  alignSidenotes();
+  window.addEventListener('resize', alignSidenotes);
+</script>

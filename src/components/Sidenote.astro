@@ -1,0 +1,37 @@
+---
+/**
+ * Sidenote block. Place anywhere in an MDX note file — the NoteLayout
+ * component renders all sidenotes into the side column on wide screens,
+ * and into the footnote section at the bottom on narrow screens.
+ *
+ * Must match the `n` prop of the corresponding <SidenoteRef>.
+ */
+interface Props {
+  n: number;
+}
+
+const { n } = Astro.props;
+---
+
+<div class="sidenote" data-sn={n}>
+  <span class="sn-num">{n}</span><slot />
+</div>
+
+<style>
+  .sidenote {
+    font-size: 12px;
+    line-height: 1.65;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    padding-left: 0.75rem;
+    border-left: 1px solid var(--border);
+  }
+
+  .sn-num {
+    font-size: 10px;
+    color: var(--accent);
+    margin-right: 3px;
+    vertical-align: super;
+    line-height: 0;
+  }
+</style>
