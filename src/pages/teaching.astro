@@ -2,7 +2,8 @@
 import BaseLayout from '../components/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
-import { currentCourse, canvasNote, pastCourses } from '../data/teaching';
+import { currentCourse, currentClassNote, pastCourses } from '../data/teaching';
+import type { TeachingEntry } from '../types/teaching';
 
 const TERM_ORDER: Record<string, number> = {
   winter: 1, spring: 2, summer: 3, fall: 4, autumn: 4,
@@ -14,8 +15,45 @@ function termSortKey(term: string): number {
   return parseInt(year ?? '0') * 10 + (TERM_ORDER[name] ?? 0);
 }
 
+function termYear(term: string): number {
+  const parts = term.trim().split(/\s+/);
+  return parseInt(parts[parts.length - 1] ?? '0');
+}
+
+/** "Summer 2025" → "Summer" */
+function termName(term: string): string {
+  return term.trim().split(/\s+/)[0] ?? term;
+}
+
 const sorted = [...pastCourses].sort(
   (a, b) => termSortKey(b.term) - termSortKey(a.term)
+);
+
+type YearGroup      = { year: number; entries: TeachingEntry[] };
+type InstitutionGroup = { institution: string; years: YearGroup[] };
+
+// Build institution → year → entries map (insertion order follows `sorted`)
+const instMap = new Map<string, Map<number, TeachingEntry[]>>();
+for (const entry of sorted) {
+  const year = termYear(entry.term);
+  if (!instMap.has(entry.institution)) instMap.set(entry.institution, new Map());
+  const yearMap = instMap.get(entry.institution)!;
+  if (!yearMap.has(year)) yearMap.set(year, []);
+  yearMap.get(year)!.push(entry);
+}
+
+// Convert to sorted structure: years descending within each institution
+const institutions: InstitutionGroup[] = [];
+for (const [institution, yearMap] of instMap) {
+  const years: YearGroup[] = [...yearMap.entries()]
+    .map(([year, entries]) => ({ year, entries }))
+    .sort((a, b) => b.year - a.year);
+  institutions.push({ institution, years });
+}
+
+// Sort institutions by most recent year desc; alphabetical as tiebreaker
+institutions.sort(
+  (a, b) => b.years[0].year - a.years[0].year || a.institution.localeCompare(b.institution)
 );
 ---
 
@@ -29,17 +67,17 @@ const sorted = [...pastCourses].sort(
   <div class="content">
 
     <div class="t-section">
-      <div class="t-section-label">currently teaching</div>
+      <div class="t-section-label">Currently Teaching</div>
       {currentCourse ? (
         <div class="current-course">
           <div class="course-title">{currentCourse.title}</div>
           <div class="course-meta">
             {currentCourse.term} · {currentCourse.role} · {currentCourse.institution}
           </div>
-          <div class="canvas-note">
+          <div class="class-note">
             {currentCourse.url
-              ? <><a href={currentCourse.url} target="_blank" rel="noopener">Canvas</a> — {canvasNote}</>
-              : canvasNote
+              ? <><a href={currentCourse.url} target="_blank" rel="noopener">Canvas</a> — {currentClassNote}</>
+              : currentClassNote
             }
           </div>
         </div>
@@ -49,16 +87,26 @@ const sorted = [...pastCourses].sort(
     </div>
 
     <div class="t-section">
-      <div class="t-section-label">past courses</div>
-      {sorted.length > 0 ? (
-        <div class="course-list">
-          {sorted.map((c) => (
-            <div class="course-row">
-              <div class="course-term">{c.term}</div>
-              <div class="course-info">
-                <span class="course-title">{c.title}</span>
-                <span class="course-role">{c.role} · {c.institution}</span>
-              </div>
+      <div class="t-section-label">Past Courses</div>
+      {institutions.length > 0 ? (
+        <div class="inst-list">
+          {institutions.map((inst) => (
+            <div class="inst-group">
+              <div class="inst-name">{inst.institution}</div>
+              {inst.years.map((yg) => (
+                <div class="year-group">
+                  <div class="year-label">{yg.year}</div>
+                  <div class="course-list">
+                    {yg.entries.map((c) => (
+                      <div class="course-row">
+                        <div class="course-term">{termName(c.term)}</div>
+                        <div class="course-title">{c.title}</div>
+                        <div class="course-role">{c.role}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           ))}
         </div>
@@ -94,13 +142,13 @@ const sorted = [...pastCourses].sort(
   .t-section { margin-bottom: 2.5rem; }
 
   .t-section-label {
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--ink);
     margin-bottom: 1.25rem;
     padding-bottom: 0.5rem;
-    border-bottom: 0.5px solid var(--surface);
+    border-bottom: 0.5px solid var(--border);
   }
 
   /* Current course */
@@ -124,26 +172,50 @@ const sorted = [...pastCourses].sort(
     margin-bottom: 0.4rem;
   }
 
-  .canvas-note {
+  .class-note {
     font-size: 13px;
     color: var(--muted);
   }
 
-  .canvas-note a {
+  .class-note a {
     color: var(--accent);
     text-decoration: underline;
     text-decoration-thickness: 0.5px;
     text-underline-offset: 2px;
   }
 
-  /* Past courses list */
+  /* Past courses — institution → year → entries */
+  .inst-list { display: flex; flex-direction: column; gap: 3rem; }
+
+  .inst-name {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .year-group { margin-bottom: 1.1rem; }
+  .year-group:last-child { margin-bottom: 0; }
+
+  .year-label {
+    font-family: var(--font-display);
+    font-size: 14px;
+    color: var(--ink);
+    margin-bottom: 0.25rem;
+    padding-left: 1rem;
+  }
+
   .course-list { display: flex; flex-direction: column; }
 
   .course-row {
     display: grid;
-    grid-template-columns: 110px 1fr;
-    gap: 0 1.5rem;
-    padding: 0.6rem 0;
+    grid-template-columns: 80px 1fr 80px;
+    gap: 0 1.25rem;
+    padding: 0.35rem 0;
+    padding-left: 2rem;
     border-bottom: 0.5px solid var(--surface);
     align-items: baseline;
   }
@@ -153,19 +225,10 @@ const sorted = [...pastCourses].sort(
   .course-term {
     font-size: 12px;
     color: var(--muted);
-    letter-spacing: 0.03em;
-    white-space: nowrap;
+    letter-spacing: 0.02em;
   }
 
-  .course-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-
-  .course-info .course-title {
+  .course-title {
     font-size: 14px;
     color: var(--ink);
   }
@@ -173,7 +236,7 @@ const sorted = [...pastCourses].sort(
   .course-role {
     font-size: 12px;
     color: var(--muted);
-    white-space: nowrap;
+    text-align: right;
     letter-spacing: 0.02em;
   }
 

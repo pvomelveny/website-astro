@@ -79,7 +79,7 @@ export const currentCourse: TeachingEntry | null = {
 };
 ```
 
-When `url` is set the Canvas note renders as a link; without it, plain text. Edit `canvasNote` to change the message.
+When `url` is set the Canvas note renders as a link; without it, plain text. Edit `currentClassNote` to change the message.
 
 **Past courses** — append to `pastCourses` in any order; the list sorts automatically:
 

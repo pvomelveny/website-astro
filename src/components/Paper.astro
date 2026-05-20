@@ -1,17 +1,20 @@
 ---
-import type { Paper } from '../types/research';
+import type { Paper, Preprint } from '../types/research';
 import { site } from '../data/site';
 
 interface Props {
-  paper: Paper;
+  paper: Paper | Preprint;
 }
 
 const { paper } = Astro.props;
-const { title, authors, year, venue, volume, pages, tags, links, abstract } = paper;
+const { title, authors, year, tags, links, abstract } = paper;
+const venue  = 'venue'  in paper ? paper.venue  : undefined;
+const volume = 'volume' in paper ? paper.volume : undefined;
+const pages  = 'pages'  in paper ? paper.pages  : undefined;
 
 /** Format the venue line: journal name (italic), optional vol/pages. */
 function venueString(): string {
-  let v = venue;
+  let v = venue ?? '';
   if (volume) v += `, vol. ${volume}`;
   if (pages) v += `, pp. ${pages}`;
   return v;
@@ -50,9 +53,10 @@ function toInitials(fullName: string): string {
         })}
       </div>
       <div class="paper-venue">
-        {/* set:html embeds the italic <span> from venueString().
-            Safe because the string comes entirely from our own data. */}
-        <span class="journal" set:html={venueString()} />, {year}
+        {venue
+          ? <><span class="journal" set:html={venueString()} />, {year}</>
+          : year
+        }
       </div>
       {tags.length > 0 && (
         <div class="paper-tags">

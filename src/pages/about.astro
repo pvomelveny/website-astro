@@ -1,15 +1,15 @@
 ---
-import BaseLayout from '../components/BaseLayout.astro';
-import Nav from '../components/Nav.astro';
-import Footer from '../components/Footer.astro';
-import { site } from '../data/site';
+import BaseLayout from "../components/BaseLayout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { site } from "../data/site";
 
 // ── Page content ──────────────────────────────────────────────────────────────
-const role                = 'PhD candidate in mathematics';
-const university          = 'University Name';
-const department          = 'Department of Mathematics';
-const advisor             = 'Prof. Advisor Name';
-const undergradInstitution = 'Undergraduate Institution';
+const role = "PhD student";
+const university = "University of Washington";
+const department = "Department of Mathematics";
+const advisor = "Thomoas Rothvoss";
+const undergradInstitution = "Undergraduate Institution";
 
 const bio: string[] = [
   `I am a ${role} in the ${department} at ${university}, advised by ${advisor}.
@@ -39,7 +39,8 @@ const researchStatement = `I am particularly interested in the polyhedral struct
       <p>{researchStatement}</p>
 
       <div class="cv-link">
-        <a href={site.cvUrl} target="_blank" rel="noopener">Download CV (PDF)</a>
+        <a href={site.cvUrl} target="_blank" rel="noopener">Download CV (PDF)</a
+        >
       </div>
     </div>
   </div>
@@ -81,7 +82,9 @@ const researchStatement = `I am particularly interested in the polyhedral struct
     margin: 2rem 0 0.85rem;
   }
 
-  .cv-link { margin-top: 2rem; }
+  .cv-link {
+    margin-top: 2rem;
+  }
 
   .cv-link a {
     font-size: 14px;
@@ -91,5 +94,7 @@ const researchStatement = `I am particularly interested in the polyhedral struct
     text-underline-offset: 3px;
   }
 
-  .cv-link a:hover { color: var(--accent-hover); }
+  .cv-link a:hover {
+    color: var(--accent-hover);
+  }
 </style>
