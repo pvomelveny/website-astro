@@ -45,6 +45,7 @@ src/
   types/
     note.ts          ← TypeScript types for note frontmatter
     research.ts      ← TypeScript interfaces for papers, preprints, talks
+    teaching.ts      ← TypeScript interface for teaching entries
 
 public/              ← Static assets served as-is: photo.jpg, cv.pdf, favicon
 ```
@@ -60,6 +61,51 @@ Edit **`src/data/site.ts`** — name, email, GitHub, Google Scholar URL, CV path
 ### Update page content (bio, research statement, etc.)
 
 Each page has a `// ── Page content ──` block near the top of its `---` frontmatter. Everything inside that block is a plain `const` — edit the strings directly.
+
+### Update the teaching page
+
+All teaching data lives in the `// ── Page content ──` block at the top of **`src/pages/teaching.astro`**.
+
+**Current course** — set `currentCourse` to an object (or `null` when not teaching):
+
+```ts
+const currentCourse: TeachingEntry = {
+  title: 'Math 308 — Matrix Algebra',
+  term: 'Spring 2026',
+  year: 2026,
+  termOrder: 2,       // controls sort order, see below
+  role: 'TA',         // 'TA' or 'Instructor'
+  institution: 'University of Washington',
+  url: 'https://canvas.uw.edu/courses/...',  // optional — omit if no link
+};
+```
+
+When `url` is set the Canvas note renders as a link; without it, it's plain text. Edit `canvasNote` to change the message.
+
+**Past courses** — append objects to `pastCourses`. The list sorts automatically, so order doesn't matter:
+
+```ts
+const pastCourses: TeachingEntry[] = [
+  {
+    title: 'Math 407 — Linear Programming',
+    term: 'Autumn 2025',
+    year: 2025,
+    termOrder: 3,
+    role: 'TA',
+    institution: 'University of Washington',
+  },
+  {
+    title: 'Math 308 — Matrix Algebra',
+    term: 'Spring 2025',
+    year: 2025,
+    termOrder: 2,
+    role: 'TA',
+    institution: 'University of Washington',
+  },
+];
+```
+
+`termOrder` is only used for sorting within a year — use a consistent scheme, e.g. Winter=1, Spring=2, Summer=3, Autumn=4. The `term` string is what actually displays.
 
 ### Add a publication or talk
 

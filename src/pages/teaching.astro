@@ -2,10 +2,31 @@
 import BaseLayout from '../components/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import type { TeachingEntry } from '../types/teaching';
 
 // ── Page content ──────────────────────────────────────────────────────────────
-const intro = ''; // Optional teaching philosophy paragraph
+const currentCourse: TeachingEntry | null = null;
+// Example:
+// const currentCourse: TeachingEntry = {
+//   title: 'Math 308 — Matrix Algebra',
+//   term: 'Spring 2026',
+//   year: 2026,
+//   termOrder: 2,
+//   role: 'TA',
+//   institution: 'University of Washington',
+//   url: 'https://canvas.uw.edu/courses/...',
+// };
+
+const canvasNote = 'Course materials and announcements are on Canvas.';
+
+// Reverse-chronological — sorted automatically, just add entries in any order.
+// termOrder: higher = later in year (e.g. Autumn=3, Spring=2, Winter=1).
+const pastCourses: TeachingEntry[] = [];
 // ─────────────────────────────────────────────────────────────────────────────
+
+const sorted = [...pastCourses].sort(
+  (a, b) => b.year - a.year || b.termOrder - a.termOrder
+);
 ---
 
 <BaseLayout title="Teaching" description="Courses taught and TA'd.">
@@ -13,11 +34,49 @@ const intro = ''; // Optional teaching philosophy paragraph
 
   <div class="page-header">
     <h1 class="page-title">Teaching</h1>
-    {intro && <p class="page-intro">{intro}</p>}
   </div>
 
   <div class="content">
-    <p class="empty">Teaching information coming soon.</p>
+
+    <div class="t-section">
+      <div class="t-section-label">currently teaching</div>
+      {currentCourse ? (
+        <div class="current-course">
+          <div class="course-title">{currentCourse.title}</div>
+          <div class="course-meta">
+            {currentCourse.term} · {currentCourse.role} · {currentCourse.institution}
+          </div>
+          <div class="canvas-note">
+            {currentCourse.url
+              ? <><a href={currentCourse.url} target="_blank" rel="noopener">Canvas</a> — {canvasNote}</>
+              : canvasNote
+            }
+          </div>
+        </div>
+      ) : (
+        <p class="empty">Not currently teaching.</p>
+      )}
+    </div>
+
+    <div class="t-section">
+      <div class="t-section-label">past courses</div>
+      {sorted.length > 0 ? (
+        <div class="course-list">
+          {sorted.map((c) => (
+            <div class="course-row">
+              <div class="course-term">{c.term}</div>
+              <div class="course-info">
+                <span class="course-title">{c.title}</span>
+                <span class="course-role">{c.role} · {c.institution}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p class="empty">No past courses listed yet.</p>
+      )}
+    </div>
+
   </div>
 
   <Footer />
@@ -37,18 +96,96 @@ const intro = ''; // Optional teaching philosophy paragraph
     color: var(--ink);
   }
 
-  .page-intro {
-    font-size: 15px;
-    color: var(--muted);
-    line-height: 1.7;
-    margin-top: 0.75rem;
-    max-width: 560px;
-  }
-
   .content {
     padding: 2.5rem var(--pad-h);
     max-width: var(--content-max);
   }
 
-  .empty { font-size: 15px; color: var(--muted); }
+  .t-section { margin-bottom: 2.5rem; }
+
+  .t-section-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 0.5px solid var(--surface);
+  }
+
+  /* Current course */
+  .current-course {
+    padding: 0.75rem 1rem;
+    background: var(--surface);
+    border-left: 2px solid var(--border);
+  }
+
+  .current-course .course-title {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-style: italic;
+    color: var(--ink);
+    margin-bottom: 0.25rem;
+  }
+
+  .current-course .course-meta {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+
+  .canvas-note {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .canvas-note a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 0.5px;
+    text-underline-offset: 2px;
+  }
+
+  /* Past courses list */
+  .course-list { display: flex; flex-direction: column; }
+
+  .course-row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 0 1.5rem;
+    padding: 0.6rem 0;
+    border-bottom: 0.5px solid var(--surface);
+    align-items: baseline;
+  }
+
+  .course-row:last-child { border-bottom: none; }
+
+  .course-term {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+
+  .course-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .course-info .course-title {
+    font-size: 14px;
+    color: var(--ink);
+  }
+
+  .course-role {
+    font-size: 12px;
+    color: var(--muted);
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+
+  .empty { font-size: 14px; color: var(--muted); }
 </style>
