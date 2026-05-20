@@ -1,20 +1,23 @@
 ---
-import BaseLayout from '../../components/BaseLayout.astro';
-import Nav from '../../components/Nav.astro';
-import Footer from '../../components/Footer.astro';
-import { getCollection } from 'astro:content';
+import BaseLayout from "../../components/BaseLayout.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { getCollection } from "astro:content";
 
-const allNotes = await getCollection('notes');
+const allNotes = await getCollection("notes");
+
+const pageIntro: string[] = [
+  "Informal writing about mathematics I am thinking about — some polished, some not.",
+  "A mix of exposition, reading notes, and problems that interest me.",
+];
 
 // Sort descending by date, then group by year
 const sorted = allNotes.sort(
-  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
 );
 
 /** Group an array of notes by calendar year, preserving sort order. */
-function groupByYear(
-  notes: typeof sorted
-): Map<number, typeof sorted> {
+function groupByYear(notes: typeof sorted): Map<number, typeof sorted> {
   const map = new Map<number, typeof sorted>();
   for (const note of notes) {
     const year = note.data.date.getFullYear();
@@ -27,7 +30,7 @@ function groupByYear(
 const byYear = groupByYear(sorted);
 
 function formatMonth(date: Date): string {
-  return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+  return date.toLocaleDateString("en-US", { month: "short", year: "numeric" });
 }
 ---
 
@@ -37,35 +40,37 @@ function formatMonth(date: Date): string {
   <div class="notes-header">
     <h1 class="page-title">Notes</h1>
     <p class="page-intro">
-      Informal writing about mathematics I am thinking about — some polished,
-      some not. A mix of exposition, reading notes, and problems that interest me.
+      {pageIntro.join(" ")}
     </p>
   </div>
 
   <div class="notes-content">
-    {[...byYear.entries()].map(([year, notes]) => (
-      <div class="year-group">
-        <div class="year-label">{year}</div>
-        {notes.map((note) => (
-          <div class="note-entry">
-            <div class="entry-date">{formatMonth(note.data.date)}</div>
-            <div>
-              <div class="entry-title-row">
-                <a href={`/notes/${note.id.replace(/\.mdx?$/, '')}`} class="entry-title">
-                  {note.data.title}
-                </a>
-                <span class="entry-tag">{note.data.tag}</span>
+    {
+      [...byYear.entries()].map(([year, notes]) => (
+        <div class="year-group">
+          <div class="year-label">{year}</div>
+          {notes.map((note) => (
+            <div class="note-entry">
+              <div class="entry-date">{formatMonth(note.data.date)}</div>
+              <div>
+                <div class="entry-title-row">
+                  <a
+                    href={`/notes/${note.id.replace(/\.mdx?$/, "")}`}
+                    class="entry-title"
+                  >
+                    {note.data.title}
+                  </a>
+                  <span class="entry-tag">{note.data.tag}</span>
+                </div>
+                <div class="entry-desc">{note.data.description}</div>
               </div>
-              <div class="entry-desc">{note.data.description}</div>
             </div>
-          </div>
-        ))}
-      </div>
-    ))}
+          ))}
+        </div>
+      ))
+    }
 
-    {allNotes.length === 0 && (
-      <p class="empty">No notes yet.</p>
-    )}
+    {allNotes.length === 0 && <p class="empty">No notes yet.</p>}
   </div>
 
   <Footer />
@@ -97,7 +102,9 @@ function formatMonth(date: Date): string {
     max-width: var(--notes-max);
   }
 
-  .year-group { margin-bottom: 2.5rem; }
+  .year-group {
+    margin-bottom: 2.5rem;
+  }
 
   .year-label {
     font-size: 11px;
@@ -118,7 +125,9 @@ function formatMonth(date: Date): string {
     align-items: baseline;
   }
 
-  .note-entry:last-child { border-bottom: none; }
+  .note-entry:last-child {
+    border-bottom: none;
+  }
 
   .entry-date {
     font-size: 12px;
@@ -145,7 +154,9 @@ function formatMonth(date: Date): string {
     font-style: italic;
   }
 
-  .entry-title:hover { color: var(--accent); }
+  .entry-title:hover {
+    color: var(--accent);
+  }
 
   .entry-tag {
     font-size: 11px;
@@ -163,5 +174,8 @@ function formatMonth(date: Date): string {
     line-height: 1.6;
   }
 
-  .empty { font-size: 15px; color: var(--muted); }
+  .empty {
+    font-size: 15px;
+    color: var(--muted);
+  }
 </style>
