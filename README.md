@@ -82,8 +82,8 @@ const research: ResearchData = {
       tags: ["polyhedral combinatorics", "network design"],
       links: {
         journal: "https://doi.org/...",
-        pdf: "/papers/spanning-tree.pdf",
-        arxiv: "https://arxiv.org/abs/...",  // only if also published elsewhere
+        pdf: "/papers/spanning-tree.pdf",  // optional, if you host a version
+        arxiv: "https://arxiv.org/abs/...",
       },
       abstract: "We characterize a new family of facet-defining inequalities...",
     },

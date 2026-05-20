@@ -8,6 +8,8 @@
  *     and sets its `top` so it sits beside the reference, clamping each
  *     note below the previous to prevent overlap.
  *   - Expands `.note-content` padding-right to reserve the side column.
+ *   - Sets `minHeight` on the container so it always wraps the tallest
+ *     sidenote — preventing the footer from overlapping a long side column.
  *
  * On narrow screens (≤680px): no-op — sidenotes appear inline via CSS.
  *
@@ -26,6 +28,7 @@ export function alignSidenotes(): void {
     // Restore natural flow on narrow screens
     container.classList.remove('js-sidenotes');
     container.style.paddingRight = '';
+    container.style.minHeight = '';
     container.querySelectorAll<HTMLElement>('.sidenote[data-sn]').forEach((note) => {
       note.style.top = '';
       note.style.right = '';
@@ -56,4 +59,8 @@ export function alignSidenotes(): void {
 
     floor = top + note.offsetHeight + NOTE_GAP;
   });
+
+  // Expand the container to the bottom of the last sidenote so the footer
+  // always clears the side column regardless of main text length.
+  container.style.minHeight = `${floor - NOTE_GAP}px`;
 }
