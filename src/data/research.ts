@@ -30,11 +30,21 @@ const research: ResearchData = {
     },
   ],
   preprints: [],
-  talks: [],
+  talks: [
+    {
+      title: "Log-Concavity of the Characteristic Polynomial of Matroids",
+      year: 2023,
+      month: 8,
+      links: {
+        slides: "/slides/mixed-volumes-of-normal-complexes.pdf",
+      },
+    },
+  ],
   additionalWriting: [
     {
-      title: "A Volumetric Proof of the Log-Concavity of the Characteristic Polynomial of Matroids",
-      subtitle: "M.S. Thesis, San Francisco State University",
+      title:
+        "A Volumetric Proof of the Log-Concavity of the Characteristic Polynomial of Matroids",
+      subtitle: "M.A. Thesis, San Francisco State University",
       year: 2023,
       links: {
         link: "https://scholarworks.calstate.edu/concern/theses/5999nb27q",

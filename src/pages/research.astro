@@ -13,7 +13,8 @@ const intro = `My work sits at the intersection of combinatorial optimization an
   structure and what it reveals about the complexity of optimization problems.`;
 // ─────────────────────────────────────────────────────────────────────────────
 
-const { papers, preprints, talks, additionalWriting } = researchData;
+const { papers, preprints, additionalWriting } = researchData;
+const talks = [...researchData.talks].sort((a, b) => (b.year * 12 + b.month) - (a.year * 12 + a.month));
 ---
 
 <BaseLayout title="Research" description="Research papers, preprints, and talks.">

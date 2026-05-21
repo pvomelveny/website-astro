@@ -6,16 +6,16 @@ interface Props {
 }
 
 const { talk } = Astro.props;
-const { title, venue, location, year, month, links } = talk;
+const { title, year, month, links } = talk;
 
-const meta = [venue, location, [month, year].filter(Boolean).join(' ')]
-  .filter(Boolean)
-  .join(' · ');
+const date = new Date(year, month - 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 ---
 
 <div class="talk">
-  <div class="talk-title">{title}</div>
-  <div class="talk-meta">{meta}</div>
+  <div class="talk-row">
+    <div class="talk-title">{title}</div>
+    <div class="talk-date">{date}</div>
+  </div>
   {links?.slides && (
     <div class="talk-links">
       <a href={links.slides} target="_blank" rel="noopener">slides</a>
@@ -26,6 +26,13 @@ const meta = [venue, location, [month, year].filter(Boolean).join(' ')]
 <style>
   .talk { margin-bottom: 1.5rem; }
 
+  .talk-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1.5rem;
+  }
+
   .talk-title {
     font-family: var(--font-display);
     font-size: 15px;
@@ -34,10 +41,11 @@ const meta = [venue, location, [month, year].filter(Boolean).join(' ')]
     margin-bottom: 0.3rem;
   }
 
-  .talk-meta {
-    font-size: 13px;
+  .talk-date {
+    font-size: 12px;
     color: var(--muted);
-    margin-bottom: 0.4rem;
+    white-space: nowrap;
+    letter-spacing: 0.03em;
   }
 
   .talk-links a {
