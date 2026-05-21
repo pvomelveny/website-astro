@@ -44,6 +44,7 @@ function venueString(): string {
         {links.journal && <a href={links.journal} target="_blank" rel="noopener">journal</a>}
         {links.pdf && <a href={links.pdf} target="_blank" rel="noopener">pdf</a>}
         {links.arxiv && <a href={links.arxiv} target="_blank" rel="noopener">arXiv</a>}
+        {'link' in links && links.link && <a href={links.link} target="_blank" rel="noopener">link</a>}
         {abstract && (
           <button class="abstract-toggle" type="button">+ abstract</button>
         )}

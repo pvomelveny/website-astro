@@ -4,6 +4,7 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Paper from '../components/Paper.astro';
 import Talk from '../components/Talk.astro';
+import Writing from '../components/Writing.astro';
 import researchData from '../data/research';
 
 // ── Page content ──────────────────────────────────────────────────────────────
@@ -12,7 +13,7 @@ const intro = `My work sits at the intersection of combinatorial optimization an
   structure and what it reveals about the complexity of optimization problems.`;
 // ─────────────────────────────────────────────────────────────────────────────
 
-const { papers, preprints, talks } = researchData;
+const { papers, preprints, talks, additionalWriting } = researchData;
 ---
 
 <BaseLayout title="Research" description="Research papers, preprints, and talks.">
@@ -60,7 +61,19 @@ const { papers, preprints, talks } = researchData;
       </div>
     )}
 
-    {papers.length === 0 && preprints.length === 0 && talks.length === 0 && (
+    {additionalWriting.length > 0 && (
+      <div class="r-section">
+        <div class="r-section-label">additional writing</div>
+        {additionalWriting.map((item, i) => (
+          <>
+            {i > 0 && <div class="divider-light" />}
+            <Writing item={item} />
+          </>
+        ))}
+      </div>
+    )}
+
+    {papers.length === 0 && preprints.length === 0 && talks.length === 0 && additionalWriting.length === 0 && (
       <p class="empty">Publications coming soon.</p>
     )}
   </div>

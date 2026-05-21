@@ -31,6 +31,18 @@ const research: ResearchData = {
   ],
   preprints: [],
   talks: [],
+  additionalWriting: [
+    {
+      title: "A Volumetric Proof of the Log-Concavity of the Characteristic Polynomial of Matroids",
+      subtitle: "M.S. Thesis, San Francisco State University",
+      year: 2023,
+      links: {
+        link: "https://scholarworks.calstate.edu/concern/theses/5999nb27q",
+      },
+      abstract:
+        "This thesis presents a novel proof of the Heron–Rota–Welsh conjecture using a volume theoretic approach. Originating in the 1950's, the conjecture proposes that the coefficients of the characteristic polynomial of a matroid exhibit the property of log-concavity. A complete proof for all matroids was found only in 2018, when Jun Huh, in collaboration with Karim Adiprasito and Eric Katz, achieved this milestone by developing the theory of combinatorial Hodge theory. We review the link between the combinatorial data of matroids, algebraic objects known as Chow rings, and geometric objects called Bergman fans, and then outline the recent work of Dustin Ross, Anastasia Nathanson, Lauren Nowak, and the author on the theory of normal complexes of fans and their volumetric properties. Our main result stems from showing that the Bergman fans of matroids meet criteria such that the (extended) mixed volumes of their normal complexes obey the Alexandrov–Fenchel inequality, yielding log-concave sequences. We hope this demonstrates that the theory of normal complexes is a tool able to tackle modern problems in mathematics.",
+    },
+  ],
 };
 
 export default research;

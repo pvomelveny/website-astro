@@ -2,7 +2,10 @@ export interface PaperLinks {
   journal?: string;
   pdf?: string;
   arxiv?: string;
+  /** Generic link, e.g. a library catalog entry. */
+  link?: string;
 }
+
 
 export interface Paper {
   title: string;
@@ -22,6 +25,8 @@ export interface Paper {
 export interface PreprintLinks {
   arxiv?: string;
   pdf?: string;
+  /** Generic link, e.g. a library catalog entry. */
+  link?: string;
 }
 
 export interface Preprint {
@@ -47,8 +52,24 @@ export interface Talk {
   links?: TalkLinks;
 }
 
+export interface WritingLinks {
+  pdf?: string;
+  link?: string;
+}
+
+export interface Writing {
+  title: string;
+  /** Short descriptor shown below the title, e.g. "M.S. Thesis, San Francisco State University" */
+  subtitle: string;
+  year: number;
+  coauthors?: string[];
+  links: WritingLinks;
+  abstract?: string;
+}
+
 export interface ResearchData {
   papers: Paper[];
   preprints: Preprint[];
   talks: Talk[];
+  additionalWriting: Writing[];
 }

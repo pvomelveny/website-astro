@@ -1,0 +1,104 @@
+---
+import type { Writing } from '../types/research';
+
+interface Props {
+  item: Writing;
+}
+
+const { item } = Astro.props;
+const { title, subtitle, year, coauthors, links, abstract } = item;
+---
+
+<div class="writing">
+  <div class="writing-title">{title}</div>
+  <div class="writing-subtitle">{subtitle}, {year}</div>
+  {coauthors && coauthors.length > 0 && (
+    <div class="writing-authors">
+      <span class="with-label">with</span> {coauthors.join(', ')}
+    </div>
+  )}
+  <div class="writing-links">
+    {links.pdf && <a href={links.pdf} target="_blank" rel="noopener">pdf</a>}
+    {links.link && <a href={links.link} target="_blank" rel="noopener">link</a>}
+    {abstract && (
+      <button class="abstract-toggle" type="button">+ abstract</button>
+    )}
+  </div>
+  {abstract && <div class="abstract">{abstract}</div>}
+</div>
+
+<style>
+  .writing { margin-bottom: 1.75rem; }
+
+  .writing-title {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.4;
+    margin-bottom: 0.2rem;
+  }
+
+  .writing-subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 0.2rem;
+  }
+
+  .writing-authors {
+    font-size: 14px;
+    color: var(--ink);
+    margin-bottom: 0.35rem;
+  }
+
+  .with-label {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  .writing-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0;
+    margin-top: 0.35rem;
+  }
+
+  .writing-links a {
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 0.5px;
+    text-underline-offset: 2px;
+    margin-right: 1rem;
+  }
+
+  .abstract-toggle {
+    font-size: 10px;
+    color: var(--ink);
+    cursor: pointer;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    padding: 1px 6px;
+    font-family: var(--font-body);
+    letter-spacing: 0.03em;
+    margin-left: 0.25rem;
+  }
+
+  .abstract-toggle:hover { border-color: var(--muted); }
+
+  .abstract {
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--muted);
+    margin-top: 0.75rem;
+    padding: 0.85rem 1rem;
+    background: var(--surface);
+    border-left: 2px solid var(--border);
+    display: none;
+  }
+
+  .abstract.open { display: block; }
+</style>
