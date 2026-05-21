@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Personal academic website for a researcher. Built with Astro, deployed to AWS S3 + CloudFront via GitHub Actions. `DESIGN.md` is the authoritative design spec; `mockups.html` contains interactive HTML mockups with exact CSS.
+Personal academic website for a researcher. Built with Astro, deployed to AWS S3 + CloudFront via GitHub Actions.
 
 ## Commands
 
@@ -80,10 +80,17 @@ Fonts (loaded via Google Fonts): **Playfair Display** (400, 500, italic 400) for
 
 - **Never use "blog" or "posts"** — always "notes" everywhere (URLs, nav, code, copy).
 - Note tags are exactly four values: `note`, `exposition`, `problem`, `reading`.
-- Paper titles render in Playfair Display italic. The author's own name is emphasized (`<em>`) so it can be styled differently from co-authors.
+- Paper titles render in Playfair Display italic.
+- Papers and preprints use a `coauthors` field (list collaborators only, omit yourself). Rendered as small muted "with" label + names in ink.
 - Nav: `First Last` (last name italic, `--accent`) on left; `about · research · teaching · notes · cv` text-transform lowercase on right.
 - Footer: name (Playfair Display, `--muted`) left; email + github + google scholar right.
 - CV is a PDF link only — no separate CV page.
 - arXiv links on published papers only when the paper also appears elsewhere; preprints use arXiv as primary link.
-- Authors are listed alphabetically by last name (standard in mathematics). The site owner's entry must match `site.fullName` exactly — `Paper.astro` detects this by string comparison, displays the owner as initials + last name (e.g. "P. O'Melveny") in ink color, and co-authors as full names in muted color.
 - Dark mode deferred — all colors must go through CSS custom properties so it's a one-file change later.
+
+## Future considerations
+
+- Dark mode — straightforward once deferred; all colors already go through CSS custom properties
+- `/links` page — curated list of other sites and interests
+- Typst → HTML export pipeline once the feature stabilizes
+- Interactive math components via Astro islands
