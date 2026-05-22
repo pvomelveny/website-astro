@@ -13,6 +13,10 @@
  *
  * On narrow screens (≤680px): no-op — sidenotes appear inline via CSS.
  *
+ * Column width and gap are read from the `--sn-col-width` and `--sn-col-gap`
+ * custom properties on `.note-content` (see NoteLayout.astro) so the CSS
+ * rules and this script always agree.
+ *
  * Safe to call multiple times (e.g., on resize). Resets state before
  * recalculating so the output is always consistent.
  */
@@ -20,8 +24,6 @@ export function alignSidenotes(): void {
   const container = document.querySelector<HTMLElement>('.note-content');
   if (!container) return;
 
-  const COLUMN_WIDTH = 200;
-  const GAP = 48; // 3rem at default font size
   const NOTE_GAP = 16; // vertical gap between stacked sidenotes
 
   if (window.innerWidth <= 680) {
@@ -35,6 +37,11 @@ export function alignSidenotes(): void {
     });
     return;
   }
+
+  // Resolve column geometry from CSS custom properties — see NoteLayout.astro.
+  const styles = getComputedStyle(container);
+  const COLUMN_WIDTH = parseCssLength(styles.getPropertyValue('--sn-col-width'), 200);
+  const GAP = parseCssLength(styles.getPropertyValue('--sn-col-gap'), 48);
 
   // Reserve the side column in the content area
   container.classList.add('js-sidenotes');
@@ -63,4 +70,22 @@ export function alignSidenotes(): void {
   // Expand the container to the bottom of the last sidenote so the footer
   // always clears the side column regardless of main text length.
   container.style.minHeight = `${floor - NOTE_GAP}px`;
+}
+
+/**
+ * Resolve a CSS length string (e.g. "200px", "3rem") to pixels by letting
+ * the browser do the work. Returns `fallback` if the value is empty or
+ * resolves to a non-positive number.
+ */
+function parseCssLength(value: string, fallback: number): number {
+  const trimmed = value.trim();
+  if (!trimmed) return fallback;
+  const probe = document.createElement('div');
+  probe.style.position = 'absolute';
+  probe.style.visibility = 'hidden';
+  probe.style.width = trimmed;
+  document.body.appendChild(probe);
+  const px = probe.offsetWidth;
+  document.body.removeChild(probe);
+  return px > 0 ? px : fallback;
 }

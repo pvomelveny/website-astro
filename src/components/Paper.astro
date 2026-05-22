@@ -1,5 +1,6 @@
 ---
-import type { Paper, Preprint, Coauthor } from '../types/research';
+import Coauthors from './Coauthors.astro';
+import type { Paper, Preprint } from '../types/research';
 
 interface Props {
   paper: Paper | Preprint;
@@ -11,38 +12,28 @@ const venue  = 'venue'  in paper ? paper.venue  : undefined;
 const volume = 'volume' in paper ? paper.volume : undefined;
 const pages  = 'pages'  in paper ? paper.pages  : undefined;
 
-/** Format the venue line: journal name (italic), optional vol/pages. */
-function venueString(): string {
-  let v = venue ?? '';
-  if (volume) v += `, vol. ${volume}`;
-  if (pages) v += `, pp. ${pages}`;
-  return v;
+/**
+ * Roman-typeface suffix after the italic journal name: ", vol. X, pp. Y, YEAR".
+ * Built as a single string so JSX whitespace doesn't insert a gap before each comma.
+ */
+function venueSuffix(): string {
+  const parts: string[] = [];
+  if (volume) parts.push(`vol. ${volume}`);
+  if (pages) parts.push(`pp. ${pages}`);
+  parts.push(String(year));
+  return `, ${parts.join(', ')}`;
 }
 ---
 
 <div class="paper">
   <div class="paper-row">
     <div class="paper-main">
-      <div class="paper-title">{title}</div>
-      {coauthors && coauthors.length > 0 && (
-        <div class="paper-authors">
-          <span class="with-label">with</span>{' '}
-          {coauthors.map((c: Coauthor, i: number) => (
-            <>
-              {i > 0 && ', '}
-              {c.url
-                ? <a href={c.url} target="_blank" rel="noopener">{c.name}</a>
-                : c.name
-              }
-            </>
-          ))}
-        </div>
-      )}
+      <h3 class="paper-title">{title}</h3>
+      {coauthors && <Coauthors items={coauthors} />}
       <div class="paper-venue">
         {venue
-          ? <><span class="journal" set:html={venueString()} />, {year}</>
-          : year
-        }
+          ? <><span class="journal">{venue}</span>{venueSuffix()}</>
+          : year}
       </div>
       {tags.length > 0 && (
         <div class="paper-tags">
@@ -50,10 +41,10 @@ function venueString(): string {
         </div>
       )}
       <div class="paper-links">
-        {links.journal && <a href={links.journal} target="_blank" rel="noopener">journal</a>}
-        {links.pdf && <a href={links.pdf} target="_blank" rel="noopener">pdf</a>}
-        {links.arxiv && <a href={links.arxiv} target="_blank" rel="noopener">arXiv</a>}
-        {'link' in links && links.link && <a href={links.link} target="_blank" rel="noopener">link</a>}
+        {links.journal && <a href={links.journal} target="_blank" rel="noopener noreferrer">journal</a>}
+        {links.pdf && <a href={links.pdf} target="_blank" rel="noopener noreferrer">pdf</a>}
+        {links.arxiv && <a href={links.arxiv} target="_blank" rel="noopener noreferrer">arXiv</a>}
+        {'link' in links && links.link && <a href={links.link} target="_blank" rel="noopener noreferrer">link</a>}
         {abstract && (
           <button class="abstract-toggle" type="button">+ abstract</button>
         )}
@@ -94,27 +85,6 @@ function venueString(): string {
     margin-bottom: 0.35rem;
   }
 
-  .paper-authors {
-    font-size: 14px;
-    color: var(--ink);
-    margin-bottom: 0.35rem;
-  }
-
-  .with-label {
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.04em;
-  }
-
-  .paper-authors a {
-    color: var(--ink);
-    text-decoration: underline;
-    text-decoration-thickness: 0.5px;
-    text-underline-offset: 2px;
-  }
-
-  .paper-authors a:hover { color: var(--accent); }
-
   .paper-venue {
     font-size: 13px;
     color: var(--muted);
@@ -154,31 +124,4 @@ function venueString(): string {
     text-underline-offset: 2px;
     margin-right: 1rem;
   }
-
-  .abstract-toggle {
-    font-size: 10px;
-    color: var(--ink);
-    cursor: pointer;
-    background: var(--surface);
-    border: 0.5px solid var(--border);
-    padding: 1px 6px;
-    font-family: var(--font-body);
-    letter-spacing: 0.03em;
-    margin-left: 0.25rem;
-  }
-
-  .abstract-toggle:hover { border-color: var(--muted); }
-
-  .abstract {
-    font-size: 14px;
-    line-height: 1.75;
-    color: var(--muted);
-    margin-top: 0.75rem;
-    padding: 0.85rem 1rem;
-    background: var(--surface);
-    border-left: 2px solid var(--border);
-    display: none;
-  }
-
-  .abstract.open { display: block; }
 </style>

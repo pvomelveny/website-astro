@@ -2,8 +2,11 @@
 import BaseLayout from "../components/BaseLayout.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import { site } from "../data/site";
+import { noteHref } from "../types/note";
+import photo from "../assets/photo.jpg";
 
 // ── Page content ──────────────────────────────────────────────────────────────
 const role = "PhD student";
@@ -15,10 +18,11 @@ const advisorUrl = "https://homes.cs.washington.edu/~rothvoss/";
 const researchInterests = [
   "combinatorics",
   "optimization",
-  "Boolean functions",
+  "probability",
 ];
 
-const photo = "/photo.jpg"; // path relative to public/; set to "" to hide
+/** Set to false to hide the headshot. */
+const showPhoto = true;
 // ─────────────────────────────────────────────────────────────────────────────
 
 const allNotes = await getCollection("notes");
@@ -34,18 +38,20 @@ function formatMonth(date: Date): string {
 <BaseLayout title={site.fullName} description={`${role} at ${university}.`}>
   <Nav />
 
+  <h1 class="visually-hidden">{site.fullName}</h1>
+
   <div class="hero">
     <div class="hero-text">
       <div class="hero-role">{role}</div>
       <div class="hero-dept">{department} · {university}</div>
       <p class="hero-bio">
-        I am a third-year graduate student in mathematics at the University of
-        Washington. I have particular interests in combinatorics, optimization,
-        and probability (with the occasional light jaunt into more theoretical
-        computer science). I am advised by <a
+        I am a {role} in the {department} at {university}. I have particular
+        interests in combinatorics, optimization, and probability (with the
+        occasional light jaunt into more theoretical computer science). I am
+        advised by <a
           href={advisorUrl}
           target="_blank"
-          rel="noopener">{advisorName}</a
+          rel="noopener noreferrer">{advisorName}</a
         >.
       </p>
       <div class="hero-actions">
@@ -54,14 +60,22 @@ function formatMonth(date: Date): string {
           href={site.cvUrl}
           class="btn-secondary"
           target="_blank"
-          rel="noopener">download cv</a
+          rel="noopener noreferrer">download cv</a
         >
       </div>
     </div>
     {
-      photo && (
+      showPhoto && (
         <div class="hero-photo">
-          <img src={photo} alt={site.fullName} width="200" height="240" />
+          <Image
+            src={photo}
+            alt={site.fullName}
+            width={400}
+            height={480}
+            densities={[1, 2]}
+            quality={80}
+            format="webp"
+          />
         </div>
       )
     }
@@ -70,7 +84,7 @@ function formatMonth(date: Date): string {
   <div class="section-divider"></div>
 
   <div class="home-section">
-    <div class="section-label">research interests</div>
+    <h2 class="section-label">research interests</h2>
     <div class="interest-tags">
       {researchInterests.map((tag) => <span class="interest-tag">{tag}</span>)}
     </div>
@@ -81,16 +95,16 @@ function formatMonth(date: Date): string {
       <>
         <div class="section-divider" />
         <div class="home-section">
-          <div class="section-label">recent notes</div>
+          <h2 class="section-label">recent notes</h2>
           <div class="recent-notes">
             {recentNotes.map((note) => (
               <div class="note-row">
-                <div class="note-title">
-                  <a href={`/notes/${note.id.replace(/\.mdx?$/, "")}`}>
+                <h3 class="note-title">
+                  <a href={noteHref(note.id)}>
                     {note.data.title}
                     <span class="note-tag">{note.data.tag}</span>
                   </a>
-                </div>
+                </h3>
                 <div class="note-date">{formatMonth(note.data.date)}</div>
               </div>
             ))}
@@ -201,6 +215,7 @@ function formatMonth(date: Date): string {
 
   .section-label {
     font-size: 11px;
+    font-weight: inherit;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--muted);
@@ -241,6 +256,7 @@ function formatMonth(date: Date): string {
 
   .note-title {
     font-size: 15px;
+    font-weight: 400;
     color: var(--ink);
   }
 

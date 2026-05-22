@@ -104,9 +104,9 @@ Sorting is derived automatically from the `term` string. Order within a year: Wi
 
 ### Add a publication or talk
 
-Open **`src/data/research.ts`** and append an object to `papers`, `preprints`, or `talks`. The page re-renders automatically on the next build — no HTML changes needed.
+Open **`src/data/research.ts`** and append an object to `papers`, `preprints`, `talks`, or `additionalWriting`. The page re-renders automatically on the next build — no HTML changes needed. Field definitions live in `src/types/research.ts`.
 
-Authors are listed **alphabetically by last name**. Your own entry must match `site.fullName` exactly — it will display as bare initials (e.g. `PVO`); co-authors display as full names.
+`coauthors` is **collaborators only** — omit yourself. Each entry is an object: `{ name, url? }`. When a `url` is given the name renders as a link.
 
 Optional fields can be omitted entirely. The full file shape with one entry in each list:
 
@@ -115,16 +115,19 @@ const research: ResearchData = {
   papers: [
     {
       title: "Facets of the spanning tree polytope",
-      authors: ["Patrick O'Melveny", "Jane Smith"],  // alphabetical by last name
+      coauthors: [
+        { name: "Jane Smith", url: "https://jsmith.example/" },
+        { name: "Alex Lee" },           // url is optional
+      ],
       year: 2025,
       venue: "Journal of Combinatorial Theory, Series B",
-      volume: 168,         // optional
-      pages: "214–239",    // optional — use an en-dash, not a hyphen
+      volume: 168,                      // optional
+      pages: "214–239",                 // optional — use an en-dash, not a hyphen
       tags: ["polyhedral combinatorics", "network design"],
       links: {
         journal: "https://doi.org/...",
-        pdf: "/papers/spanning-tree.pdf",  // optional, if you host a version
-        arxiv: "https://arxiv.org/abs/...",
+        pdf: "/papers/spanning-tree.pdf",      // optional
+        arxiv: "https://arxiv.org/abs/...",    // optional; only when also published
       },
       abstract: "We characterize a new family of facet-defining inequalities...",
     },
@@ -133,12 +136,12 @@ const research: ResearchData = {
   preprints: [
     {
       title: "On the integrality gap of the subtour LP",
-      authors: ["Patrick O'Melveny", "Jane Smith"],
+      coauthors: [{ name: "Jane Smith" }],
       year: 2025,
       tags: ["combinatorial optimization", "TSP"],
       links: {
         arxiv: "https://arxiv.org/abs/...",
-        pdf: "/papers/subtour-gap.pdf",  // optional, if you host a version
+        pdf: "/papers/subtour-gap.pdf",        // optional
       },
       abstract: "We construct a new family of TSP instances...",
     },
@@ -147,17 +150,32 @@ const research: ResearchData = {
   talks: [
     {
       title: "Polyhedral methods in combinatorial optimization",
-      venue: "SIAM Conference on Optimization",
-      location: "Seattle, WA",          // optional
+      venue: "SIAM Conference on Optimization",   // optional
       year: 2025,
-      month: "May",                     // optional
+      month: 5,                                   // 1–12 (numeric)
       links: {
-        slides: "/slides/siam-opt-2025.pdf",  // optional
+        slides: "/slides/siam-opt-2025.pdf",      // optional
       },
+    },
+  ],
+
+  additionalWriting: [
+    {
+      title: "A short note on something",
+      subtitle: "M.A. Thesis, San Francisco State University",
+      year: 2023,
+      coauthors: [{ name: "Jane Smith" }],       // optional
+      links: {
+        pdf: "/writing/note.pdf",                // optional
+        link: "https://example.org/catalog/...", // optional, generic link
+      },
+      abstract: "Optional abstract text...",
     },
   ],
 };
 ```
+
+Talks sort newest-first automatically using `year` + `month`. arXiv links on published `papers` are conventionally included only when the paper also appears elsewhere; pure preprints belong in the `preprints` array and use arXiv as the primary link.
 
 ### Write a note
 

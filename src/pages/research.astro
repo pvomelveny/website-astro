@@ -7,12 +7,6 @@ import Talk from "../components/Talk.astro";
 import Writing from "../components/Writing.astro";
 import researchData from "../data/research";
 
-// ── Page content ──────────────────────────────────────────────────────────────
-const intro = `My work sits at the intersection of combinatorial optimization and
-  discrete mathematics. I am particularly drawn to questions about polyhedral
-  structure and what it reveals about the complexity of optimization problems.`;
-// ─────────────────────────────────────────────────────────────────────────────
-
 const { papers, preprints, additionalWriting } = researchData;
 const talks = [...researchData.talks].sort(
   (a, b) => b.year * 12 + b.month - (a.year * 12 + a.month),
@@ -27,14 +21,13 @@ const talks = [...researchData.talks].sort(
 
   <div class="page-header">
     <h1 class="page-title">Research</h1>
-    <!--<p class="page-intro">{intro}</p>-->
   </div>
 
   <div class="content">
     {
       papers.length > 0 && (
         <div class="r-section">
-          <div class="r-section-label">papers</div>
+          <h2 class="r-section-label">papers</h2>
           {papers.map((paper, i) => (
             <>
               {i > 0 && <div class="divider-light" />}
@@ -48,7 +41,7 @@ const talks = [...researchData.talks].sort(
     {
       preprints.length > 0 && (
         <div class="r-section">
-          <div class="r-section-label">preprints</div>
+          <h2 class="r-section-label">preprints</h2>
           {preprints.map((paper, i) => (
             <>
               {i > 0 && <div class="divider-light" />}
@@ -62,7 +55,7 @@ const talks = [...researchData.talks].sort(
     {
       talks.length > 0 && (
         <div class="r-section">
-          <div class="r-section-label">talks</div>
+          <h2 class="r-section-label">talks</h2>
           {talks.map((talk, i) => (
             <>
               {i > 0 && <div class="divider-light" />}
@@ -76,7 +69,7 @@ const talks = [...researchData.talks].sort(
     {
       additionalWriting.length > 0 && (
         <div class="r-section">
-          <div class="r-section-label">additional writing</div>
+          <h2 class="r-section-label">additional writing</h2>
           {additionalWriting.map((item, i) => (
             <>
               {i > 0 && <div class="divider-light" />}
@@ -106,10 +99,6 @@ const talks = [...researchData.talks].sort(
     max-width: var(--content-max);
   }
 
-  .page-intro {
-    max-width: 560px;
-  }
-
   .content {
     padding: 2.5rem var(--pad-h);
     max-width: var(--content-max);
@@ -121,6 +110,7 @@ const talks = [...researchData.talks].sort(
 
   .r-section-label {
     font-size: 11px;
+    font-weight: inherit;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--muted);

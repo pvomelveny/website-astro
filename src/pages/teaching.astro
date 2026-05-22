@@ -9,15 +9,15 @@ const TERM_ORDER: Record<string, number> = {
   winter: 1, spring: 2, summer: 3, fall: 4, autumn: 4,
 };
 
-/** Parse "Fall 2025" → sortable integer 20254, "Winter 2026" → 20261. */
+/** Parse "Fall 2025" → sortable integer 202504, "Winter 2026" → 202601. */
 function termSortKey(term: string): number {
   const [name, year] = term.trim().toLowerCase().split(/\s+/);
-  return parseInt(year ?? '0') * 10 + (TERM_ORDER[name] ?? 0);
+  return parseInt(year ?? '0', 10) * 100 + (TERM_ORDER[name] ?? 0);
 }
 
 function termYear(term: string): number {
   const parts = term.trim().split(/\s+/);
-  return parseInt(parts[parts.length - 1] ?? '0');
+  return parseInt(parts[parts.length - 1] ?? '0', 10);
 }
 
 /** "Summer 2025" → "Summer" */
@@ -67,7 +67,7 @@ institutions.sort(
   <div class="content">
 
     <div class="t-section">
-      <div class="t-section-label">Currently Teaching</div>
+      <h2 class="t-section-label">Currently Teaching</h2>
       {currentCourse ? (
         <div class="current-course">
           <div class="course-title">{currentCourse.title}</div>
@@ -76,7 +76,7 @@ institutions.sort(
           </div>
           <div class="class-note">
             {currentCourse.url
-              ? <><a href={currentCourse.url} target="_blank" rel="noopener">Canvas</a> — {currentClassNote}</>
+              ? <><a href={currentCourse.url} target="_blank" rel="noopener noreferrer">Canvas</a> — {currentClassNote}</>
               : currentClassNote
             }
           </div>
@@ -87,15 +87,15 @@ institutions.sort(
     </div>
 
     <div class="t-section">
-      <div class="t-section-label">Past Courses</div>
+      <h2 class="t-section-label">Past Courses</h2>
       {institutions.length > 0 ? (
         <div class="inst-list">
           {institutions.map((inst) => (
             <div class="inst-group">
-              <div class="inst-name">{inst.institution}</div>
+              <h3 class="inst-name">{inst.institution}</h3>
               {inst.years.map((yg) => (
                 <div class="year-group">
-                  <div class="year-label">{yg.year}</div>
+                  <h4 class="year-label">{yg.year}</h4>
                   <div class="course-list">
                     {yg.entries.map((c) => (
                       <div class="course-row">
@@ -181,6 +181,7 @@ institutions.sort(
 
   .inst-name {
     font-size: 11px;
+    font-weight: inherit;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--muted);
@@ -195,6 +196,7 @@ institutions.sort(
   .year-label {
     font-family: var(--font-display);
     font-size: 14px;
+    font-weight: 400;
     color: var(--ink);
     margin-bottom: 0.25rem;
     padding-left: 1rem;

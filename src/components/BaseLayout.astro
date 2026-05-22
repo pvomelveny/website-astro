@@ -1,13 +1,32 @@
 ---
+import { getImage } from 'astro:assets';
 import { site } from '../data/site';
+import photo from '../assets/photo.jpg';
 
 interface Props {
+  /** Page title. The full name suffix is appended unless this equals `site.fullName`. */
   title: string;
+  /** Meta description for the page. Omit for none. */
   description?: string;
+  /** OpenGraph card type — "website" for index pages, "article" for notes. Defaults to "website". */
+  ogType?: 'website' | 'article';
 }
 
-const { title, description } = Astro.props;
+const { title, description, ogType = 'website' } = Astro.props;
 const fullTitle = title === site.fullName ? title : `${title} — ${site.fullName}`;
+
+// Resolve absolute URLs for OpenGraph/Twitter — these crawlers can't follow
+// relative paths. Requires `site` to be set in astro.config.mjs.
+const canonicalUrl = Astro.site
+  ? new URL(Astro.url.pathname, Astro.site).href
+  : Astro.url.href;
+
+// Default social card image: the headshot, processed to a JPEG that all
+// platforms accept (Twitter/Facebook still don't reliably handle WebP).
+const ogImage = await getImage({ src: photo, width: 1200, format: 'jpeg', quality: 80 });
+const ogImageUrl = Astro.site
+  ? new URL(ogImage.src, Astro.site).href
+  : ogImage.src;
 ---
 
 <!doctype html>
@@ -18,8 +37,23 @@ const fullTitle = title === site.fullName ? title : `${title} — ${site.fullNam
     <meta name="generator" content={Astro.generator} />
     <title>{fullTitle}</title>
     {description && <meta name="description" content={description} />}
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
+
+    <!-- OpenGraph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={site.fullName} />
+    <meta property="og:title" content={fullTitle} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    {description && <meta name="twitter:description" content={description} />}
+    <meta name="twitter:image" content={ogImageUrl} />
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

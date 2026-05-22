@@ -1,0 +1,54 @@
+---
+/**
+ * Renders a list of coauthors as `with Name, Name, Name`.
+ * Each name links out when its `url` is set; otherwise renders as plain text.
+ *
+ * Used by both Paper.astro and Writing.astro — keep markup here so the
+ * "with X" formatting stays consistent across research entries.
+ */
+import type { Coauthor } from '../types/research';
+
+interface Props {
+  items: Coauthor[];
+}
+
+const { items } = Astro.props;
+---
+
+{items.length > 0 && (
+  <div class="coauthors">
+    <span class="with-label">with</span>{' '}
+    {items.map((c, i) => (
+      <>
+        {i > 0 && ', '}
+        {c.url
+          ? <a href={c.url} target="_blank" rel="noopener noreferrer">{c.name}</a>
+          : c.name
+        }
+      </>
+    ))}
+  </div>
+)}
+
+<style>
+  .coauthors {
+    font-size: 14px;
+    color: var(--ink);
+    margin-bottom: 0.35rem;
+  }
+
+  .with-label {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  .coauthors a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-thickness: 0.5px;
+    text-underline-offset: 2px;
+  }
+
+  .coauthors a:hover { color: var(--accent); }
+</style>

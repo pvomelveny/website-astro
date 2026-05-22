@@ -14,7 +14,7 @@ npm run build      # production build → dist/
 npm run preview    # preview production build locally
 ```
 
-Deployment: GitHub Actions → `astro build` → `aws s3 sync dist/ s3://<bucket>` → CloudFront invalidation.
+Deployment: manual from the local machine — `npm run build` → `aws s3 sync dist/ s3://<bucket> --delete` → `aws cloudfront create-invalidation`. A GitHub Actions workflow is planned (see README) but not yet wired up; no `.github/workflows/` exists.
 
 ## Code style
 
@@ -62,19 +62,15 @@ The abstract toggle on research items is a small client-side TS module.
 
 ## Design system
 
-| Token | Value |
-|---|---|
-| `--accent` | `#822727` |
-| `--accent-hover` | `#6B1F1F` |
-| `--bg` | `#F7F2E7` |
-| `--surface` | `#EDE4CE` |
-| `--border` | `#BFA882` |
-| `--muted` | `#6B5744` |
-| `--ink` | `#2E1F14` |
+All design tokens (colors, fonts, layout constants) live as CSS custom properties in **`src/styles/global.css`** under `:root`. That file is the source of truth — read it directly rather than relying on values copied here.
 
-Fonts (loaded via Google Fonts): **Playfair Display** (400, 500, italic 400) for display/headings; **Source Serif 4** (opsz 8–60, weight 300 + 400) for body text. Math: KaTeX via `remark-math` + `rehype-katex`.
+Tokens defined there:
 
-**Layout constants**: page max-width 960px; content padding 3rem horizontal (desktop), 1.5rem (≤680px); notes/about max-width 700px; research/landing content max-width 900px. Mobile breakpoint: 680px.
+- Colors: `--accent`, `--accent-hover`, `--bg`, `--surface`, `--border`, `--muted`, `--ink` — a warm cream/maroon palette.
+- Fonts: `--font-display` (Playfair Display, 400/500 + italic 400) and `--font-body` (Source Serif 4, opsz 8–60, weights 300 + 400). Loaded via Google Fonts in `BaseLayout.astro`. Math: KaTeX via `remark-math` + `rehype-katex`.
+- Layout: `--page-max` (960px), `--content-max` (900px), `--notes-max` (700px), `--pad-h` (3rem desktop, 1.5rem ≤680px), `--breakpoint` (680px).
+
+When adding new tokens, define them in `global.css` so dark mode remains a one-file change later.
 
 ## Key conventions
 

@@ -5,10 +5,15 @@ import Footer from './Footer.astro';
 import type { NoteTag } from '../types/note';
 
 interface Props {
+  /** Note title (renders as the h1 in the header). */
   title: string;
+  /** Optional italic line below the title. */
   subtitle?: string;
+  /** Publication date — rendered as "Month YYYY". */
   date: Date;
+  /** One of the four canonical tag values; rendered as a pill in the header. */
   tag: NoteTag;
+  /** Meta description for the page (also used for SEO). */
   description: string;
 }
 
@@ -20,7 +25,7 @@ const formattedDate = date.toLocaleDateString('en-US', {
 });
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} ogType="article">
   <Nav active="notes" />
 
   <div class="post-header">
@@ -101,7 +106,13 @@ const formattedDate = date.toLocaleDateString('en-US', {
   On narrow screens: sidenotes appear inline in document flow.
 -->
 <style is:global>
+  /*
+   * Sidenote column geometry — used by both these CSS rules and by
+   * sidenotes.ts, which reads them via getComputedStyle. Edit here only.
+   */
   .note-content {
+    --sn-col-width: 200px;
+    --sn-col-gap: 3rem;
     position: relative;
   }
 
@@ -133,8 +144,8 @@ const formattedDate = date.toLocaleDateString('en-US', {
     .note-content .sidenote {
       float: right;
       clear: right;
-      width: 200px;
-      margin-left: 3rem;
+      width: var(--sn-col-width);
+      margin-left: var(--sn-col-gap);
       margin-bottom: 1rem;
     }
   }
@@ -153,7 +164,7 @@ const formattedDate = date.toLocaleDateString('en-US', {
   .note-content.js-sidenotes .sidenote {
     position: absolute;
     float: none;
-    width: 200px;
+    width: var(--sn-col-width);
   }
 </style>
 
@@ -161,5 +172,8 @@ const formattedDate = date.toLocaleDateString('en-US', {
   import { alignSidenotes } from '../scripts/sidenotes';
 
   alignSidenotes();
+  // Fonts swap in asynchronously (font-display: swap), which shifts ref
+  // positions — re-align once they're ready so sidenotes don't visibly jump.
+  if (document.fonts) document.fonts.ready.then(alignSidenotes);
   window.addEventListener('resize', alignSidenotes);
 </script>

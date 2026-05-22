@@ -13,13 +13,13 @@ const date = new Date(year, month - 1).toLocaleDateString('en-US', { month: 'lon
 
 <div class="talk">
   <div class="talk-row">
-    <div class="talk-title">{title}</div>
+    <h3 class="talk-title">{title}</h3>
     <div class="talk-date">{date}</div>
   </div>
   {venue && <div class="talk-venue">{venue}</div>}
   {links?.slides && (
     <div class="talk-links">
-      <a href={links.slides} target="_blank" rel="noopener">slides</a>
+      <a href={links.slides} target="_blank" rel="noopener noreferrer">slides</a>
     </div>
   )}
 </div>
@@ -37,6 +37,7 @@ const date = new Date(year, month - 1).toLocaleDateString('en-US', { month: 'lon
   .talk-title {
     font-family: var(--font-display);
     font-size: 15px;
+    font-weight: 400;
     font-style: italic;
     color: var(--ink);
     margin-bottom: 0.15rem;

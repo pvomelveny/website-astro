@@ -3,13 +3,13 @@ import BaseLayout from "../../components/BaseLayout.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import { getCollection } from "astro:content";
+import { noteHref } from "../../types/note";
 
 const allNotes = await getCollection("notes");
 
-const pageIntro: string[] = [
-  "Informal writing about mathematics I am thinking about — some polished, some not.",
-  "A mix of exposition, reading notes, and problems that interest me.",
-];
+const pageIntro =
+  "Informal writing about mathematics I am thinking about — some polished, some not. " +
+  "A mix of exposition, reading notes, and problems that interest me.";
 
 // Sort descending by date, then group by year
 const sorted = allNotes.sort(
@@ -39,27 +39,22 @@ function formatMonth(date: Date): string {
 
   <div class="notes-header">
     <h1 class="page-title">Notes</h1>
-    <p class="page-intro">
-      {pageIntro.join(" ")}
-    </p>
+    <p class="page-intro">{pageIntro}</p>
   </div>
 
   <div class="notes-content">
     {
       [...byYear.entries()].map(([year, notes]) => (
         <div class="year-group">
-          <div class="year-label">{year}</div>
+          <h2 class="year-label">{year}</h2>
           {notes.map((note) => (
             <div class="note-entry">
               <div class="entry-date">{formatMonth(note.data.date)}</div>
               <div>
                 <div class="entry-title-row">
-                  <a
-                    href={`/notes/${note.id.replace(/\.mdx?$/, "")}`}
-                    class="entry-title"
-                  >
-                    {note.data.title}
-                  </a>
+                  <h3 class="entry-title">
+                    <a href={noteHref(note.id)}>{note.data.title}</a>
+                  </h3>
                   <span class="entry-tag">{note.data.tag}</span>
                 </div>
                 <div class="entry-desc">{note.data.description}</div>
@@ -94,6 +89,7 @@ function formatMonth(date: Date): string {
 
   .year-label {
     font-size: 11px;
+    font-weight: inherit;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--muted);
@@ -135,12 +131,16 @@ function formatMonth(date: Date): string {
     font-family: var(--font-display);
     font-size: 16px;
     font-weight: 400;
-    color: var(--ink);
-    text-decoration: none;
     font-style: italic;
+    line-height: inherit;
   }
 
-  .entry-title:hover {
+  .entry-title a {
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .entry-title a:hover {
     color: var(--accent);
   }
 
