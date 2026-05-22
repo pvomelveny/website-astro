@@ -1,4 +1,4 @@
-import type { ResearchData } from "../types/research";
+import type { ResearchData, Coauthor } from "../types/research";
 
 /**
  * Research publications and talks.
@@ -15,7 +15,10 @@ const research: ResearchData = {
   papers: [
     {
       title: "Mixed volumes of normal complexes",
-      coauthors: ["Lauren Nowak", "Dustin Ross"],
+      coauthors: [
+        { name: "Lauren Nowak", url: "https://www.laurennowak.com/" },
+        { name: "Dustin Ross", url: "https://sites.google.com/view/rossd/home" },
+      ],
       year: 2024,
       venue: "Discrete and Computational Geometry",
       volume: 74,
@@ -32,8 +35,10 @@ const research: ResearchData = {
   preprints: [],
   talks: [
     {
-      title: "Log-Concave Sequences, Mixed Volumes, and the Normal Complex of a Fan",
-      venue: "San Francisco State University — Algebra, Geometry, and Combinatorics Seminar",
+      title:
+        "Log-Concave Sequences, Mixed Volumes, and the Normal Complex of a Fan",
+      venue:
+        "Algebra, Geometry, and Combinatorics Seminar — San Francisco State University",
       year: 2023,
       month: 3,
       links: {
@@ -42,7 +47,7 @@ const research: ResearchData = {
     },
     {
       title: "Log-Concavity of the Characteristic Polynomial of Matroids",
-      venue: "M.A. Thesis Defense, San Francisco State University",
+      venue: "M.A. Thesis Defense — San Francisco State University",
       year: 2023,
       month: 8,
       links: {

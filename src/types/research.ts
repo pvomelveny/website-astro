@@ -1,3 +1,8 @@
+export interface Coauthor {
+  name: string;
+  url?: string;
+}
+
 export interface PaperLinks {
   journal?: string;
   pdf?: string;
@@ -10,7 +15,7 @@ export interface PaperLinks {
 export interface Paper {
   title: string;
   /** Co-authors only — omit yourself. Rendered as "with Name, Name". */
-  coauthors?: string[];
+  coauthors?: Coauthor[];
   year: number;
   /** Journal or conference name, rendered italic. */
   venue: string;
@@ -32,7 +37,7 @@ export interface PreprintLinks {
 export interface Preprint {
   title: string;
   /** Co-authors only — omit yourself. Rendered as "with Name, Name". */
-  coauthors?: string[];
+  coauthors?: Coauthor[];
   year: number;
   tags: string[];
   links: PreprintLinks;
@@ -61,7 +66,7 @@ export interface Writing {
   /** Short descriptor shown below the title, e.g. "M.S. Thesis, San Francisco State University" */
   subtitle: string;
   year: number;
-  coauthors?: string[];
+  coauthors?: Coauthor[];
   links: WritingLinks;
   abstract?: string;
 }

@@ -1,5 +1,5 @@
 ---
-import type { Paper, Preprint } from '../types/research';
+import type { Paper, Preprint, Coauthor } from '../types/research';
 
 interface Props {
   paper: Paper | Preprint;
@@ -26,7 +26,16 @@ function venueString(): string {
       <div class="paper-title">{title}</div>
       {coauthors && coauthors.length > 0 && (
         <div class="paper-authors">
-          <span class="with-label">with</span> {coauthors.join(', ')}
+          <span class="with-label">with</span>{' '}
+          {coauthors.map((c: Coauthor, i: number) => (
+            <>
+              {i > 0 && ', '}
+              {c.url
+                ? <a href={c.url} target="_blank" rel="noopener">{c.name}</a>
+                : c.name
+              }
+            </>
+          ))}
         </div>
       )}
       <div class="paper-venue">
@@ -96,6 +105,15 @@ function venueString(): string {
     color: var(--muted);
     letter-spacing: 0.04em;
   }
+
+  .paper-authors a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-thickness: 0.5px;
+    text-underline-offset: 2px;
+  }
+
+  .paper-authors a:hover { color: var(--accent); }
 
   .paper-venue {
     font-size: 13px;

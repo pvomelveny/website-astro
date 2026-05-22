@@ -1,5 +1,5 @@
 ---
-import type { Writing } from '../types/research';
+import type { Writing, Coauthor } from '../types/research';
 
 interface Props {
   item: Writing;
@@ -14,7 +14,16 @@ const { title, subtitle, year, coauthors, links, abstract } = item;
   <div class="writing-subtitle">{subtitle}, {year}</div>
   {coauthors && coauthors.length > 0 && (
     <div class="writing-authors">
-      <span class="with-label">with</span> {coauthors.join(', ')}
+      <span class="with-label">with</span>{' '}
+      {coauthors.map((c: Coauthor, i: number) => (
+        <>
+          {i > 0 && ', '}
+          {c.url
+            ? <a href={c.url} target="_blank" rel="noopener">{c.name}</a>
+            : c.name
+          }
+        </>
+      ))}
     </div>
   )}
   <div class="writing-links">
