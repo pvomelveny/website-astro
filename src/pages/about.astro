@@ -8,19 +8,12 @@ import { site } from "../data/site";
 const role = "PhD student";
 const university = "University of Washington";
 const department = "Department of Mathematics";
-const advisor = "Thomas Rothvoss";
-const undergradInstitution = "Undergraduate Institution";
+const advisorName = "Thomas Rothvoss";
+const advisorUrl = "https://homes.cs.washington.edu/~rothvoss/";
+const dustinName = "Dustin Ross";
+const dustinUrl = "https://sites.google.com/view/rossd/home";
+const undergradInstitution = "San Francisco State University";
 
-const bio: string[] = [
-  `I am a ${role} in the ${department} at ${university}, advised by ${advisor}.
-   My research focuses on combinatorial optimization and discrete mathematics.`,
-  `Before coming to ${university}, I studied mathematics at ${undergradInstitution}.`,
-];
-
-const researchStatement = `I am particularly interested in the polyhedral structure
-  of combinatorial optimization problems and what it reveals about their complexity.
-  Much of my work centers on understanding when LP relaxations are integral, and on
-  finding families of valid inequalities that tighten relaxations in practice.`;
 // ─────────────────────────────────────────────────────────────────────────────
 ---
 
@@ -33,10 +26,41 @@ const researchStatement = `I am particularly interested in the polyhedral struct
 
   <div class="content">
     <div class="about-body">
-      {bio.map((paragraph) => <p>{paragraph}</p>)}
+      <p>
+        I am a {role} in the {department} at {university}, advised by <a
+          href={advisorUrl}
+          target="_blank"
+          rel="noopener">{advisorName}</a
+        >. My research focuses on combinatorial optimization and discrete
+        mathematics.
+      </p>
+      <p>
+        Before coming to UW, I recieved my masters in mathematics at San
+        Francisco State University, where I was advised by <a
+          href={dustinUrl}
+          target="_blank"
+          rel="noopener">{dustinName}</a
+        >. While there I did research in combinatorics and tropical geometry,
+        working on a new proof of the log-concavity of the characteristic
+        polynomial of matroids.
+      </p>
 
       <h2>Research interests</h2>
-      <p>{researchStatement}</p>
+      <p>
+        My interests are now broadly in the direction of combinatorics,
+        optimization, and probability. Lately I have been thinking about Boolean
+        functions, their relationship to questions in theoretical computer
+        science, and some probablistic and analytic tools used to study them.
+      </p>
+
+      <h2>General interests</h2>
+      <p>
+        Long before coming back to school for math, I studied music in my
+        undergrad. Between then an now I have worn quite a few hats, including
+        teaching, running MRIs, coordinating clinical research, and software
+        engineering. When not doing math, I enjoy photography, making coffee,
+        learning languages, and playing board games.
+      </p>
 
       <div class="cv-link">
         <a href={site.cvUrl} target="_blank" rel="noopener">Download CV (PDF)</a

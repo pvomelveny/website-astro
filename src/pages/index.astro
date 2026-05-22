@@ -9,15 +9,13 @@ import { site } from "../data/site";
 const role = "PhD student";
 const department = "Department of Mathematics";
 const university = "University of Washington";
-const advisor = "Thomas Rothvoss";
-const bio = `I work on problems in combinatorial optimization and discrete
-  mathematics, with a particular interest in the structure of polyhedra and the
-  geometry of linear programs. I am advised by ${advisor}.`;
+const advisorName = "Thomas Rothvoss";
+const advisorUrl = "https://homes.cs.washington.edu/~rothvoss/";
 
 const researchInterests = [
-  "combinatorial optimization",
-  "polyhedral combinatorics",
-  "integer programming",
+  "combinatorics",
+  "optimization",
+  "Boolean functions",
 ];
 
 const photo = "/photo.jpg"; // path relative to public/; set to "" to hide
@@ -40,17 +38,33 @@ function formatMonth(date: Date): string {
     <div class="hero-text">
       <div class="hero-role">{role}</div>
       <div class="hero-dept">{department} · {university}</div>
-      <p class="hero-bio">{bio}</p>
+      <p class="hero-bio">
+        I am a third-year graduate student in mathematics at the University of
+        Washington. I have particular interests in combinatorics, optimization,
+        and probability (with the occasional light jaunt into more theoretical
+        computer science). I am advised by <a
+          href={advisorUrl}
+          target="_blank"
+          rel="noopener">{advisorName}</a
+        >.
+      </p>
       <div class="hero-actions">
         <a href="/research" class="btn-primary">view research</a>
-        <a href={site.cvUrl} class="btn-secondary" target="_blank" rel="noopener">download cv</a>
+        <a
+          href={site.cvUrl}
+          class="btn-secondary"
+          target="_blank"
+          rel="noopener">download cv</a
+        >
       </div>
     </div>
-    {photo && (
-      <div class="hero-photo">
-        <img src={photo} alt={site.fullName} width="200" height="240" />
-      </div>
-    )}
+    {
+      photo && (
+        <div class="hero-photo">
+          <img src={photo} alt={site.fullName} width="200" height="240" />
+        </div>
+      )
+    }
   </div>
 
   <div class="section-divider"></div>
