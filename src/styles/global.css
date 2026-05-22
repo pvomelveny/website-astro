@@ -1,12 +1,12 @@
 /* Design tokens — all colors go through these custom properties */
 :root {
-  --accent: #822727;
-  --accent-hover: #6B1F1F;
+  --accent: #8C2020;
+  --accent-hover: #721A1A;
   --bg: #F7F2E7;
   --surface: #EDE4CE;
   --border: #BFA882;
-  --muted: #6B5744;
-  --ink: #2E1F14;
+  --muted: #7A5038;
+  --ink: #4A3020;
 
   --font-display: 'Playfair Display', Georgia, serif;
   --font-body: 'Source Serif 4', Georgia, serif;
@@ -32,6 +32,11 @@ body {
 }
 
 a { color: inherit; }
+
+/* Shared page layout */
+.page-header {
+  border-bottom: 1px solid var(--muted);
+}
 
 /* Shared page typography */
 .page-title {

@@ -6,7 +6,7 @@ interface Props {
 }
 
 const { talk } = Astro.props;
-const { title, year, month, links } = talk;
+const { title, venue, year, month, links } = talk;
 
 const date = new Date(year, month - 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 ---
@@ -16,6 +16,7 @@ const date = new Date(year, month - 1).toLocaleDateString('en-US', { month: 'lon
     <div class="talk-title">{title}</div>
     <div class="talk-date">{date}</div>
   </div>
+  {venue && <div class="talk-venue">{venue}</div>}
   {links?.slides && (
     <div class="talk-links">
       <a href={links.slides} target="_blank" rel="noopener">slides</a>
@@ -24,7 +25,7 @@ const date = new Date(year, month - 1).toLocaleDateString('en-US', { month: 'lon
 </div>
 
 <style>
-  .talk { margin-bottom: 1.5rem; }
+  .talk { margin-bottom: 0; }
 
   .talk-row {
     display: flex;
@@ -38,7 +39,7 @@ const date = new Date(year, month - 1).toLocaleDateString('en-US', { month: 'lon
     font-size: 15px;
     font-style: italic;
     color: var(--ink);
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.15rem;
   }
 
   .talk-date {
@@ -46,6 +47,12 @@ const date = new Date(year, month - 1).toLocaleDateString('en-US', { month: 'lon
     color: var(--muted);
     white-space: nowrap;
     letter-spacing: 0.03em;
+  }
+
+  .talk-venue {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 0.15rem;
   }
 
   .talk-links a {

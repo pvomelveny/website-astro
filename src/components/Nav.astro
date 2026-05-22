@@ -9,11 +9,11 @@ interface Props {
 const { active } = Astro.props;
 
 const links = [
-  { href: '/about',       label: 'about',    key: 'about'    },
-  { href: '/research',    label: 'research', key: 'research' },
-  { href: '/teaching',    label: 'teaching', key: 'teaching' },
-  { href: '/notes',       label: 'notes',    key: 'notes'    },
-  { href: site.cvUrl,     label: 'cv',       key: 'cv'       },
+  { href: '/about',       label: 'about',    key: 'about',    target: undefined },
+  { href: '/research',    label: 'research', key: 'research', target: undefined },
+  { href: '/teaching',    label: 'teaching', key: 'teaching', target: undefined },
+  { href: '/notes',       label: 'notes',    key: 'notes',    target: undefined },
+  { href: site.cvUrl,     label: 'cv',       key: 'cv',       target: '_blank'  },
 ] as const;
 ---
 
@@ -22,8 +22,8 @@ const links = [
     {site.firstName} <span>{site.lastName}</span>
   </a>
   <div class="nav-links">
-    {links.map(({ href, label, key }) => (
-      <a href={href} class={active === key ? 'active' : undefined}>{label}</a>
+    {links.map(({ href, label, key, target }) => (
+      <a href={href} class={active === key ? 'active' : undefined} target={target} rel={target ? 'noopener' : undefined}>{label}</a>
     ))}
   </div>
 </nav>

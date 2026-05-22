@@ -32,7 +32,17 @@ const research: ResearchData = {
   preprints: [],
   talks: [
     {
+      title: "Log-Concave Sequences, Mixed Volumes, and the Normal Complex of a Fan",
+      venue: "San Francisco State University — Algebra, Geometry, and Combinatorics Seminar",
+      year: 2023,
+      month: 3,
+      links: {
+        slides: "/slides/mixed-vols-log-concave.pdf",
+      },
+    },
+    {
       title: "Log-Concavity of the Characteristic Polynomial of Matroids",
+      venue: "M.A. Thesis Defense, San Francisco State University",
       year: 2023,
       month: 8,
       links: {

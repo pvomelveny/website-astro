@@ -45,6 +45,7 @@ export interface TalkLinks {
 
 export interface Talk {
   title: string;
+  venue?: string;
   year: number;
   month: number; // 1–12
   links?: TalkLinks;
