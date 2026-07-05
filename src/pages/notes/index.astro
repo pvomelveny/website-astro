@@ -38,7 +38,21 @@ function formatMonth(date: Date): string {
   <Nav active="notes" />
 
   <div class="notes-header">
-    <h1 class="page-title">Notes</h1>
+    <div class="title-row">
+      <h1 class="page-title">Notes</h1>
+      <a href="/rss.xml" class="rss-link" title="Subscribe via RSS">
+        <svg class="rss-icon" viewBox="0 0 16 16" aria-hidden="true">
+          <circle cx="3" cy="13" r="1.5"></circle>
+          <path
+            d="M2 8.5a.5.5 0 0 1 .5-.5 7 7 0 0 1 7 7 .5.5 0 0 1-1 0 6 6 0 0 0-6-6 .5.5 0 0 1-.5-.5z"
+          ></path>
+          <path
+            d="M2 4a.5.5 0 0 1 .5-.5 11 11 0 0 1 11 11 .5.5 0 0 1-1 0A10 10 0 0 0 2.5 4.5.5.5 0 0 1 2 4z"
+          ></path>
+        </svg>
+        RSS
+      </a>
+    </div>
     <p class="page-intro">{pageIntro}</p>
   </div>
 
@@ -72,6 +86,46 @@ function formatMonth(date: Date): string {
 </BaseLayout>
 
 <style>
+  .title-row {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 0;
+  }
+
+  .rss-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    padding: 2px 9px 2px 7px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      color 0.15s,
+      border-color 0.15s;
+  }
+
+  .rss-link:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .rss-icon {
+    width: 11px;
+    height: 11px;
+    fill: currentColor;
+    flex-shrink: 0;
+    /* nudge down slightly to optically align with baseline */
+    position: relative;
+    top: 1px;
+  }
+
   .notes-header {
     padding: 3rem var(--pad-h) 2rem;
     max-width: var(--notes-max);

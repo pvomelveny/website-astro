@@ -9,6 +9,8 @@ export const site = {
   lastName: "O'Melveny",
   /** Full name for metadata, footer text, and citations */
   fullName: "Patrick Vincent O'Melveny",
+  /** RSS feed name */
+  rssName: "math notes · pvomelveny",
 
   /** Global links */
   email: "p0@uw.edu",
