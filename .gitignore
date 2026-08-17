@@ -2,6 +2,11 @@
 dist/
 .astro/
 
+# wanshi output — generated into public/ by `npm run notes:build`, then copied
+# into dist/ by Astro. The sources live in notes/trees/.
+# (wanshi's own build cache is ignored by notes/.gitignore.)
+public/notes/
+
 # Dependencies
 node_modules/
 

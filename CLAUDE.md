@@ -9,10 +9,24 @@ Personal academic website for a researcher. Built with Astro, deployed to AWS S3
 ## Commands
 
 ```sh
-npm run dev        # local dev server
-npm run build      # production build → dist/
-npm run preview    # preview production build locally
+npm run dev          # build notes, then start the Astro dev server
+npm run build        # generate chrome → check notes → build notes → astro build → dist/
+npm run preview      # preview production build locally
+
+npm run notes:watch  # rebuild notes on save (run beside `npm run dev`)
+npm run notes:new -- <path>   # scaffold a note, e.g. `-- algebra/monoids`
+npm run notes:check  # validate the note graph (strict)
+npm run notes:build  # build notes only → public/notes/
+npm run notes:chrome # regenerate the site chrome wanshi injects
 ```
+
+`npm run dev` builds the notes once and does not watch them — `astro dev` only
+watches Astro sources. To edit notes with live reload, run `npm run notes:watch`
+in a second terminal; it rebuilds into `public/notes/`, which the dev server is
+already serving.
+
+Requires [Typst](https://typst.app) and [wanshi](https://github.com/pvomelveny/wanshi)
+on `PATH` (`brew install typst`; `cargo install --path .` from a wanshi clone).
 
 Deployment: manual from the local machine — `npm run build` → `aws s3 sync dist/ s3://<bucket> --delete` → `aws cloudfront create-invalidation`. A GitHub Actions workflow is planned (see README) but not yet wired up; no `.github/workflows/` exists.
 
@@ -27,17 +41,21 @@ Deployment: manual from the local machine — `npm run build` → `aws s3 sync d
 
 ```
 src/
-  pages/          # index.astro, about.astro, research.astro, teaching.astro
-  pages/notes/    # index.astro + [slug].astro
-  content/        # notes/ as .mdx files (Astro content collection)
-  content.config.ts  # collection schema using glob loader (Astro 6)
-  data/           # research.ts — typed research publications and talks
-  components/     # Nav, Footer, BaseLayout, NoteLayout, Paper, Talk, ...
+  pages/          # index.astro, about.astro, research.astro, teaching.astro, rss.xml.ts
+  data/           # research.ts, teaching.ts, site.ts, notes.ts (reads wanshi.json)
+  components/     # Nav, Footer, BaseLayout, Paper, Talk, ...
   styles/         # global.css (design tokens + resets)
   types/          # shared TypeScript interfaces (Research, Note, etc.)
-  scripts/        # client-side TS (sidenote alignment, abstract toggles)
-public/           # CV PDF, headshot photo
+  scripts/        # client-side TS (abstract toggles)
+scripts/          # build-time TS — gen-wanshi-chrome.ts
+notes/            # the wanshi project: Wanshi.toml, trees/, assets/, import-*.html
+public/           # CV PDF, headshot photo; notes/ generated here (gitignored)
 ```
+
+**Two generators, one site.** Astro owns `/`, `/about`, `/research`, `/teaching`,
+and `/rss.xml`. wanshi owns everything under `/notes/`. They meet in exactly two
+places: `public/notes/` (where wanshi writes and Astro copies from) and
+`wanshi.json` (which Astro reads for the homepage list and the feed).
 
 **`src/data/site.ts`** holds all global personal info: `firstName`, `lastName`, `fullName`, `email`, `github`, `scholar`, `cvUrl`. Nav and Footer import this directly — update once, reflects everywhere.
 
@@ -45,16 +63,16 @@ public/           # CV PDF, headshot photo
 
 **Research page** is data-driven from `src/data/research.ts` — a typed TypeScript file. Adding a publication = appending an object to the `papers`, `preprints`, or `talks` array. See `src/types/research.ts` for the full schema. (YAML was considered but Astro/Vite doesn't support YAML imports natively.)
 
-**Astro 6 API notes** (important — these differ from older Astro docs):
-- Content collection config lives at `src/content.config.ts` (not `src/content/config.ts`), uses `glob` loader from `astro/loaders`
-- Render MDX entries with `render(entry)` imported from `astro:content` — NOT `entry.render()`
-- Collection entries have `id` (file path with extension, e.g. `example.mdx`), not `slug` — strip extension for URLs: `id.replace(/\.mdx?$/, '')`
+**No content collections.** Notes moved to wanshi, which removed the only one;
+`src/content.config.ts` and `src/content/` no longer exist. The `@astrojs/mdx`,
+`remark-math` and `rehype-katex` dependencies and the KaTeX stylesheet in
+`BaseLayout.astro` are now unused — kept in case an Astro page wants math or
+MDX later. Remove them if not.
 
-**Notes** use Astro content collections (`src/content/notes/`) with `.mdx` files. Sidenotes are authored using two MDX components:
-- `<SidenoteRef n={1}/>` — inline marker in body text (renders as a superscript number)
-- `<Sidenote n={1}>text</Sidenote>` — sidenote block placed anywhere in the file (rendered in the side column on wide screens, or as footnotes at the bottom on narrow screens)
-
-On wide screens (>680px): two-column grid with 200px sidenote column. On narrow screens: single column, footnote section at page bottom. Sidenote vertical alignment is a client-side TypeScript module in `NoteLayout` — positions notes absolutely by matching `data-sn` attributes between refs and sidenote blocks, clamps to prevent overlap, falls back gracefully without JS.
+**Notes** are a [wanshi](https://github.com/pvomelveny/wanshi) forest — Typst
+sources under `notes/trees/`, built to standalone HTML in `public/notes/`. There
+is no Astro route for them; Astro copies `public/` into `dist/` verbatim. See
+the "Notes" section below.
 
 The abstract toggle on research items is a small client-side TS module.
 
@@ -72,10 +90,143 @@ Tokens defined there:
 
 When adding new tokens, define them in `global.css` so dark mode remains a one-file change later.
 
+**wanshi pages do not see `global.css`.** They are standalone documents with
+their own stylesheet, so the tokens are bridged by hand in
+`notes/import-style.html`. wanshi's "Parchment & walnut" palette already matches
+`--bg`, `--surface` and `--border` exactly; only `--ink`, `--muted`, `--accent`
+and `--accent-hover` are overridden there. **Changing one of those four in
+`global.css` means changing it in `notes/import-style.html` too** — there is no
+mechanism that keeps them in sync.
+
+## Notes (wanshi)
+
+Notes are Typst, built by [wanshi](https://github.com/pvomelveny/wanshi) — a
+Zettelkasten/forest generator. The project lives in `notes/`; its docs are in
+the wanshi repo under `docs/users/`.
+
+### Writing a note
+
+```sh
+npm run notes:new -- algebra/monoids   # creates notes/trees/algebra/monoids.typ
+npm run notes:watch                    # rebuild on save, beside `npm run dev`
+```
+
+A note is a Typst file declaring metadata and linking to its neighbours:
+
+```typst
+#import "/_lib/wanshi.typ": *
+
+#show: wanshi
+
+#metadata((
+  "title": "Monoids",
+  "taxon": "definition",
+  "date": "2026-06-01",
+  "description": "One line, used on the homepage list and in the RSS feed.",
+))
+
+Builds on #local("/semigroups").
+```
+
+- **Slug** = path under `notes/trees/` minus the extension. `notes/trees/algebra/monoids.typ`
+  → `/notes/algebra/monoids.html`. Renaming breaks inbound links and public URLs.
+- **`title`, `date`, `description`** are what Astro reads for the homepage list
+  and the feed; `description` is a custom key, and also renders in the page's
+  metadata row.
+- **`taxon`** is the note kind. Keep to the site's four: `note`, `exposition`,
+  `problem`, `reading`.
+- **Links and backlinks** are derived from `#local("/slug")`. Backlinks are
+  automatic — every link pays for itself twice.
+- **Math** is MathML, rendered by Typst; no KaTeX involved and no CDN request.
+  Diagrams (fletcher, cetz) need `#auto-figure(auto-frame(...))` to survive the
+  HTML export.
+- **Footnotes** are Typst's `#footnote[...]`, rendered at the end of the note.
+  (The old MDX margin-sidenotes did not survive the move; wanshi has no
+  equivalent.)
+- **`notes/trees/index.typ`** is the forest root, published at `/notes/`. Its
+  `#children()` call lists every note automatically, so it never needs editing
+  when you add one. It is marked `"collect": "true"`, which is what excludes it
+  from the homepage list and feed.
+- Directories beginning with `_` are skipped — that is why `trees/_lib/` holds
+  the bundled Typst library without becoming a page.
+
+Run `npm run notes:check` before committing; it catches dangling links,
+duplicate slugs, and Typst errors. `npm run build` runs it in strict mode, so a
+warning fails the build.
+
+### How it joins the Astro site
+
+wanshi emits complete standalone HTML — it cannot render into an Astro layout.
+Integration is therefore four hook files in `notes/`, spliced into every page:
+
+| File | Role |
+| --- | --- |
+| `import-header.html` | site nav, injected at the top of `<body>` |
+| `import-footer.html` | site footer, injected at the end of `<body>` |
+| `import-meta.html` | SVG favicon + RSS autodiscovery |
+| `import-style.html` | palette bridge + CSS for the injected chrome |
+
+The first three are **generated** by `scripts/gen-wanshi-chrome.ts` from
+`src/data/site.ts`, so the nav and footer cannot drift from the rest of the site
+— edit `site.ts` or that script, never the HTML. They are committed so that
+`cd notes && wanshi serve` works standalone. `import-style.html` is hand-written.
+
+`notes/assets/favicon.ico` is a **symlink** to `public/favicon.ico`; wanshi
+follows it and publishes a real file, so the notes carry the site's icon.
+
+Data flows the other way through `wanshi.json`, the metadata index wanshi writes
+beside its pages. `src/data/notes.ts` reads it for three consumers:
+
+- the homepage's "recent notes" list (`getNotes()`),
+- the RSS feed at `src/pages/rss.xml.ts` (`getNotes()`),
+- the sitemap's `customPages` in `astro.config.ts` (`getNotePagePaths()`) —
+  necessary because `@astrojs/sitemap` only discovers routes Astro generates,
+  and would otherwise drop every note silently.
+
+That is why the build order matters: **wanshi must run before Astro**, which
+`npm run build` enforces. `astro.config.ts` is TypeScript (not `.mjs`) so it can
+import that loader rather than re-parsing the index.
+
+### Gotchas
+
+- **Run wanshi with `notes/` as the working directory.** It resolves
+  `[build].output` relative to the config file but `typst-root` relative to the
+  cwd, so `wanshi build --config notes/Wanshi.toml` from the repo root fails to
+  find the Typst sources. Every npm script does `cd notes && wanshi …`.
+- **wanshi is installed separately** (`cargo install --path .` from a clone) and
+  is not an npm dependency. `cargo install` copies the binary — editing the
+  wanshi source changes nothing until you reinstall.
+- **`public/notes/` is generated and gitignored.** Never edit it; edit
+  `notes/trees/`. wanshi keeps `public/notes/assets/` an exact mirror of
+  `notes/assets/` and deletes anything else there, so do not put site files in
+  it.
+- **Creating a new `import-*.html` while `wanshi serve` is running has no
+  effect** until you restart — a file that did not exist at startup is not
+  watched.
+- **`pretty-urls` is on**, so notes are linked as `/notes/welcome`, not
+  `/notes/welcome.html`. wanshi still writes flat `.html` files, so both forms
+  resolve and no published link ever breaks. Extensionless resolution is *not*
+  free, though — it is implemented twice and **both must stay in step**:
+  the CloudFront Function (README, deployment section) for production, and the
+  `notesDevUrls` Vite plugin in `astro.config.ts` for `npm run dev`. Astro's dev
+  server serves `public/` by exact path only, so without the plugin every note
+  link 404s locally. `npm run preview` needs neither.
+- **Keep dots out of note filenames.** `v1.2.typ` yields `/notes/v1.2`, which
+  both rewrites read as a file and pass through unrewritten → 404.
+- **Directory indexes work as hubs.** `trees/algebra/index.typ` is published at
+  `/notes/algebra/` and becomes the parent of everything beside it, so
+  `#children()` on it lists that directory. `noteHref()` in `src/types/note.ts`
+  maps the `<dir>/index` slug to the trailing-slash URL to match.
+- **RSS** is wanshi's `[publish].rss = false` on purpose. The site publishes one
+  feed, at `/rss.xml`, built by Astro. Enabling wanshi's would need an absolute
+  `base-url`, which makes every generated link point at production and breaks
+  local preview.
+
 ## Key conventions
 
 - **Never use "blog" or "posts"** — always "notes" everywhere (URLs, nav, code, copy).
-- Note tags are exactly four values: `note`, `exposition`, `problem`, `reading`.
+- Note tags are exactly four values: `note`, `exposition`, `problem`, `reading` — set as a note's `taxon`. wanshi accepts any string, so this is convention, not enforcement.
+- Nav and footer markup exists twice: `src/components/{Nav,Footer}.astro` for Astro pages, and generated HTML for wanshi pages. Both read `src/data/site.ts`; a *structural* change means updating `scripts/gen-wanshi-chrome.ts` as well.
 - Paper titles render in Playfair Display italic.
 - Papers and preprints use a `coauthors` field (list collaborators only, omit yourself). Rendered as small muted "with" label + names in ink.
 - Nav: `First Last` (last name italic, `--accent`) on left; `about · research · teaching · notes · cv` text-transform lowercase on right.
@@ -86,7 +237,9 @@ When adding new tokens, define them in `global.css` so dark mode remains a one-f
 
 ## Future considerations
 
-- Dark mode — straightforward once deferred; all colors already go through CSS custom properties
+- Dark mode — all Astro colors already go through CSS custom properties, but it is no longer a one-file change: wanshi ships no dark mode, so `/notes/**` would need its own treatment in `notes/import-style.html`
 - `/links` page — curated list of other sites and interests
-- Typst → HTML export pipeline once the feature stabilizes
+- ~~Typst → HTML export pipeline~~ — done, via wanshi
 - Interactive math components via Astro islands
+- Drop `@astrojs/mdx`, `remark-math`, `rehype-katex` and the KaTeX CDN link in `BaseLayout.astro` if no Astro page ever needs math (wanshi notes use MathML and need none)
+- Self-host fonts via `notes/import-font.html` + BaseLayout to remove the Google Fonts dependency entirely

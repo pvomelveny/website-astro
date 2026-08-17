@@ -1,0 +1,25 @@
+<!--
+  REPLACES wanshi's built-in font links (the other import-*.html hooks append;
+  this one substitutes). It merges what both halves of the site need into one
+  request:
+
+    Playfair Display  400/500 + italic 400  — site headings (BaseLayout.astro)
+                      600 + italic 600      — wanshi's breadcrumb logo
+    Source Serif 4    optical-size axis     — the site's body face; wanshi sets
+                                              `font-optical-sizing: auto`, and
+                                              its own import omits the opsz
+                                              axis, so notes rendered slightly
+                                              differently from the rest of the
+                                              site until this was added
+    Fira Code         400/500               — wanshi's code face
+
+  Requesting the identical Source Serif 4 URL as BaseLayout.astro also means a
+  reader crossing from /about into /notes/ reuses the cached font rather than
+  fetching a second cut of the same family.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300;1,8..60,400&family=Fira+Code:wght@400;500&display=swap"
+  rel="stylesheet"
+/>

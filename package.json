@@ -1,14 +1,19 @@
 {
   "name": "pvomelveny-website",
   "type": "module",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "engines": {
     "node": ">=22.12.0"
   },
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
+    "dev": "npm run notes:chrome && npm run notes:build && astro dev",
+    "build": "npm run notes:chrome && npm run notes:check && npm run notes:build && astro build",
     "preview": "astro preview",
+    "notes:chrome": "node scripts/gen-wanshi-chrome.ts",
+    "notes:check": "cd notes && wanshi check --strict",
+    "notes:build": "cd notes && wanshi build",
+    "notes:watch": "npm run notes:chrome && cd notes && wanshi serve --no-server",
+    "notes:new": "cd notes && wanshi new post",
     "astro": "astro"
   },
   "dependencies": {

@@ -1,0 +1,19 @@
+#import "/_lib/wanshi.typ": *
+
+#show: wanshi
+
+// Template for `npm run notes:new -- <path>`. The title placeholder below is
+// replaced with the new file's stem; nothing else is filled in, so treat the
+// date and description as placeholders to edit.
+//
+// taxon: one of note · exposition · problem · reading
+// date:  YYYY-MM-DD. Set it — an undated note sorts last in the feed and shows
+//        no date in listings.
+// description: one sentence. Used on the homepage list, in the RSS feed, and in
+//        this page's metadata row.
+#metadata((
+  "title": "<FILE_NAME>",
+  "taxon": "note",
+  "date": "0000-00-00",
+  "description": "",
+))

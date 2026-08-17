@@ -12,7 +12,9 @@ const links = [
   { href: '/about',       label: 'about',    key: 'about',    target: undefined },
   { href: '/research',    label: 'research', key: 'research', target: undefined },
   { href: '/teaching',    label: 'teaching', key: 'teaching', target: undefined },
-  { href: '/notes',       label: 'notes',    key: 'notes',    target: undefined },
+  // Trailing slash: the notes forest is built by wanshi and published as
+  // /notes/index.html, so the directory URL is what resolves to it.
+  { href: '/notes/',      label: 'notes',    key: 'notes',    target: undefined },
   { href: site.cvUrl,     label: 'cv',       key: 'cv',       target: '_blank'  },
 ] as const;
 ---

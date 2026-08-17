@@ -3,9 +3,8 @@ import BaseLayout from "../components/BaseLayout.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import { Image } from "astro:assets";
-import { getCollection } from "astro:content";
 import { site } from "../data/site";
-import { noteHref } from "../types/note";
+import { getNotes } from "../data/notes";
 import photo from "../assets/photo.jpg";
 
 // ── Page content ──────────────────────────────────────────────────────────────
@@ -25,10 +24,9 @@ const researchInterests = [
 const showPhoto = true;
 // ─────────────────────────────────────────────────────────────────────────────
 
-const allNotes = await getCollection("notes");
-const recentNotes = allNotes
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 3);
+// Notes come from the wanshi forest in `notes/`, read via its generated
+// metadata index — already sorted newest first. See src/data/notes.ts.
+const recentNotes = getNotes().slice(0, 3);
 
 function formatMonth(date: Date): string {
   return date.toLocaleDateString("en-US", { month: "short", year: "numeric" });
@@ -100,12 +98,14 @@ function formatMonth(date: Date): string {
             {recentNotes.map((note) => (
               <div class="note-row">
                 <h3 class="note-title">
-                  <a href={noteHref(note.id)}>
-                    {note.data.title}
-                    <span class="note-tag">{note.data.tag}</span>
+                  <a href={note.href}>
+                    {note.title}
+                    {note.tag && <span class="note-tag">{note.tag}</span>}
                   </a>
                 </h3>
-                <div class="note-date">{formatMonth(note.data.date)}</div>
+                {note.date && (
+                  <div class="note-date">{formatMonth(note.date)}</div>
+                )}
               </div>
             ))}
           </div>
@@ -277,6 +277,8 @@ function formatMonth(date: Date): string {
     padding: 1px 7px;
     margin-left: 0.5rem;
     letter-spacing: 0.03em;
+    /* wanshi capitalizes taxons for display ("Note"); the site sets them lowercase. */
+    text-transform: lowercase;
   }
 
   .note-date {
