@@ -9,17 +9,18 @@ import type { TeachingEntry } from "../types/teaching";
  * Term order within a year: Winter < Spring < Summer < Fall.
  */
 
-export const currentCourse: TeachingEntry | null = {
-  title: "Math 208 — Linear Algebra",
-  term: "Spring 2026",
-  role: "TA",
-  institution: "University of Washington",
-};
+export const currentCourse: TeachingEntry | null = null;
 
 export const currentClassNote =
   "If you are a current student in this course, information for this course is found on Canvas. Use the Ed discussion board to contact the TA's for this course.";
 
 export const pastCourses: TeachingEntry[] = [
+  {
+    title: "Math 208 — Linear Algebra",
+    term: "Spring 2026",
+    role: "TA",
+    institution: "University of Washington",
+  },
   {
     title: "Math 125 — Calculus with Analytic Geometry II",
     term: "Winter 2026",
