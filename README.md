@@ -332,6 +332,7 @@ build. The production build is fully static — just files in `dist/`.
 | CloudFront distribution | `E1HKVL3MS04OWG` → `pvomelveny.com`, `www.pvomelveny.com` |
 | Default root object | `index.html` |
 | Custom error responses | 403 → `/404.html` (404), 404 → `/404.html` (404) — already configured |
+| CloudFront Function | `pvomelveny-url-rewrite` — LIVE, attached to the default behavior as a viewer-request function |
 | Deploy identity | IAM user `Website_Writer` — S3 write + `cloudfront:CreateInvalidation` only |
 
 Because the origin is the S3 **website** endpoint rather than a REST endpoint
@@ -341,9 +342,10 @@ worked before the notes moved to wanshi.
 
 What S3 website hosting does **not** do is try an `.html` extension. So
 `/notes/welcome` — which is how wanshi links a note now that `pretty-urls` is
-on — returns 404 until the function below is attached.
+on — would 404 on its own. That is what the function below is for, and it is
+already deployed.
 
-### The remaining piece: the CloudFront Function
+### The CloudFront Function
 
 The source is version-controlled at **`infra/cloudfront-url-rewrite.js`**. It
 resolves both URL shapes the site publishes:
@@ -374,9 +376,13 @@ Against the older MDX build, which published notes as directories
 exist. **Associating the function while an older build is deployed breaks the
 live notes section.** Deploy first, then associate — or do both together.
 
-#### Creating it
+#### Creating it — already done
 
-**Run `infra/setup-cloudfront-function.sh` with an admin identity.** It does the
+This ran on 2026-08-17; the function is live and attached. The script is kept
+for reference, for rebuilding the distribution from scratch, and because it
+documents the ordering constraint.
+
+**`infra/setup-cloudfront-function.sh`, with an admin identity.** It does the
 whole migration in an order that keeps the live site working — see the header
 comment in the script for why the upload is split in two.
 
