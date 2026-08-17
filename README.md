@@ -376,9 +376,26 @@ live notes section.** Deploy first, then associate — or do both together.
 
 #### Creating it
 
-`Website_Writer` cannot do this: it has no `cloudfront:CreateFunction`,
+**Run `infra/setup-cloudfront-function.sh` with an admin identity.** It does the
+whole migration in an order that keeps the live site working — see the header
+comment in the script for why the upload is split in two.
+
+```sh
+AWS_PROFILE=admin ./infra/setup-cloudfront-function.sh
+```
+
+It creates the function, tests it against real URLs before publishing, builds,
+uploads without deleting anything, associates the function, waits for the
+distribution to finish deploying, and only then removes the stale files and
+invalidates. It prompts before each destructive step, is safe to re-run, and
+prints the rollback commands at the end.
+
+`Website_Writer` cannot run it: it has no `cloudfront:CreateFunction`,
 `PublishFunction`, or `UpdateDistribution` permission. Use an admin identity, or
-add those actions to the deploy user first.
+add those actions to the deploy user first. The script attempts the privileged
+call first, so a wrong identity stops it before anything is built or uploaded.
+
+The equivalent by hand, if you would rather do it step by step:
 
 ```sh
 # 1. Create (lands in the DEVELOPMENT stage; associating nothing yet)
