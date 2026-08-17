@@ -318,89 +318,116 @@ build. The production build is fully static — just files in `dist/`.
 
 ## Deployment (AWS)
 
-> **Status:** The infrastructure below still needs to be created. This section describes the intended workflow once the S3 bucket and CloudFront distribution exist.
+> **Status:** The site is live. The infrastructure already exists — it is *not*
+> the OAC/private-bucket setup earlier revisions of this file described. What is
+> written below was read back from AWS.
 
-### One-time setup (to do)
+### What exists
 
-1. Create an S3 bucket (e.g. `pvomelveny-website`) with static website hosting **disabled** — CloudFront will serve the files directly, not S3.
-2. Create a CloudFront distribution pointing at the S3 bucket. Use an Origin Access Control (OAC) so the bucket stays private and only CloudFront can read from it.
-3. Attach a TLS certificate via ACM for the custom domain.
-4. Create an IAM user or role with `s3:PutObject` + `s3:DeleteObject` on the bucket and `cloudfront:CreateInvalidation` on the distribution. Store the credentials as GitHub Actions secrets: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `S3_BUCKET`, `CLOUDFRONT_DISTRIBUTION_ID`.
-5. **Attach a CloudFront Function** (viewer request) that rewrites directory URLs
-   to `index.html`. With static website hosting disabled, CloudFront asks S3 for
-   the literal key, so `/about` and `/notes/` would 404 without it — Astro emits
-   `about/index.html`, and the notes forest root is `notes/index.html`:
+| Thing | Value |
+| --- | --- |
+| S3 bucket | `pvomelveny.com` (us-west-1), **public**, static website hosting **enabled** |
+| Website endpoint | `pvomelveny.com.s3-website-us-west-1.amazonaws.com` — this is the CloudFront origin |
+| Index / error document | `index.html` / `index.html` |
+| CloudFront distribution | `E1HKVL3MS04OWG` → `pvomelveny.com`, `www.pvomelveny.com` |
+| Default root object | `index.html` |
+| Custom error responses | 403 → `/404.html` (404), 404 → `/404.html` (404) — already configured |
+| Deploy identity | IAM user `Website_Writer` — S3 write + `cloudfront:CreateInvalidation` only |
 
-   The two generators shape URLs differently, so the rewrite branches on the
-   `/notes/` prefix. Astro publishes a page as a **directory**
-   (`about/index.html`, served at `/about`); wanshi publishes a note as a **flat
-   file** (`welcome.html`) but links it without the suffix, because
-   `pretty-urls` is on. Directory indexes inside the forest keep a trailing
-   slash and behave like Astro's.
+Because the origin is the S3 **website** endpoint rather than a REST endpoint
+behind an OAC, S3 resolves index documents itself: `/about/` serves
+`about/index.html`, and `/about` gets a 302 to `/about/`. That is why the site
+worked before the notes moved to wanshi.
 
-   ```js
-   // CloudFront Function, event type: viewer request.
-   // Written to ES5 so it runs on either CloudFront Functions runtime.
-   function handler(event) {
-     var request = event.request;
-     var uri = request.uri;
+What S3 website hosting does **not** do is try an `.html` extension. So
+`/notes/welcome` — which is how wanshi links a note now that `pretty-urls` is
+on — returns 404 until the function below is attached.
 
-     // Directory URLs: "/", "/about/", "/notes/", "/notes/algebra/".
-     if (uri.charAt(uri.length - 1) === '/') {
-       request.uri = uri + 'index.html';
-       return request;
-     }
+### The remaining piece: the CloudFront Function
 
-     // A dot in the last segment means a real file — "/notes/welcome.html",
-     // "/notes/main.css", "/cv.pdf", "/_astro/x.webp". Pass it straight
-     // through. Only the last segment is tested, so a directory containing a
-     // dot does not disable the rewrite.
-     var last = uri.substring(uri.lastIndexOf('/') + 1);
-     if (last.indexOf('.') !== -1) {
-       return request;
-     }
+The source is version-controlled at **`infra/cloudfront-url-rewrite.js`**. It
+resolves both URL shapes the site publishes:
 
-     // "/notes/welcome" → "/notes/welcome.html"   (wanshi: flat files)
-     // "/about"         → "/about/index.html"     (Astro: directories)
-     if (uri.lastIndexOf('/notes/', 0) === 0) {
-       request.uri = uri + '.html';
-     } else {
-       request.uri = uri + '/index.html';
-     }
+- Astro publishes a page as a **directory** (`about/index.html`, served at `/about`)
+- wanshi publishes a note as a **flat file** (`welcome.html`, served at `/notes/welcome`)
 
-     return request;
-   }
-   ```
+Handling the Astro half is not strictly required — S3 does it — but it costs
+nothing and skips the 302 hop, so `/about` is served in one round trip.
 
-   Because wanshi still writes `.html` files on disk, `/notes/welcome.html`
-   keeps working alongside `/notes/welcome` — turning `pretty-urls` on does not
-   break any link already published.
+Because wanshi still writes `.html` files on disk, `/notes/welcome.html` keeps
+working alongside `/notes/welcome`: turning `pretty-urls` on breaks no link that
+was already published.
 
-   The same rewrite is implemented for the dev server as a Vite plugin in
-   `astro.config.ts` (`notesDevUrls`), since Astro's dev server serves `public/`
-   by exact path only. **Keep the two in step.**
+The same rewrite is implemented for the dev server as the `notesDevUrls` Vite
+plugin in `astro.config.ts`, since Astro's dev server serves `public/` by exact
+path only. **Keep the two in step.**
 
-   One thing to avoid: a note whose *filename* contains a dot (`v1.2.typ`)
-   produces `/notes/v1.2`, which this function reads as a file and passes
-   through unrewritten. Keep dots out of note filenames.
+One thing to avoid: a note whose *filename* contains a dot (`v1.2.typ`) produces
+`/notes/v1.2`, which both rewrites read as a file and pass through unrewritten.
+Keep dots out of note filenames.
 
-6. **Add custom error responses.** With OAC and a bucket policy granting only
-   `s3:GetObject`, S3 answers a missing key with **403**, not 404 — it will not
-   confirm whether the object exists. Map both `403` and `404` to your error
-   page with an HTTP 404 response code, or every typo'd URL shows an AWS access
-   denied page. This site has no error page yet; add `src/pages/404.astro` first.
+#### ⚠️ Order matters — attach it only with a v2.0.0+ deploy
 
-### Manual deploy (once setup is done)
+The function assumes the wanshi layout, where notes are flat `.html` files.
+Against the older MDX build, which published notes as directories
+(`notes/welcome/index.html`), `/notes/welcome` rewrites to a key that does not
+exist. **Associating the function while an older build is deployed breaks the
+live notes section.** Deploy first, then associate — or do both together.
+
+#### Creating it
+
+`Website_Writer` cannot do this: it has no `cloudfront:CreateFunction`,
+`PublishFunction`, or `UpdateDistribution` permission. Use an admin identity, or
+add those actions to the deploy user first.
+
+```sh
+# 1. Create (lands in the DEVELOPMENT stage; associating nothing yet)
+aws cloudfront create-function \
+  --name pvomelveny-url-rewrite \
+  --function-config '{"Comment":"Resolve directory and extensionless URLs","Runtime":"cloudfront-js-2.0"}' \
+  --function-code fileb://infra/cloudfront-url-rewrite.js
+
+# 2. Test before publishing — confirm each rewrite
+aws cloudfront test-function \
+  --name pvomelveny-url-rewrite --stage DEVELOPMENT \
+  --if-match <ETag-from-step-1> \
+  --event-object fileb://<(echo '{"version":"1.0","context":{"eventType":"viewer-request"},"viewer":{"ip":"1.2.3.4"},"request":{"method":"GET","uri":"/notes/welcome","headers":{},"querystring":{},"cookies":{}}}')
+
+# 3. Publish (copies DEVELOPMENT → LIVE; still not attached to anything)
+aws cloudfront publish-function \
+  --name pvomelveny-url-rewrite --if-match <ETag>
+```
+
+Then associate it with the distribution's **default cache behavior** as a
+**viewer request** function. The distribution currently has no function
+associations, so this is the only one. In the console: CloudFront → the
+distribution → Behaviors → Default (`*`) → Edit → Function associations →
+Viewer request → CloudFront Functions → `pvomelveny-url-rewrite`.
+
+By CLI it is a read-modify-write of the whole distribution config:
+
+```sh
+aws cloudfront get-distribution-config --id E1HKVL3MS04OWG > dist-config.json
+# Edit DistributionConfig.DefaultCacheBehavior.FunctionAssociations to:
+#   {"Quantity":1,"Items":[{"FunctionARN":"<arn>","EventType":"viewer-request"}]}
+# Then send DistributionConfig only, with the ETag from the file:
+aws cloudfront update-distribution --id E1HKVL3MS04OWG \
+  --if-match <ETag> --distribution-config file://<edited DistributionConfig>
+```
+
+### Manual deploy
 
 ```sh
 npm run build
-aws s3 sync dist/ s3://YOUR-BUCKET-NAME --delete
-aws cloudfront create-invalidation \
-  --distribution-id YOUR-DISTRIBUTION-ID \
-  --paths "/*"
+aws s3 sync dist/ s3://pvomelveny.com --delete
+aws cloudfront create-invalidation --distribution-id E1HKVL3MS04OWG --paths "/*"
 ```
 
-`--delete` removes stale files from S3. The CloudFront invalidation flushes the CDN cache so visitors see the new version immediately (free up to 1,000 path invalidations/month).
+`--delete` removes stale files from S3 — including the directory-shaped
+`notes/welcome/index.html` from the MDX build, which is what you want. The only
+non-build object in the bucket is `uw-video/`, an empty 2022 directory marker,
+so nothing of value is lost. The CloudFront invalidation flushes the CDN cache
+(free up to 1,000 paths/month).
 
 ### Automated deploy via GitHub Actions (to do)
 
@@ -441,7 +468,9 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          # The bucket is in us-west-1. (CloudFront itself is global; only the
+          # S3 calls are regional.)
+          aws-region: us-west-1
       - run: aws s3 sync dist/ s3://${{ secrets.S3_BUCKET }} --delete
       - run: |
           aws cloudfront create-invalidation \
