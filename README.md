@@ -442,7 +442,7 @@ aws cloudfront update-distribution --id E1HKVL3MS04OWG \
 
 ```sh
 npm run build
-aws s3 sync dist/ s3://pvomelveny.com --delete
+aws s3 sync dist/ s3://pvomelveny.com --delete --exclude "*.DS_Store"
 aws cloudfront create-invalidation --distribution-id E1HKVL3MS04OWG --paths "/*"
 ```
 

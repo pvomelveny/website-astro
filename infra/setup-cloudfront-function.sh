@@ -13,7 +13,7 @@
 # After this has run once, ordinary deploys are just:
 #
 #     npm run build
-#     aws s3 sync dist/ s3://pvomelveny.com --delete
+#     aws s3 sync dist/ s3://pvomelveny.com --delete --exclude "*.DS_Store"
 #     aws cloudfront create-invalidation --distribution-id E1HKVL3MS04OWG --paths '/*'
 #
 # ── Why the steps are in this order ──────────────────────────────────────────
