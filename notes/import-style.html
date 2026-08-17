@@ -35,7 +35,19 @@
     --site-chrome-pad: 0rem;
   }
 
+  /*
+   * Below 1000px wanshi drops the body padding, so the chrome supplies its own.
+   * These track --pad-h in global.css (3rem, then 1.5rem under the site's
+   * 680px breakpoint) so the nav keeps the same gutter as every other page at
+   * every width, not just on desktop.
+   */
   @media only screen and (max-width: 1000px) {
+    :root body {
+      --site-chrome-pad: 3rem;
+    }
+  }
+
+  @media only screen and (max-width: 680px) {
     :root body {
       --site-chrome-pad: 1.5rem;
     }
@@ -75,12 +87,28 @@
    *                        after the 2rem body gutters and brings the frame to
    *                        1018-1052px.
    *
-   * Net: the jump drops from ~234-367px to ~58-92px, small enough to read as
-   * the same page furniture. Both values are resolved where they are used, so
-   * overriding the token is enough — the grid template picks it up.
+   * The frame is set to match the site exactly rather than merely approach it.
+   * An earlier version reserved 22rem beside the article, which left the notes
+   * frame ~60-90px wider than every other page — and because the nav is
+   * `space-between`, that pushed the name ~45px left and `cv` ~45px right. The
+   * reason for the compromise was sidebar room, but the sidebar currently holds
+   * nothing except the search box: these notes have no headings, so wanshi
+   * renders an empty table of contents. Reserving space for absent content is
+   * not worth a visibly different header.
    *
-   * These mirror --page-max and --notes-max in src/styles/global.css. If those
-   * change, change these.
+   * So: same max-width and the same horizontal padding as the Astro pages,
+   * giving an identical 864px content box, and therefore a nav and footer whose
+   * text sits at exactly the same position on both halves of the site.
+   *
+   *   960px frame - 2 x 3rem padding  = 864px content
+   *   864px       - 700px article     = 164px sidebar
+   *
+   * Both values are resolved where they are used, so overriding the token is
+   * enough — wanshi's grid template picks it up.
+   *
+   * These mirror --page-max, --pad-h and --notes-max in src/styles/global.css.
+   * If those change, change these. If the sidebar ever needs more room, take it
+   * from --article-max-width rather than widening the frame.
    */
   :root body {
     --article-max-width: clamp(90ex, 50vw, 700px);
@@ -88,7 +116,8 @@
 
   @media only screen and (min-width: 1000px) {
     body {
-      max-width: calc(var(--article-max-width) + 22rem);
+      max-width: 960px;      /* = --page-max */
+      padding-inline: 3rem;  /* = --pad-h    */
     }
   }
 
