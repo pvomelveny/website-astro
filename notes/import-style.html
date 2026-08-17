@@ -52,6 +52,46 @@
     }
   }
 
+  /*
+   * ── Page frame ────────────────────────────────────────────────────────────
+   *
+   * Bring the notes page frame into line with the rest of the site. Astro pages
+   * are capped at --page-max (960px); wanshi's default works out to 1194-1327px,
+   * so the shared nav and footer visibly snapped to a different width when you
+   * crossed between them — a ~234-367px jump on the same two elements.
+   *
+   * Two overrides, and neither touches the article/sidebar structure:
+   *
+   *   --article-max-width  wanshi grows the reading column with the viewport
+   *                        (clamp(90ex, 50vw, 108ex) = 666-799px). Capping the
+   *                        top end at 700px pins it to the site's --notes-max,
+   *                        so prose is measured identically on /about and on a
+   *                        note. The floor and the fluid middle are kept.
+   *
+   *   body max-width       wanshi reserves 33rem (528px) beside the article for
+   *                        the sidebar, which is far more than the table of
+   *                        contents uses — [toc].max-width in Wanshi.toml caps
+   *                        it at 45ex (~333px). 22rem leaves the sidebar ~288px
+   *                        after the 2rem body gutters and brings the frame to
+   *                        1018-1052px.
+   *
+   * Net: the jump drops from ~234-367px to ~58-92px, small enough to read as
+   * the same page furniture. Both values are resolved where they are used, so
+   * overriding the token is enough — the grid template picks it up.
+   *
+   * These mirror --page-max and --notes-max in src/styles/global.css. If those
+   * change, change these.
+   */
+  :root body {
+    --article-max-width: clamp(90ex, 50vw, 700px);
+  }
+
+  @media only screen and (min-width: 1000px) {
+    body {
+      max-width: calc(var(--article-max-width) + 22rem);
+    }
+  }
+
   /* ── Site nav — mirrors src/components/Nav.astro ───────────────────────── */
 
   .site-nav {
