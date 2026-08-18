@@ -87,37 +87,60 @@
    *                        after the 2rem body gutters and brings the frame to
    *                        1018-1052px.
    *
-   * The frame is set to match the site exactly rather than merely approach it.
-   * An earlier version reserved 22rem beside the article, which left the notes
-   * frame ~60-90px wider than every other page — and because the nav is
-   * `space-between`, that pushed the name ~45px left and `cv` ~45px right. The
-   * reason for the compromise was sidebar room, but the sidebar currently holds
-   * nothing except the search box: these notes have no headings, so wanshi
-   * renders an empty table of contents. Reserving space for absent content is
-   * not worth a visibly different header.
+   * Three things want different widths, so they get different widths:
    *
-   * So: same max-width and the same horizontal padding as the Astro pages,
-   * giving an identical 864px content box, and therefore a nav and footer whose
-   * text sits at exactly the same position on both halves of the site.
+   *   chrome TEXT   fixed at 864px, the content box of a --page-max Astro page.
+   *                 The nav is `space-between`, so any change here moves the
+   *                 name and `cv` and the header stops reading as the same
+   *                 furniture across the site. This is the invariant.
+   *   chrome RULES  full width of the frame. The 2px accent borders are
+   *                 separators, not content — letting them run wide makes a
+   *                 notes page feel like the roomier thing it is.
+   *   note CONTENT  grows with the frame, up to a readable cap.
    *
-   *   960px frame - 2 x 3rem padding  = 864px content
-   *   864px       - 700px article     = 164px sidebar
+   * The trick for the chrome is padding rather than a wrapper element: the
+   * border is painted on the element's outer edge, so pushing the *content*
+   * inward with a computed inline padding keeps the rule full-bleed while the
+   * text stays at 864px. `100%` in that calc resolves against the body content
+   * box at use time, which is what makes it track the fluid frame.
    *
-   * Both values are resolved where they are used, so overriding the token is
-   * enough — wanshi's grid template picks it up.
+   *   padding-inline = (frame_content - 864px) / 2   =>  text is always 864px
    *
-   * These mirror --page-max, --pad-h and --notes-max in src/styles/global.css.
-   * If those change, change these. If the sidebar ever needs more room, take it
-   * from --article-max-width rather than widening the frame.
+   * The frame runs 960px (= --page-max, where padding computes to 0 and the
+   * notes page is exactly a site page) up to 1200px. The grid is flipped to
+   * `1fr 288px` so the sidebar is pinned at the width its entries need and the
+   * article takes what is left, capped at 760px for measure. Past that cap the
+   * slack becomes a gutter between article and sidebar rather than an
+   * over-long line.
+   *
+   *   frame  960px -> content  864px -> article 576px, gutter   0px, toc 288px
+   *   frame 1200px -> content 1104px -> article 760px, gutter  56px, toc 288px
+   *
+   * Only at >=1000px, where the grid exists. Below that wanshi's own clamp()
+   * applies to a single-column article, which should fill the viewport.
+   *
+   * Mirrors --page-max and --pad-h in src/styles/global.css.
    */
-  :root body {
-    --article-max-width: clamp(90ex, 50vw, 700px);
-  }
-
   @media only screen and (min-width: 1000px) {
+    :root body {
+      /* Article fills its track; the cap keeps the measure readable. */
+      --article-max-width: 760px;
+      --toc-max-width: 288px;
+      /* Holds the nav/footer text to an Astro page's 864px content box while
+         their borders keep spanning the full frame. */
+      --site-chrome-pad: max(0px, calc((100% - 864px) / 2));
+    }
+
     body {
-      max-width: 960px;      /* = --page-max */
-      padding-inline: 3rem;  /* = --pad-h    */
+      max-width: clamp(960px, 88vw, 1200px);  /* floor = --page-max */
+      padding-inline: 3rem;                   /* = --pad-h          */
+    }
+
+    /* wanshi sizes the article column and lets the sidebar take the remainder,
+       which would leave the sidebar over-wide and ragged as the frame grows.
+       Pin the sidebar instead and give the article the slack. */
+    #grid-wrapper {
+      grid-template-columns: minmax(0, 1fr) var(--toc-max-width);
     }
   }
 
