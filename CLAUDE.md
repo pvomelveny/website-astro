@@ -64,10 +64,12 @@ places: `public/notes/` (where wanshi writes and Astro copies from) and
 **Research page** is data-driven from `src/data/research.ts` — a typed TypeScript file. Adding a publication = appending an object to the `papers`, `preprints`, or `talks` array. See `src/types/research.ts` for the full schema. (YAML was considered but Astro/Vite doesn't support YAML imports natively.)
 
 **No content collections.** Notes moved to wanshi, which removed the only one;
-`src/content.config.ts` and `src/content/` no longer exist. The `@astrojs/mdx`,
-`remark-math` and `rehype-katex` dependencies and the KaTeX stylesheet in
-`BaseLayout.astro` are now unused — kept in case an Astro page wants math or
-MDX later. Remove them if not.
+`src/content.config.ts` and `src/content/` no longer exist, and with them went
+`@astrojs/mdx`, `remark-math`, `rehype-katex` and the KaTeX CDN stylesheet —
+notes were their only consumer. **There is no Markdown or MDX pipeline**: the
+Astro side is `.astro` pages only. To put maths on an Astro page, either write
+MathML directly or reinstate the plugins; the notes need neither, since Typst
+emits MathML.
 
 **Notes** are a [wanshi](https://github.com/pvomelveny/wanshi) forest — Typst
 sources under `notes/trees/`, built to standalone HTML in `public/notes/`. There
@@ -85,7 +87,7 @@ All design tokens (colors, fonts, layout constants) live as CSS custom propertie
 Tokens defined there:
 
 - Colors: `--accent`, `--accent-hover`, `--bg`, `--surface`, `--border`, `--muted`, `--ink` — a warm cream/maroon palette.
-- Fonts: `--font-display` (Playfair Display, 400/500 + italic 400) and `--font-body` (Source Serif 4, opsz 8–60, weights 300 + 400). Loaded via Google Fonts in `BaseLayout.astro`. Math: KaTeX via `remark-math` + `rehype-katex`.
+- Fonts: `--font-display` (Playfair Display, 400/500 + italic 400) and `--font-body` (Source Serif 4, opsz 8–60, weights 300 + 400). Loaded via Google Fonts in `BaseLayout.astro`, and mirrored for notes in `notes/import-font.html`. No maths library on the Astro side — see above.
 - Layout: `--page-max` (960px), `--content-max` (900px), `--notes-max` (700px), `--pad-h` (3rem desktop, 1.5rem ≤680px), `--breakpoint` (680px).
 - **Type**: `--text-xs` (11px) · `--text-sm` (13px) · `--text-base` (16px) · `--text-lg` (20px) · `--text-xl` (32px), and `--leading-tight` (1.4) · `--leading-normal` (1.6) · `--leading-relaxed` (1.8).
 
@@ -257,7 +259,6 @@ import that loader rather than re-parsing the index.
 - `/links` page — curated list of other sites and interests
 - ~~Typst → HTML export pipeline~~ — done, via wanshi
 - Interactive math components via Astro islands
-- Drop `@astrojs/mdx`, `remark-math`, `rehype-katex` and the KaTeX CDN link in `BaseLayout.astro` if no Astro page ever needs math (wanshi notes use MathML and need none)
 - Self-host fonts via `notes/import-font.html` + BaseLayout to remove the Google Fonts dependency entirely
 
 ### Dark mode — survey notes (deferred 2026-08-17)

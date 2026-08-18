@@ -1,8 +1,5 @@
 import { defineConfig } from 'astro/config';
-import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
 import type { Plugin } from 'vite';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
@@ -73,11 +70,9 @@ export default defineConfig({
   // Canonical origin used for absolute URLs (sitemap, OpenGraph meta, etc.).
   // Update if the deployed domain ever changes.
   site,
-  integrations: [mdx(), sitemap({ customPages: notePages })],
-  markdown: {
-    remarkPlugins: [remarkMath],
-    rehypePlugins: [rehypeKatex],
-  },
+  // No mdx()/markdown pipeline: notes moved to wanshi, which left no Markdown
+  // or MDX in the project and no Astro page needing maths.
+  integrations: [sitemap({ customPages: notePages })],
   vite: {
     plugins: [notesDevUrls()],
   },

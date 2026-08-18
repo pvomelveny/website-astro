@@ -34,7 +34,7 @@ src/
     rss.xml.ts       ← RSS feed — built from the notes metadata index
 
   components/
-    BaseLayout.astro ← HTML shell: fonts, KaTeX CSS, meta tags
+    BaseLayout.astro ← HTML shell: fonts, meta tags, RSS autodiscovery
     Nav.astro        ← Top navigation bar (reads name from site.ts)
     Footer.astro     ← Footer with email/GitHub/Scholar links (reads from site.ts)
     Paper.astro      ← Single paper/preprint entry with abstract toggle

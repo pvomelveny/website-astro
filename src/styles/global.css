@@ -75,9 +75,6 @@ a { color: inherit; }
   line-height: var(--leading-normal);
 }
 
-/* KaTeX display math */
-.katex-display { overflow-x: auto; margin: 1.5rem 0; }
-
 /* Visually hide an element while keeping it readable by screen readers. */
 .visually-hidden {
   position: absolute;
