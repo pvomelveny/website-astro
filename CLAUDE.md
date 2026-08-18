@@ -162,6 +162,41 @@ Builds on #local("/semigroups").
 - Directories beginning with `_` are skipped — that is why `trees/_lib/` holds
   the bundled Typst library without becoming a page.
 
+### Writing in Neovim
+
+The editor config lives in `~/.config/nvim` (its own repo), not here — but the
+workflow it enables is part of writing notes, so it is recorded here too.
+
+**Clicking `[edit]` on a served note opens it in Neovim.** `[serve].edit` in
+`notes/Wanshi.toml` is `nvim://file/`; macOS routes that scheme to
+`~/Applications/WanshiEdit.app`, which forwards to `~/.local/bin/wanshi-edit`.
+That helper prefers a live Neovim session, then a tmux window, then a new
+terminal. It is serve-only — `[build].edit` stays unset, so published pages
+carry no edit link. Its log is `~/.cache/wanshi-edit.log`.
+
+**In a note buffer** (anything under a directory holding `Wanshi.toml`):
+
+| | |
+| --- | --- |
+| `gf` | follow the `#local`/`#embed` link under the cursor; offers to create a dangling target |
+| `<leader>nb` | backlinks — what links here |
+| `<leader>nl` | links — what this note points at |
+| `<leader>nf` | find any note in the forest |
+
+Typing `#local("` completes slugs, showing each note's title and taxon. Snippets
+cover the metadata block, the sixteen subtree helpers, links, and the listings —
+`note`, `meta`, `def`, `thm`, `ln`, `children`, `recent`, and so on.
+
+Everything is scoped to a detected forest: outside one, `gf` and `<leader>n`
+keep their ordinary meanings.
+
+**Two freshness caveats.** Slug completion, backlinks and find read the
+*generated* `wanshi.json` and `wanshi.graph.json`, so they are only as current
+as the last build — keep `npm run notes:watch` running while writing. And
+tinymist needs the Typst root to be `notes/trees`, not the repo root, or every
+note shows a spurious "file not found" on its `#import` line; the nvim config
+reads `[build].typst-root` out of `Wanshi.toml` to get this right.
+
 Run `npm run notes:check` before committing; it catches dangling links,
 duplicate slugs, and Typst errors. `npm run build` runs it in strict mode, so a
 warning fails the build.
@@ -215,6 +250,14 @@ import that loader rather than re-parsing the index.
   `notes/trees/`. wanshi keeps `public/notes/assets/` an exact mirror of
   `notes/assets/` and deletes anything else there, so do not put site files in
   it.
+- **`notes:watch` must pass `--indexes`.** `wanshi serve` defaults index output
+  *off*, and `[serve].output` deliberately points at the same directory as
+  `[build].output` so the watcher feeds the Astro dev server. The consequence:
+  a serve rebuild reconciles that directory and **deletes the `wanshi.json`
+  that `npm run build` wrote**. Nothing errors — `src/data/notes.ts` falls back
+  to an empty index — so the homepage list, the RSS feed and the notes' sitemap
+  entries just quietly empty out. If that script is ever simplified, keep the
+  flag.
 - **Creating a new `import-*.html` while `wanshi serve` is running has no
   effect** until you restart — a file that did not exist at startup is not
   watched.

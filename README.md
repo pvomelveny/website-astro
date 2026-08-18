@@ -283,6 +283,14 @@ the HTML export: `#auto-figure(auto-frame(...))`.
 **The index page maintains itself.** `notes/trees/index.typ` calls `#children()`,
 which lists every note automatically — you never edit it to add one.
 
+**In Neovim** (config in `~/.config/nvim`, not this repo): clicking `[edit]` on a
+served note opens it in your running session; `gf` follows a link;
+`<leader>nb`/`<leader>nl`/`<leader>nf` pick over backlinks, outbound links, and
+all notes; `#local("` completes slugs; and snippets cover the metadata block and
+the subtree helpers. Completion and backlinks read generated artifacts, so keep
+`npm run notes:watch` running while you write or they lag behind. See the
+"Writing in Neovim" section of CLAUDE.md.
+
 Full documentation is in the [wanshi repo](https://github.com/pvomelveny/wanshi)
 under `docs/users/` — start with `writing-notes.md` and `links-and-references.md`.
 
