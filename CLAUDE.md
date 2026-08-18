@@ -179,7 +179,7 @@ Integration is therefore four hook files in `notes/`, spliced into every page:
 The first three are **generated** by `scripts/gen-wanshi-chrome.ts` from
 `src/data/site.ts`, so the nav and footer cannot drift from the rest of the site
 — edit `site.ts` or that script, never the HTML. They are committed so that
-`cd notes && wanshi serve` works standalone. `import-style.html` is hand-written.
+`wanshi serve` works standalone from `notes/`. `import-style.html` is hand-written.
 
 `notes/assets/favicon.ico` is a **symlink** to `public/favicon.ico`; wanshi
 follows it and publishes a real file, so the notes carry the site's icon.
@@ -199,10 +199,13 @@ import that loader rather than re-parsing the index.
 
 ### Gotchas
 
-- **Run wanshi with `notes/` as the working directory.** It resolves
-  `[build].output` relative to the config file but `typst-root` relative to the
-  cwd, so `wanshi build --config notes/Wanshi.toml` from the repo root fails to
-  find the Typst sources. Every npm script does `cd notes && wanshi …`.
+- **Requires a wanshi built after 2026-08-17.** Two path bugs were fixed there
+  (`output_path` applied the project root twice; `typst-root` was resolved
+  against the cwd rather than the config file), which is what lets the npm
+  scripts pass `--config notes/Wanshi.toml` from the repo root instead of
+  `cd notes && …`. With an older binary those commands misbehave — sources not
+  found, and pages written to a stray `notes/public/notes/`. Reinstall with
+  `cargo install --path .` from the wanshi clone.
 - **wanshi is installed separately** (`cargo install --path .` from a clone) and
   is not an npm dependency. `cargo install` copies the binary — editing the
   wanshi source changes nothing until you reinstall.

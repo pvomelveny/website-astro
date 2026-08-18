@@ -10,10 +10,10 @@
     "build": "npm run notes:chrome && npm run notes:check && npm run notes:build && astro build",
     "preview": "astro preview",
     "notes:chrome": "node scripts/gen-wanshi-chrome.ts",
-    "notes:check": "cd notes && wanshi check --strict",
-    "notes:build": "cd notes && wanshi build",
-    "notes:watch": "npm run notes:chrome && cd notes && wanshi serve --no-server --indexes",
-    "notes:new": "cd notes && wanshi new post",
+    "notes:check": "wanshi check --strict --config notes/Wanshi.toml",
+    "notes:build": "wanshi build --config notes/Wanshi.toml",
+    "notes:watch": "npm run notes:chrome && wanshi serve --no-server --indexes --config notes/Wanshi.toml",
+    "notes:new": "wanshi new post --config notes/Wanshi.toml",
     "astro": "astro"
   },
   "dependencies": {

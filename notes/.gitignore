@@ -2,8 +2,8 @@
 /.cache
 .DS_Store
 
-# Build output only lands here if wanshi is run with the wrong working
-# directory — `wanshi build --config notes/Wanshi.toml` from the repo root
-# resolves `[build].output` inconsistently. Always `cd notes` first; the npm
-# scripts do. Ignored so a stray run cannot be committed by accident.
+# Kept as a guard. Output used to land here when wanshi was run from outside
+# the project: `output_path` applied the project root twice, so pages went to
+# `notes/notes/../public/notes`. Fixed in wanshi on 2026-08-17, but an older
+# binary would still do it, and a stray build should not be committable.
 /public/

@@ -315,9 +315,13 @@ npm run notes:chrome  # regenerate the injected nav/footer from src/data/site.ts
 `npm run build` runs `notes:check` in strict mode, so a dangling link fails the
 build. The production build is fully static — just files in `dist/`.
 
-> **Note:** wanshi resolves some paths relative to the working directory, so it
-> must be run from inside `notes/`. The npm scripts handle this; if you invoke
-> it by hand, `cd notes` first rather than passing `--config`.
+> **Note:** these need a wanshi built after 2026-08-17, when two path bugs were
+> fixed — the project root was applied twice when writing pages, and `typst-root`
+> was resolved against the working directory instead of the config file. That is
+> what lets the scripts pass `--config notes/Wanshi.toml` from the repo root. An
+> older binary will fail to find the sources and scatter output into a stray
+> `notes/public/`. Reinstall with `cargo install --path .` from the wanshi
+> clone.
 
 ---
 
