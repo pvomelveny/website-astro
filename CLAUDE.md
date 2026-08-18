@@ -133,8 +133,10 @@ Builds on #local("/semigroups").
 - **`title`, `date`, `description`** are what Astro reads for the homepage list
   and the feed; `description` is a custom key, and also renders in the page's
   metadata row.
-- **`taxon`** is the note kind. Keep to the site's four: `note`, `exposition`,
-  `problem`, `reading`.
+- **`taxon`** is the note kind, and the vocabulary is open — see the
+  conventions section below. wanshi's sixteen semantic helpers
+  (`#definition(...)`, `#theorem(...)`, …) set it for you on subtrees; set it by
+  hand in `#metadata` when a whole note *is* that kind of thing.
 - **Links and backlinks** are derived from `#local("/slug")`. Backlinks are
   automatic — every link pays for itself twice.
 - **Math** is MathML, rendered by Typst; no KaTeX involved and no CDN request.
@@ -225,7 +227,10 @@ import that loader rather than re-parsing the index.
 ## Key conventions
 
 - **Never use "blog" or "posts"** — always "notes" everywhere (URLs, nav, code, copy).
-- Note tags are exactly four values: `note`, `exposition`, `problem`, `reading` — set as a note's `taxon`. wanshi accepts any string, so this is convention, not enforcement.
+- **A taxon is an arbitrary string.** wanshi imposes no vocabulary — it capitalizes whatever it is given, appends `". "` for display, and puts the bare value in `data-taxon` (which is what `src/data/notes.ts` reads). Anything consuming a taxon must cope with a value it has not seen before; the homepage chip is styled to wrap rather than break the row.
+  - **`reference` is the sole exception**, and it is a compiler behaviour, not a convention: `Taxon::is_reference` matches any taxon **starting with** "reference" (or `参考`) and makes the section a citation target, changing how inbound links render. `isReferenceTaxon()` in `src/types/note.ts` mirrors it. Do not use the prefix for anything else.
+  - Every other taxon is a label and a sort key with no behaviour attached. There is **no** difference between the taxons wanshi's helpers preset and ones you invent — `#definition(...)` and `"taxon": "definition"` produce the same thing.
+  - `COMMON_TAXONS` in `src/types/note.ts` lists the values in use. It is a memory aid, not a schema. Prefer reusing one over coining one, since taxons are only useful as a filter key when consistent — and append to it when you do coin one.
 - Nav and footer markup exists twice: `src/components/{Nav,Footer}.astro` for Astro pages, and generated HTML for wanshi pages. Both read `src/data/site.ts`; a *structural* change means updating `scripts/gen-wanshi-chrome.ts` as well.
 - Paper titles render in Playfair Display italic.
 - Papers and preprints use a `coauthors` field (list collaborators only, omit yourself). Rendered as small muted "with" label + names in ink.

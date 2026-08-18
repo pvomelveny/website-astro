@@ -255,7 +255,12 @@ Every vertex of this polytope is half-integral.
 
 **Metadata fields:**
 - `title` — may be rich Typst content, not just a string
-- `taxon` — the note kind; keep to `note` · `exposition` · `problem` · `reading`
+- `taxon` — an arbitrary string; wanshi imposes no vocabulary. `COMMON_TAXONS`
+  in `src/types/note.ts` lists the ones in use (`definition`, `theorem`, `lemma`,
+  `proof`, `example`, `remark`, `note`, `exposition`, …) as a memory aid, not a
+  schema. One exception: a taxon **starting with** `reference` makes the section
+  a citation target and changes how links to it render — so that prefix is
+  reserved
 - `date` — `YYYY-MM-DD` sorts most reliably; set it on everything, or the note sorts last in the feed
 - `description` — one sentence; shown on the homepage list, in the RSS feed, and in the page's metadata row
 

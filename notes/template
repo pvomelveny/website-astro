@@ -6,7 +6,10 @@
 // replaced with the new file's stem; nothing else is filled in, so treat the
 // date and description as placeholders to edit.
 //
-// taxon: one of note · exposition · problem · reading
+// taxon: any string. Common ones: definition, theorem, lemma, proof, example,
+//        remark, note, exposition, problem, reading — see COMMON_TAXONS in
+//        src/types/note.ts. A taxon starting with `reference` is special: it
+//        makes the note a citation target.
 // date:  YYYY-MM-DD. Set it — an undated note sorts last in the feed and shows
 //        no date in listings.
 // description: one sentence. Used on the homepage list, in the RSS feed, and in

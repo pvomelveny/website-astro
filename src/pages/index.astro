@@ -258,6 +258,11 @@ function formatMonth(date: Date): string {
     font-size: 15px;
     font-weight: 400;
     color: var(--ink);
+    /* Taxons are arbitrary strings, so the chip beside the title can be any
+       length. Let this flex item shrink and wrap rather than pushing the date
+       out of the row. */
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
   .note-title a {
@@ -286,6 +291,8 @@ function formatMonth(date: Date): string {
     color: var(--muted);
     white-space: nowrap;
     letter-spacing: 0.03em;
+    /* Hold the date at its natural width; the title column absorbs the slack. */
+    flex-shrink: 0;
   }
 
   @media (max-width: 680px) {
