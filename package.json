@@ -12,7 +12,7 @@
     "notes:chrome": "node scripts/gen-wanshi-chrome.ts",
     "notes:check": "cd notes && wanshi check --strict",
     "notes:build": "cd notes && wanshi build",
-    "notes:watch": "npm run notes:chrome && cd notes && wanshi serve --no-server",
+    "notes:watch": "npm run notes:chrome && cd notes && wanshi serve --no-server --indexes",
     "notes:new": "cd notes && wanshi new post",
     "astro": "astro"
   },
