@@ -29,16 +29,16 @@ const { title, subtitle, year, coauthors, links, abstract } = item;
 
   .writing-title {
     font-family: var(--font-display);
-    font-size: 16px;
+    font-size: var(--text-base);
     font-weight: 400;
     font-style: italic;
     color: var(--ink);
-    line-height: 1.4;
+    line-height: var(--leading-tight);
     margin-bottom: 0.2rem;
   }
 
   .writing-subtitle {
-    font-size: 13px;
+    font-size: var(--text-sm);
     color: var(--muted);
     margin-bottom: 0.2rem;
   }
@@ -52,7 +52,7 @@ const { title, subtitle, year, coauthors, links, abstract } = item;
   }
 
   .writing-links a {
-    font-size: 12px;
+    font-size: var(--text-sm);
     color: var(--accent);
     text-decoration: underline;
     text-decoration-thickness: 0.5px;

@@ -29,6 +29,18 @@
     --hover-color-block: rgba(140, 32, 32, 0.05);
     --hover-color-link: rgba(140, 32, 32, 0.12);
 
+    /*
+     * Type scale, mirroring src/styles/global.css. wanshi pages never see that
+     * file, so the values are restated here — the same hand-bridging as the
+     * colours above, and the same caveat: change one, change both.
+     */
+    --text-xs: 11px;
+    --text-sm: 13px;
+    --text-base: 16px;
+    --leading-tight: 1.4;
+    --leading-normal: 1.6;
+    --leading-relaxed: 1.8;
+
     /* Site chrome matches the body gutter on desktop, where wanshi already
        pads the body; below 1000px it removes that padding, so the chrome
        supplies its own to stay off the screen edge. */
@@ -67,25 +79,9 @@
   /*
    * ── Page frame ────────────────────────────────────────────────────────────
    *
-   * Bring the notes page frame into line with the rest of the site. Astro pages
-   * are capped at --page-max (960px); wanshi's default works out to 1194-1327px,
-   * so the shared nav and footer visibly snapped to a different width when you
-   * crossed between them — a ~234-367px jump on the same two elements.
-   *
-   * Two overrides, and neither touches the article/sidebar structure:
-   *
-   *   --article-max-width  wanshi grows the reading column with the viewport
-   *                        (clamp(90ex, 50vw, 108ex) = 666-799px). Capping the
-   *                        top end at 700px pins it to the site's --notes-max,
-   *                        so prose is measured identically on /about and on a
-   *                        note. The floor and the fluid middle are kept.
-   *
-   *   body max-width       wanshi reserves 33rem (528px) beside the article for
-   *                        the sidebar, which is far more than the table of
-   *                        contents uses — [toc].max-width in Wanshi.toml caps
-   *                        it at 45ex (~333px). 22rem leaves the sidebar ~288px
-   *                        after the 2rem body gutters and brings the frame to
-   *                        1018-1052px.
+   * Astro pages are capped at --page-max (960px), where wanshi's default works
+   * out to 1194-1327px — so the shared nav and footer visibly snapped to a
+   * different width when you crossed between them.
    *
    * Three things want different widths, so they get different widths:
    *
@@ -159,7 +155,7 @@
 
   .site-nav-name {
     font-family: var(--heading-font-family);
-    font-size: 17px;
+    font-size: var(--text-base);
     font-weight: 400;
     font-style: normal;
     letter-spacing: 0.01em;
@@ -179,7 +175,7 @@
   }
 
   .site-nav-links a {
-    font-size: 13px;
+    font-size: var(--text-sm);
     color: var(--muted);
     text-decoration: none;
     letter-spacing: 0.04em;
@@ -206,7 +202,7 @@
 
   .site-footer-name {
     font-family: var(--heading-font-family);
-    font-size: 13px;
+    font-size: var(--text-sm);
     color: var(--muted);
   }
 
@@ -217,7 +213,7 @@
   }
 
   .site-footer-links a {
-    font-size: 12px;
+    font-size: var(--text-sm);
     color: var(--muted);
     text-decoration: none;
     letter-spacing: 0.03em;

@@ -68,7 +68,7 @@ function venueSuffix(): string {
   .paper-main { flex: 1; }
 
   .paper-year {
-    font-size: 12px;
+    font-size: var(--text-sm);
     color: var(--muted);
     letter-spacing: 0.04em;
     white-space: nowrap;
@@ -77,16 +77,16 @@ function venueSuffix(): string {
 
   .paper-title {
     font-family: var(--font-display);
-    font-size: 16px;
+    font-size: var(--text-base);
     font-weight: 400;
     font-style: italic;
     color: var(--ink);
-    line-height: 1.4;
+    line-height: var(--leading-tight);
     margin-bottom: 0.35rem;
   }
 
   .paper-venue {
-    font-size: 13px;
+    font-size: var(--text-sm);
     color: var(--muted);
     margin-bottom: 0.5rem;
   }
@@ -101,7 +101,7 @@ function venueSuffix(): string {
   }
 
   .ptag {
-    font-size: 11px;
+    font-size: var(--text-xs);
     color: var(--muted);
     background: var(--surface);
     border: 0.5px solid var(--border);
@@ -117,7 +117,7 @@ function venueSuffix(): string {
   }
 
   .paper-links a {
-    font-size: 12px;
+    font-size: var(--text-sm);
     color: var(--accent);
     text-decoration: underline;
     text-decoration-thickness: 0.5px;

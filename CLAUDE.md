@@ -87,16 +87,24 @@ Tokens defined there:
 - Colors: `--accent`, `--accent-hover`, `--bg`, `--surface`, `--border`, `--muted`, `--ink` — a warm cream/maroon palette.
 - Fonts: `--font-display` (Playfair Display, 400/500 + italic 400) and `--font-body` (Source Serif 4, opsz 8–60, weights 300 + 400). Loaded via Google Fonts in `BaseLayout.astro`. Math: KaTeX via `remark-math` + `rehype-katex`.
 - Layout: `--page-max` (960px), `--content-max` (900px), `--notes-max` (700px), `--pad-h` (3rem desktop, 1.5rem ≤680px), `--breakpoint` (680px).
+- **Type**: `--text-xs` (11px) · `--text-sm` (13px) · `--text-base` (16px) · `--text-lg` (20px) · `--text-xl` (32px), and `--leading-tight` (1.4) · `--leading-normal` (1.6) · `--leading-relaxed` (1.8).
 
-When adding new tokens, define them in `global.css` so dark mode remains a one-file change later.
+**Never hardcode a font-size or line-height.** The scale replaced ten ad-hoc
+sizes, of which 11/12/13/14 alone accounted for 36 uses — differences too small
+to read as intentional. **Pick a token by role, not by size**: if something
+seems to need a size that is not in the scale, the question is which role it
+has, not whether to add a sixth step.
+
+When adding new tokens, define them in `global.css`.
 
 **wanshi pages do not see `global.css`.** They are standalone documents with
-their own stylesheet, so the tokens are bridged by hand in
-`notes/import-style.html`. wanshi's "Parchment & walnut" palette already matches
-`--bg`, `--surface` and `--border` exactly; only `--ink`, `--muted`, `--accent`
-and `--accent-hover` are overridden there. **Changing one of those four in
-`global.css` means changing it in `notes/import-style.html` too** — there is no
-mechanism that keeps them in sync.
+their own stylesheet, so tokens are bridged by hand in
+`notes/import-style.html` — the colour palette, and the subset of the type
+scale the injected chrome uses. wanshi's "Parchment & walnut" palette already
+matches `--bg`, `--surface` and `--border` exactly; `--ink`, `--muted`,
+`--accent` and `--accent-hover` are overridden there. **Change any bridged value
+in `global.css` and you must change it in `notes/import-style.html` too** —
+nothing keeps them in sync.
 
 ## Notes (wanshi)
 

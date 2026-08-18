@@ -36,7 +36,7 @@ const date = new Date(year, month - 1).toLocaleDateString('en-US', { month: 'lon
 
   .talk-title {
     font-family: var(--font-display);
-    font-size: 15px;
+    font-size: var(--text-base);
     font-weight: 400;
     font-style: italic;
     color: var(--ink);
@@ -44,20 +44,20 @@ const date = new Date(year, month - 1).toLocaleDateString('en-US', { month: 'lon
   }
 
   .talk-date {
-    font-size: 12px;
+    font-size: var(--text-sm);
     color: var(--muted);
     white-space: nowrap;
     letter-spacing: 0.03em;
   }
 
   .talk-venue {
-    font-size: 12px;
+    font-size: var(--text-sm);
     color: var(--muted);
     margin-bottom: 0.15rem;
   }
 
   .talk-links a {
-    font-size: 12px;
+    font-size: var(--text-sm);
     color: var(--accent);
     text-decoration: underline;
     text-decoration-thickness: 0.5px;

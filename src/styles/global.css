@@ -11,6 +11,28 @@
   --font-display: 'Playfair Display', Georgia, serif;
   --font-body: 'Source Serif 4', Georgia, serif;
 
+  /*
+   * Type scale. Five steps, roughly a 1.2 ratio at the small end.
+   *
+   * These replaced ten hardcoded sizes (10 · 11 · 12 · 13 · 14 · 15 · 16 · 17 ·
+   * 20 · 32) of which 11/12/13/14 alone accounted for 36 uses — differences too
+   * small to read as deliberate, so they were drift rather than a system. Every
+   * value moved by at most 1px in the consolidation.
+   *
+   * Pick by role, not by size. If something needs a size that is not here, the
+   * question is which role it has, not whether to add a sixth step.
+   */
+  --text-xs: 11px;     /* uppercase micro-labels, tags, eyebrows */
+  --text-sm: 13px;     /* metadata, dates, secondary links, dense lists */
+  --text-base: 16px;   /* prose and item titles */
+  --text-lg: 20px;     /* section headings */
+  --text-xl: 32px;     /* page titles */
+
+  /* Three steps, chosen by role: headings, interface text, running prose. */
+  --leading-tight: 1.4;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.8;
+
   --page-max: 960px;
   --content-max: 900px;
   --notes-max: 700px;
@@ -41,16 +63,16 @@ a { color: inherit; }
 /* Shared page typography */
 .page-title {
   font-family: var(--font-display);
-  font-size: 32px;
+  font-size: var(--text-xl);
   font-weight: 400;
   color: var(--ink);
   margin-bottom: 0.75rem;
 }
 
 .page-intro {
-  font-size: 15px;
+  font-size: var(--text-base);
   color: var(--muted);
-  line-height: 1.7;
+  line-height: var(--leading-normal);
 }
 
 /* KaTeX display math */
@@ -75,7 +97,7 @@ a { color: inherit; }
  * src/scripts/abstracts.ts).
  */
 .abstract-toggle {
-  font-size: 10px;
+  font-size: var(--text-xs);
   color: var(--ink);
   cursor: pointer;
   background: var(--surface);
@@ -89,8 +111,8 @@ a { color: inherit; }
 .abstract-toggle:hover { border-color: var(--muted); }
 
 .abstract {
-  font-size: 14px;
-  line-height: 1.75;
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
   color: var(--muted);
   margin-top: 0.75rem;
   padding: 0.85rem 1rem;
