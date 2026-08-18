@@ -55,7 +55,17 @@ search = true
 search-content = true
 
 [serve]
-edit = "vscode://file/"
+# Clicking [edit] on a served note opens it in Neovim. The `nvim://` scheme is
+# handled by ~/Applications/WanshiEdit.app, an AppleScript bundle that forwards
+# the URL to ~/.local/bin/wanshi-edit — macOS delivers the URL as an Apple
+# Event, so a bare shell script could never receive it. The helper prefers a
+# live Neovim session (via the socket ~/.config/nvim/init.lua records on
+# FocusGained), then a tmux window, then a new Ghostty window.
+#
+# Serve-only, and a local convenience: [build].edit is left unset so published
+# pages carry no edit link. wanshi appends the file's absolute path to this
+# prefix.
+edit = "nvim://file/"
 # Same directory as the publish output, so `wanshi serve --no-server` rebuilds
 # into the tree that `astro dev` is already serving — one port, one URL space.
 output = "../public/notes"
