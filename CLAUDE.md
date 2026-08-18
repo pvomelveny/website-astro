@@ -238,13 +238,55 @@ import that loader rather than re-parsing the index.
 - Footer: name (Playfair Display, `--muted`) left; email + github + google scholar right.
 - CV is a PDF link only — no separate CV page.
 - arXiv links on published papers only when the paper also appears elsewhere; preprints use arXiv as primary link.
-- Dark mode deferred — all colors must go through CSS custom properties so it's a one-file change later.
+- Dark mode deferred — keep routing all colors through CSS custom properties regardless. It is no longer the "one-file change" this line used to promise, because wanshi pages carry their own stylesheet; see the survey notes under Future considerations.
 
 ## Future considerations
 
-- Dark mode — all Astro colors already go through CSS custom properties, but it is no longer a one-file change: wanshi ships no dark mode, so `/notes/**` would need its own treatment in `notes/import-style.html`
+- **Dark mode** — deferred 2026-08-17, not abandoned. Findings from the survey are below, so this does not have to be re-derived.
 - `/links` page — curated list of other sites and interests
 - ~~Typst → HTML export pipeline~~ — done, via wanshi
 - Interactive math components via Astro islands
 - Drop `@astrojs/mdx`, `remark-math`, `rehype-katex` and the KaTeX CDN link in `BaseLayout.astro` if no Astro page ever needs math (wanshi notes use MathML and need none)
 - Self-host fonts via `notes/import-font.html` + BaseLayout to remove the Google Fonts dependency entirely
+
+### Dark mode — survey notes (deferred 2026-08-17)
+
+**It is two jobs, not one.** The old claim that dark mode is "a one-file change
+because all colors are custom properties" was true of the Astro pages and is no
+longer true of the site: `/notes/**` are standalone wanshi documents that never
+see `global.css`. Both halves need doing, and they need to agree.
+
+**The wanshi half is smaller than it looks.** Measured in `src/include/main.css`:
+
+```
+color literals, total     16
+  in the :root body block 10   <- the tokens to override
+  scattered elsewhere      6   <- 4 are transparent rgba(0,0,0,0) on
+                                  theme-option brackets; 2 target Typst
+                                  SVG fills (#000000)
+prefers-color-scheme        0
+data-theme                  0
+```
+
+**The hard part already exists.** `src/include/main.js` carries a CSS filter
+solver — `invert → sepia → saturate → hue-rotate → brightness → contrast`, with
+a loss function — that recolors Typst's black SVG output
+(`path.typst-shape[fill="#000000"]`, `.typst-text use[...]`) to match the active
+theme, persisted in `localStorage` under `wanshi-theme`. Recoloring rendered SVG
+is the thing that usually makes dark mode painful on a Typst site, and it is
+already written; it is simply wired to the vestigial theme picker rather than to
+a light/dark switch.
+
+**Answer this before estimating.** Does that invert pass re-run when the color
+scheme changes, or only on an explicit theme selection? The whole "small job"
+read depends on it. If it only fires on theme selection, dark mode needs new
+plumbing to trigger it from a `prefers-color-scheme` media query listener, and
+is a substantially bigger piece of work.
+
+**Then, in order:** override the ~10 tokens in wanshi behind
+`prefers-color-scheme`; clean up the two `#000000` SVG selectors; add matching
+dark tokens to `src/styles/global.css`; mirror them in
+`notes/import-style.html`, which already hand-bridges `--ink`, `--muted`,
+`--accent` and `--accent-hover`. Remember the wanshi side needs
+`cargo install --path .` and a forest rebuild — `main.css` and `main.js` are
+compiled into the binary, unlike the `import-*.html` hooks.
