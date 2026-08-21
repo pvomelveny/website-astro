@@ -1,0 +1,1117 @@
+IRSForm1098T:
+  date: '2025-04-12'
+  title: IRS Form 1098-T and UW Information Statement
+  type: web
+  url:
+    date: '2025-04-12'
+    value: https://sdb.admin.uw.edu/sisStudents/uwnetid/irs1098t.aspx/irs1098tpdf.aspx
+M208Sp23:
+  date: '2025-04-06'
+  language: en
+  title: M208 Sp23
+  type: web
+  url:
+    date: '2025-04-06'
+    value: https://www.overleaf.com/project/641e2ba274572939b255d346
+PDFSoftwareTools:
+  date: '2023-08-26'
+  language: en
+  title: PDF Software & Tools Tailored to Your Business
+  type: web
+  url:
+    date: '2023-08-26'
+    value: https://www.foxit.com/downloads/pdf-reader-thanks.html
+adiprasitoHodgeTheoryCombinatorial2018:
+  author:
+    - Adiprasito, Kareem
+    - Huh, June
+    - Katz, Eric
+  date: 2018-09
+  issue: '2'
+  page-range: 381-452
+  parent:
+    title: Annals of Mathematics
+    type: periodical
+  publisher:
+    name: Department of Mathematics of Princeton University
+  serial-number:
+    doi: 10.4007/annals.2018.188.2.1
+    issn: 0003-486X, 1939-8980
+  title: Hodge theory for combinatorial geometries
+  type: article
+  url:
+    date: '2022-03-08'
+    value: https://projecteuclid.org/journals/annals-of-mathematics/volume-188/issue-2/Hodge-theory-for-combinatorial-geometries/10.4007/annals.2018.188.2.1.full
+  volume: '188'
+aignerWhitneyNumbers1987:
+  author: Aigner, Martin
+  date: '1987'
+  editor: White, Neil
+  page-range: 139-160
+  publisher:
+    location: Cambridge
+    name: Cambridge University Press
+  serial-number:
+    doi: 10.1017/CBO9781107325715.010
+    isbn: 978-0-521-33339-9
+  title: Whitney Numbers
+  type: chapter
+  url:
+    date: '2023-07-07'
+    value: https://www.cambridge.org/core/books/combinatorial-geometries/whitney-numbers/F82CAEECC90AFB5178901F3E43D207C5
+aleksandrovZurTheorieGemischter1937:
+  author: Aleksandrov, Aleksandr Danilovich
+  date: '1937'
+  page-range: 1205-1238
+  parent:
+    title: Mat. Sbornik
+    type: periodical
+  title: Zur Theorie gemischter Volumina von konvexen Körpern II. Neue Ungleichungen zwischen den gemischten Volumina und ihre Anwendungen
+  type: article
+aminiHomologyTropicalFans2021a:
+  author:
+    - Amini, Omid
+    - Piquerez, Matthieu
+  date: '2021-05-04'
+  serial-number:
+    doi: 10.48550/arXiv.2105.01504
+  title: Homology of tropical fans
+  type: report
+  url:
+    date: '2025-03-19'
+    value: http://arxiv.org/abs/2105.01504
+ardilaBergmanComplexMatroid2006:
+  author:
+    - Ardila, Federico
+    - Klivans, Caroline J.
+  date: '2006-01-01'
+  issue: '1'
+  language: en
+  page-range: 38-49
+  parent:
+    title: Journal of Combinatorial Theory, Series B
+    type: periodical
+  serial-number:
+    doi: 10.1016/j.jctb.2005.06.004
+    issn: 0095-8956
+  title: The Bergman complex of a matroid and phylogenetic trees
+  type: article
+  url:
+    date: '2022-12-01'
+    value: https://www.sciencedirect.com/science/article/pii/S0095895605000687
+  volume: '96'
+ardilaTuttePolynomialsHyperplane2022:
+  author: Ardila, Federico
+  date: '2022'
+  publisher:
+    name: Chapman and Hall/CRC
+  serial-number:
+    isbn: 978-0-429-16161-2
+  title: Tutte polynomials of hyperplane arrangements and the finite field method
+  type: chapter
+bergmanLogarithmicLimitsetAlgebraic1971:
+  author: Bergman, George M.
+  date: '1971'
+  language: en
+  page-range: 459-469
+  parent:
+    title: Transactions of the American Mathematical Society
+    type: periodical
+  serial-number:
+    doi: 10.1090/S0002-9947-1971-0280489-8
+    issn: 0002-9947, 1088-6850
+  title: The logarithmic limit-set of an algebraic variety
+  type: article
+  url:
+    date: '2023-05-03'
+    value: https://www.ams.org/tran/1971-157-00/S0002-9947-1971-0280489-8/
+  volume: '157'
+bhattacharyaAaronsonAmbainisConjectureTrue2024:
+  author: Bhattacharya, Sreejata Kishor
+  date: '2024-02-21'
+  serial-number:
+    doi: 10.48550/arXiv.2402.13952
+  title: Aaronson-Ambainis Conjecture Is True For Random Restrictions
+  type: report
+  url:
+    date: '2025-09-15'
+    value: http://arxiv.org/abs/2402.13952
+bhattacharyaRandomRestrictionsBounded2025:
+  author: Bhattacharya, Sreejata Kishor
+  date: '2025'
+  editor: Meka, Raghu
+  page-range: 17:1–17:21
+  publisher:
+    location: Dagstuhl, Germany
+    name: Schloss Dagstuhl – Leibniz-Zentrum für Informatik
+  serial-number:
+    doi: 10.4230/LIPIcs.ITCS.2025.17
+    isbn: 978-3-95977-361-4
+    issn: 1868-8969
+  title: Random Restrictions of Bounded Low Degree Polynomials Are Juntas
+  type: article
+  url:
+    date: '2026-07-22'
+    value: https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ITCS.2025.17
+  volume: '325'
+blaisTestingJuntasNearly2009:
+  author: Blais, Eric
+  date: '2009-05-31'
+  page-range: 151–158
+  publisher:
+    location: New York, NY, USA
+    name: Association for Computing Machinery
+  serial-number:
+    doi: 10.1145/1536414.1536437
+    isbn: 978-1-60558-506-2
+  title: Testing juntas nearly optimally
+  type: article
+  url:
+    date: '2026-03-19'
+    value: https://dl.acm.org/doi/10.1145/1536414.1536437
+bohnenblustAbsoluteConvergenceDirichlet1931:
+  author:
+    - Bohnenblust, H. F.
+    - Hille, Einar
+  date: '1931'
+  issue: '3'
+  page-range: 600-622
+  parent:
+    title: Annals of Mathematics
+    type: periodical
+  publisher:
+    name: '[Annals of Mathematics, Trustees of Princeton University on Behalf of the Annals of Mathematics, Mathematics Department, Princeton University]'
+  serial-number:
+    doi: 10.2307/1968255
+    issn: 0003-486X
+  title: On the Absolute Convergence of Dirichlet Series
+  type: article
+  url:
+    date: '2025-09-15'
+    value: https://www.jstor.org/stable/1968255
+  volume: '32'
+brandenLorentzianPolynomials2020:
+  author:
+    - Brändén, Petter
+    - Huh, June
+  date: 2020-11
+  issue: '3'
+  page-range: 821-891
+  parent:
+    title: Annals of Mathematics
+    type: periodical
+  publisher:
+    name: Department of Mathematics of Princeton University
+  serial-number:
+    doi: 10.4007/annals.2020.192.3.4
+    issn: 0003-486X, 1939-8980
+  title: Lorentzian polynomials
+  type: article
+  url:
+    date: '2022-12-12'
+    value: https://projecteuclid.org/journals/annals-of-mathematics/volume-192/issue-3/Lorentzian-polynomials/10.4007/annals.2020.192.3.4.full
+  volume: '192'
+brylawskiTuttePolynomialIts1992:
+  author:
+    - Brylawski, Thomas
+    - Oxley, James
+  date: '1992'
+  editor: White, Neil
+  page-range: 123-225
+  publisher:
+    location: Cambridge
+    name: Cambridge University Press
+  serial-number:
+    doi: 10.1017/CBO9780511662041.007
+    isbn: 978-0-521-38165-9
+  title: The Tutte Polynomial and Its Applications
+  type: chapter
+  url:
+    date: '2022-03-09'
+    value: https://www.cambridge.org/core/books/matroid-applications/tutte-polynomial-and-its-applications/694DB21F393137B43C900F07AD4C4F26
+carletBooleanFunctionsCryptography2021:
+  author: Carlet, Claude
+  date: '2021'
+  publisher:
+    location: Cambridge
+    name: Cambridge University Press
+  serial-number:
+    doi: 10.1017/9781108606806
+    isbn: 978-1-108-47380-4
+  title: Boolean Functions for Cryptography and Coding Theory
+  type: book
+  url:
+    date: '2026-02-20'
+    value: https://www.cambridge.org/core/books/boolean-functions-for-cryptography-and-coding-theory/087A2BAC6140B96526526294F7265405
+chenMysteriousConnectionTolerant2025:
+  author:
+    - Chen, Xi
+    - Patel, Shyamal
+    - Servedio, Rocco A.
+  date: '2025-04-22'
+  serial-number:
+    doi: 10.48550/arXiv.2504.16065
+  title: A Mysterious Connection Between Tolerant Junta Testing and Agnostically Learning Conjunctions
+  type: report
+  url:
+    date: '2026-03-19'
+    value: http://arxiv.org/abs/2504.16065
+chevalleyClassesEquivalenceRationnelle1958:
+  author: Chevalley, Claude
+  date: '1958'
+  language: en
+  page-range: 1-14
+  parent:
+    title: Séminaire Claude Chevalley
+    type: periodical
+  serial-number:
+    issn: 2534-0042
+  title: Les classes d'équivalence rationnelle, I
+  type: article
+  url:
+    date: '2023-03-29'
+    value: http://www.numdam.org/item/?id=SCC_1958__3__A2_0
+  volume: '3'
+chowEquivalenceClassesCycles1956:
+  author: Chow, Wei-Liang
+  date: '1956'
+  issue: '3'
+  page-range: 450-479
+  parent:
+    title: Annals of Mathematics
+    type: periodical
+  publisher:
+    name: Annals of Mathematics
+  serial-number:
+    doi: 10.2307/1969596
+    issn: 0003-486X
+  title: On Equivalence Classes of Cycles in an Algebraic Variety
+  type: article
+  url:
+    date: '2023-03-29'
+    value: https://www.jstor.org/stable/1969596
+  volume: '64'
+cordero-erausquinOneMoreProof2019:
+  author:
+    - Cordero-Erausquin, Dario
+    - Klartag, Bo'az
+    - Merigot, Quentin
+    - Santambrogio, Filippo
+  date: '2019-08-01'
+  issue: '8'
+  language: en
+  page-range: 676-680
+  parent:
+    title: Comptes Rendus Mathematique
+    type: periodical
+  serial-number:
+    doi: 10.1016/j.crma.2019.07.004
+    issn: 1631-073X
+  title: One more proof of the Alexandrov–Fenchel inequality
+  type: article
+  url:
+    date: '2023-07-19'
+    value: https://www.sciencedirect.com/science/article/pii/S1631073X19301566
+  volume: '357'
+coxToricVarieties2011:
+  author:
+    - Cox, David A.
+    - Little, John B.
+    - Schenck, Henry K.
+  date: '2011'
+  language: en
+  publisher:
+    name: American Mathematical Soc.
+  serial-number:
+    isbn: 978-0-8218-4819-7
+  title: Toric Varieties
+  type: book
+danilovGEOMETRYTORICVARIETIES1978:
+  author: Danilov, V I
+  date: '1978-04-30'
+  issue: '2'
+  page-range: 97-154
+  parent:
+    title: Russian Mathematical Surveys
+    type: periodical
+  serial-number:
+    doi: 10.1070/RM1978v033n02ABEH002305
+    issn: 0036-0279, 1468-4829
+  title: THE GEOMETRY OF TORIC VARIETIES
+  type: article
+  url:
+    date: '2025-03-21'
+    value: https://www.mathnet.ru/eng/rm3391
+  volume: '33'
+dastidarMatroidPsiClasses2021:
+  author:
+    - Dastidar, Jeshu
+    - Ross, Dustin
+  date: '2021-10-06'
+  parent:
+    title: arXiv:2102.08425 [math]
+    type: periodical
+  title: Matroid psi classes
+  type: article
+  url:
+    date: '2022-03-09'
+    value: http://arxiv.org/abs/2102.08425
+deJuntaCorrelationTestable2019:
+  author:
+    - De, Anindya
+    - Mossel, Elchanan
+    - Neeman, Joe
+  date: 2019-11
+  page-range: 1549-1563
+  parent:
+    title: 2019 IEEE 60th Annual Symposium on Foundations of Computer Science (FOCS)
+    type: conference
+  serial-number:
+    doi: 10.1109/FOCS.2019.00090
+    issn: 2575-8454
+  title: Junta Correlation is Testable
+  type: article
+  url:
+    date: '2026-03-19'
+    value: https://ieeexplore.ieee.org/abstract/document/8948666
+deconciniWonderfulModelsSubspace1995:
+  author:
+    - De Concini, C.
+    - Procesi, C.
+  date: '1995-12-01'
+  issue: '3'
+  language: en
+  page-range: 459-494
+  parent:
+    title: Selecta Mathematica
+    type: periodical
+  serial-number:
+    doi: 10.1007/BF01589496
+    issn: 1420-9020
+  title: Wonderful models of subspace arrangements
+  type: article
+  url:
+    date: '2023-04-15'
+    value: https://doi.org/10.1007/BF01589496
+  volume: '1'
+defantFourierSpectrumFunctions2017:
+  author:
+    - Defant, Andreas
+    - Mastyło, Mieczysław
+    - Pérez, Antonio
+  date: '2017-06-12'
+  serial-number:
+    doi: 10.48550/arXiv.1706.03670
+  title: On the Fourier spectrum of functions on Boolean cubes
+  type: report
+  url:
+    date: '2025-09-15'
+    value: http://arxiv.org/abs/1706.03670
+diakonikolasBoundedIndependenceFools2010:
+  author:
+    - Diakonikolas, Ilias
+    - Gopalan, Parikshit
+    - Jaiswal, Ragesh
+    - Servedio, Rocco A.
+    - Viola, Emanuele
+  date: 2010-01
+  issue: '8'
+  page-range: 3441-3462
+  parent:
+    title: SIAM Journal on Computing
+    type: periodical
+  publisher:
+    name: Society for Industrial and Applied Mathematics
+  serial-number:
+    doi: 10.1137/100783030
+    issn: 0097-5397
+  title: Bounded Independence Fools Halfspaces
+  type: article
+  url:
+    date: '2026-02-20'
+    value: https://epubs.siam.org/doi/10.1137/100783030
+  volume: '39'
+eldanNoiseStabilityBoolean2023:
+  author:
+    - Eldan, Ronen
+    - Mikulincer, Dan
+    - Raghavendra, Prasad
+  date: '2023-06-02'
+  page-range: 661–671
+  publisher:
+    location: New York, NY, USA
+    name: Association for Computing Machinery
+  serial-number:
+    doi: 10.1145/3564246.3585118
+    isbn: 978-1-4503-9913-5
+  title: Noise Stability on the Boolean Hypercube via a Renormalized Brownian Motion
+  type: article
+  url:
+    date: '2026-07-22'
+    value: https://dl.acm.org/doi/10.1145/3564246.3585118
+feichtnerChowRingsToric2004:
+  author:
+    - Feichtner, Eva Maria
+    - Yuzvinsky, Sergey
+  date: '2004-03-01'
+  issue: '3'
+  language: en
+  page-range: 515-536
+  parent:
+    title: Inventiones mathematicae
+    type: periodical
+  serial-number:
+    doi: 10.1007/s00222-003-0327-2
+    issn: 1432-1297
+  title: Chow rings of toric varieties defined by atomic lattices
+  type: article
+  url:
+    date: '2023-04-15'
+    value: https://doi.org/10.1007/s00222-003-0327-2
+  volume: '155'
+feichtnerMatroidPolytopesNested2005:
+  author:
+    - Feichtner, Eva Maria
+    - Sturmfels, Bernd
+  date: '2005'
+  issue: '4'
+  language: eng
+  page-range: 437-468
+  parent:
+    title: Portugaliae Mathematica. Nova Série
+    type: periodical
+  publisher:
+    name: European Mathematical Society Publishing House
+  serial-number:
+    issn: 0032-5155
+  title: Matroid polytopes, nested sets and Bergman fans.
+  type: article
+  url:
+    date: '2023-04-18'
+    value: https://eudml.org/doc/52519
+  volume: '62'
+fultonIntersectionTheory1998:
+  author: Fulton, William
+  date: '1998'
+  language: en
+  publisher:
+    location: New York, NY
+    name: Springer
+  serial-number:
+    doi: 10.1007/978-1-4612-1700-8
+    isbn: 978-0-387-98549-7 978-1-4612-1700-8
+  title: Intersection Theory
+  type: book
+  url:
+    date: '2023-02-13'
+    value: http://link.springer.com/10.1007/978-1-4612-1700-8
+grunbaumConvexPolytopes2003:
+  author: Grünbaum, Branko
+  date: '2003'
+  editor:
+    - Kaibel, Volker
+    - Klee, Victor
+    - Ziegler, Günter M.
+  publisher:
+    location: New York, NY
+    name: Springer
+  serial-number:
+    doi: 10.1007/978-1-4613-0019-9
+    isbn: 978-0-387-40409-7 978-1-4613-0019-9
+  title: Convex Polytopes
+  type: book
+  url:
+    date: '2023-06-15'
+    value: http://link.springer.com/10.1007/978-1-4613-0019-9
+  volume: '221'
+hartshorneAlgebraicGeometry1977:
+  author: Hartshorne, Robin
+  date: '1977'
+  publisher:
+    location: New York, NY
+    name: Springer
+  serial-number:
+    doi: 10.1007/978-1-4757-3849-0
+    isbn: 978-1-4419-2807-8 978-1-4757-3849-0
+  title: Algebraic Geometry
+  type: book
+  url:
+    date: '2022-10-23'
+    value: http://link.springer.com/10.1007/978-1-4757-3849-0
+  volume: '52'
+heronMatroidPolynomials1972:
+  author: Heron, AP
+  date: '1972'
+  issue: '9'
+  page-range: 164-202
+  parent:
+    title: Combinatorics
+    type: periodical
+  title: Matroid polynomials
+  type: article
+  volume: '340058'
+huhLogconcavityCharacteristicPolynomials2012:
+  author:
+    - Huh, June
+    - Katz, Eric
+  date: '2012-11-01'
+  issue: '3'
+  language: en
+  page-range: 1103-1116
+  parent:
+    title: Mathematische Annalen
+    type: periodical
+  serial-number:
+    doi: 10.1007/s00208-011-0777-6
+    issn: 1432-1807
+  title: Log-concavity of characteristic polynomials and the Bergman fan of matroids
+  type: article
+  url:
+    date: '2022-11-28'
+    value: https://doi.org/10.1007/s00208-011-0777-6
+  volume: '354'
+iyerJuntaDistanceApproximation2021:
+  author:
+    - Iyer, Vishnu
+    - Tal, Avishay
+    - Whitmeyer, Michael
+  date: '2021-06-01'
+  serial-number:
+    doi: 10.48550/arXiv.2106.00287
+  title: Junta Distance Approximation with Sub-Exponential Queries
+  type: report
+  url:
+    date: '2026-03-19'
+    value: http://arxiv.org/abs/2106.00287
+kudinProvingConjectureODonnell2021:
+  author:
+    - Kudin, S.
+    - Pasalic, E.
+  date: '2021-01-31'
+  page-range: 345-353
+  parent:
+    title: Discrete Applied Mathematics
+    type: periodical
+  serial-number:
+    doi: 10.1016/j.dam.2020.11.005
+    issn: 0166-218X
+  title: Proving the conjecture of O’Donnell in certain cases and disproving its general validity
+  type: article
+  url:
+    date: '2026-02-20'
+    value: https://www.sciencedirect.com/science/article/pii/S0166218X20304960
+  volume: '289'
+kungSourceBookMatroid1986:
+  author: Kung, Joseph P. S.
+  date: '1986'
+  language: en
+  publisher:
+    location: Boston, MA
+    name: Birkhäuser
+  serial-number:
+    doi: 10.1007/978-1-4684-9199-9
+    isbn: 978-0-8176-3173-4 978-1-4684-9199-9
+  title: A Source Book in Matroid Theory
+  type: book
+  url:
+    date: '2022-10-04'
+    value: http://link.springer.com/10.1007/978-1-4684-9199-9
+maclaganIntroductionTropicalGeometry2015:
+  author:
+    - Maclagan, Diane
+    - Sturmfels, Bernd
+  date: '2015-04-15'
+  language: English
+  publisher:
+    location: Providence, Rhode Island
+    name: Amer Mathematical Society
+  serial-number:
+    isbn: 978-0-8218-5198-2
+  title: Introduction to Tropical Geometry
+  type: book
+montanaroApplicationsHypercontractiveInequalities2012a:
+  author: Montanaro, Ashley
+  date: '2012-12-10'
+  issue: '12'
+  page-range: '122206'
+  parent:
+    title: Journal of Mathematical Physics
+    type: periodical
+  serial-number:
+    doi: 10.1063/1.4769269
+    issn: 0022-2488
+  title: Some applications of hypercontractive inequalities in quantum information theory
+  type: article
+  url:
+    date: '2025-10-13'
+    value: https://doi.org/10.1063/1.4769269
+  volume: '53'
+nadimpalliOptimalNonadaptiveTolerant2024:
+  author:
+    - Nadimpalli, Shivam
+    - Patel, Shyamal
+  date: '2024-06-11'
+  page-range: 1039–1050
+  publisher:
+    location: New York, NY, USA
+    name: Association for Computing Machinery
+  serial-number:
+    doi: 10.1145/3618260.3649687
+    isbn: 979-8-4007-0383-6
+  title: Optimal Non-adaptive Tolerant Junta Testing via Local Estimators
+  type: article
+  url:
+    date: '2026-03-19'
+    value: https://dl.acm.org/doi/10.1145/3618260.3649687
+nakasawaZurAxiomatikLinearen1935:
+  author: Nakasawa, Takeo
+  date: '1935'
+  issue: '43'
+  page-range: 235-255
+  parent:
+    title: Science Reports of the Tokyo Bunrika Daigaku, Section A
+    type: periodical
+  publisher:
+    name: Editorial Committee of Tsukuba Journal of Mathematics
+  serial-number:
+    issn: 0371-3334
+  title: Zur Axiomatik der linearen Abhängigkeit. I
+  type: article
+  url:
+    date: '2023-08-24'
+    value: https://www.jstor.org/stable/43700141
+  volume: '2'
+nakasawaZurAxiomatikLinearen1936:
+  author: Nakasawa, Takeo
+  date: '1936'
+  issue: 50/51
+  page-range: 45-69
+  parent:
+    title: Science Reports of the Tokyo Bunrika Daigaku, Section A
+    type: periodical
+  publisher:
+    name: Editorial Committee of Tsukuba Journal of Mathematics
+  serial-number:
+    issn: 0371-3334
+  title: Zur Axiomatik der linearen Abhängigkeit. II
+  type: article
+  url:
+    date: '2023-08-24'
+    value: https://www.jstor.org/stable/43700315
+  volume: '3'
+nakasawaZurAxiomatikLinearen1936a:
+  author: Nakasawa, Takeo
+  date: '1936'
+  issue: '55'
+  page-range: 123-136
+  parent:
+    title: Science Reports of the Tokyo Bunrika Daigaku, Section A
+    type: periodical
+  publisher:
+    name: Editorial Committee of Tsukuba Journal of Mathematics
+  serial-number:
+    issn: 0371-3334
+  title: Zur Axiomatik der linearen Abhängigkeit, III
+  type: article
+  url:
+    date: '2023-08-24'
+    value: https://www.jstor.org/stable/43700325
+  volume: '3'
+nathansonGeometricVolumeRank2021:
+  author: Nathanson, Anastasia
+  date: '2021'
+  language: English
+  publisher:
+    location: San Francisco
+  title: Geometric Volume of Rank 3 Matroids
+  type: thesis
+  url:
+    date: '2023-07-18'
+    value: https://scholarworks.calstate.edu/concern/theses/bg257m98h
+nathansonTropicalFansNormal2023:
+  author:
+    - Nathanson, Anastasia
+    - Ross, Dustin
+  date: '2023-05-01'
+  language: en
+  page-range: '108981'
+  parent:
+    title: Advances in Mathematics
+    type: periodical
+  serial-number:
+    doi: 10.1016/j.aim.2023.108981
+    issn: 0001-8708
+  title: 'Tropical fans and normal complexes: Putting the “volume” back in “volume polynomials”'
+  type: article
+  url:
+    date: '2023-07-17'
+    value: https://www.sciencedirect.com/science/article/pii/S000187082300124X
+  volume: '420'
+neelMatroidsYouHave2009:
+  author:
+    - Neel, David L.
+    - Neudauer, Nancy Ann
+  date: '2009-02-01'
+  issue: '1'
+  page-range: 26-41
+  parent:
+    title: Mathematics Magazine
+    type: periodical
+  publisher:
+    name: Taylor & Francis
+  serial-number:
+    doi: 10.1080/0025570X.2009.11953589
+    issn: 0025-570X
+  title: Matroids You Have Known
+  type: article
+  url:
+    date: '2022-10-11'
+    value: https://doi.org/10.1080/0025570X.2009.11953589
+  volume: '82'
+nowakMixedVolumesNormal2022:
+  author: Nowak, Lauren
+  date: '2022'
+  language: English
+  publisher:
+    location: San Francisco
+  title: Mixed volumes of normal complexes
+  type: thesis
+  url:
+    date: '2023-06-21'
+    value: https://doi.org/10.46569/20.500.12680/0c483r13d
+nowakMixedVolumesNormal2023:
+  author:
+    - Nowak, Lauren
+    - O'Melveny, Patrick
+    - Ross, Dustin
+  date: '2023-01-12'
+  serial-number:
+    doi: 10.48550/arXiv.2301.05278
+  title: Mixed volumes of normal complexes
+  type: report
+  url:
+    date: '2023-05-04'
+    value: http://arxiv.org/abs/2301.05278
+odonnellAnalysisBooleanFunctions2021:
+  author: O'Donnell, Ryan
+  date: '2021-05-21'
+  serial-number:
+    doi: 10.48550/arXiv.2105.10386
+  title: Analysis of Boolean Functions
+  type: report
+  url:
+    date: '2026-02-20'
+    value: http://arxiv.org/abs/2105.10386
+odonnellEveryDecisionTree2005:
+  author:
+    - O'Donnell, R.
+    - Saks, M.
+    - Schramm, O.
+    - Servedio, R.A.
+  date: 2005-10
+  page-range: 31-39
+  parent:
+    title: 46th Annual IEEE Symposium on Foundations of Computer Science (FOCS'05)
+    type: conference
+  serial-number:
+    doi: 10.1109/SFCS.2005.34
+    issn: 0272-5428
+  title: Every decision tree has an influential variable
+  type: article
+  url:
+    date: '2026-07-17'
+    value: https://ieeexplore.ieee.org/document/1530699
+odonnellOpenProblemsAnalysis2012:
+  author: O'Donnell, Ryan
+  date: '2012-04-29'
+  serial-number:
+    doi: 10.48550/arXiv.1204.6447
+  title: Open Problems in Analysis of Boolean Functions
+  type: report
+  url:
+    date: '2026-02-20'
+    value: http://arxiv.org/abs/1204.6447
+oxleyMatroidTheory2011:
+  author: Oxley, James
+  date: '2011'
+  language: eng
+  publisher:
+    location: Oxford
+    name: Oxford University Press
+  serial-number:
+    doi: 10.1093/acprof:oso/9780198566946.001.0001
+    isbn: 978-0-19-856694-6
+  title: Matroid Theory
+  type: book
+  url:
+    date: '2022-03-08'
+    value: https://oxford.universitypressscholarship.com/10.1093/acprof:oso/9780198566946.001.0001/acprof-9780198566946
+pegelChowRingsToric2014:
+  author: Pegel, Christoph
+  date: '2014-09-08'
+  language: en
+  publisher:
+    location: Bremen
+  title: Chow Rings of Toric Varieties
+  type: thesis
+  url:
+    value: https://www.iazd.uni-hannover.de/fileadmin/iazd/Pegel/thesis-chow-rings.pdf
+pellegrinoNewUpperBounds2012:
+  author:
+    - Pellegrino, Daniel
+    - Seoane-Sepúlveda, Juan B.
+  date: '2012-02-01'
+  issue: '1'
+  page-range: 300-307
+  parent:
+    title: Journal of Mathematical Analysis and Applications
+    type: periodical
+  serial-number:
+    doi: 10.1016/j.jmaa.2011.08.004
+    issn: 0022-247X
+  title: New upper bounds for the constants in the Bohnenblust–Hille inequality
+  type: article
+  url:
+    date: '2025-10-13'
+    value: https://www.sciencedirect.com/science/article/pii/S0022247X11007402
+  volume: '386'
+rotaCombinatorialTheoryOld1970:
+  author: Rota, Gian-Carlo
+  date: '1970'
+  page-range: 229-233
+  parent:
+    title: Actes du Congres International des Mathématiciens (Nice, 1970)
+    type: conference
+  title: Combinatorial theory, old and new
+  type: article
+  volume: '3'
+rotaFoundationsCombinatorialTheory1964:
+  author: Rota, Gian -Carlo
+  date: '1964-01-01'
+  issue: '4'
+  language: en
+  page-range: 340-368
+  parent:
+    title: Zeitschrift für Wahrscheinlichkeitstheorie und Verwandte Gebiete
+    type: periodical
+  serial-number:
+    doi: 10.1007/BF00531932
+    issn: 1432-2064
+  title: On the foundations of combinatorial theory I. Theory of Möbius Functions
+  type: article
+  url:
+    date: '2022-10-20'
+    value: https://doi.org/10.1007/BF00531932
+  volume: '2'
+schneiderConvexBodiesBrunn2013:
+  author: Schneider, Rolf
+  date: '2013'
+  publisher:
+    location: Cambridge
+    name: Cambridge University Press
+  serial-number:
+    doi: 10.1017/CBO9781139003858
+    isbn: 978-1-107-60101-7
+  title: 'Convex Bodies: The Brunn–Minkowski Theory'
+  type: book
+  url:
+    date: '2023-05-02'
+    value: https://www.cambridge.org/core/books/convex-bodies-the-brunnminkowski-theory/400F6173EE613859F144E9598DDD8BDF
+stanleyLogConcaveUnimodalSequences1989:
+  author: Stanley, Richard P.
+  date: '1989'
+  issue: '1'
+  language: en
+  page-range: 500-535
+  parent:
+    title: Annals of the New York Academy of Sciences
+    type: periodical
+  serial-number:
+    doi: 10.1111/j.1749-6632.1989.tb16434.x
+    issn: 1749-6632
+  title: Log-Concave and Unimodal Sequences in Algebra, Combinatorics, and Geometrya
+  type: article
+  url:
+    date: '2023-02-17'
+    value: https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1749-6632.1989.tb16434.x
+  volume: '576'
+sturmfelsSolvingSystemsPolynomial2002:
+  author: Sturmfels, Bernd
+  date: '2002-10-01'
+  language: English
+  publisher:
+    location: Providence, R.I
+    name: American Mathematical Society
+  serial-number:
+    isbn: 978-0-8218-3251-6
+  title: Solving Systems of Polynomial Equations
+  type: book
+sylvesterXIXDemonstrationTheorem1852:
+  author: Sylvester, J.J.
+  date: '1852-08-01'
+  issue: '23'
+  page-range: 138-142
+  parent:
+    title: The London, Edinburgh, and Dublin Philosophical Magazine and Journal of Science
+    type: periodical
+  publisher:
+    name: Taylor & Francis
+  serial-number:
+    doi: 10.1080/14786445208647087
+    issn: 1941-5982
+  title: XIX. A demonstration of the theorem that every homogeneous quadratic polynomial is reducible by real orthogonal substitutions to the form of a sum of positive and negative squares
+  type: article
+  url:
+    date: '2023-06-22'
+    value: https://doi.org/10.1080/14786445208647087
+  volume: '4'
+tutteContributionTheoryChromatic1954:
+  author: Tutte, W. T.
+  date: '1954'
+  language: en
+  page-range: 80-91
+  parent:
+    title: Canadian Journal of Mathematics
+    type: periodical
+  publisher:
+    name: Cambridge University Press
+  serial-number:
+    doi: 10.4153/CJM-1954-010-9
+    issn: 0008-414X, 1496-4279
+  title: A Contribution to the Theory of Chromatic Polynomials
+  type: article
+  url:
+    date: '2022-10-20'
+    value: https://www.cambridge.org/core/journals/canadian-journal-of-mathematics/article/contribution-to-the-theory-of-chromatic-polynomials/E1EE1F053B494D08746F0EE23F736CC2
+  volume: '6'
+vakilWhatAlgebraicGeometry2022:
+  date: '2022-04-23'
+  publisher:
+    location: Colorado State University
+  title: What is algebraic geometry?
+  type: misc
+  url:
+    date: '2022-10-04'
+    value: https://sites.google.com/wagsymposium.org/wags-spring-2022/wags-spring-2022/abstracts?authuser=0
+volbergNoncommutativeBohnenblustHille2024:
+  author:
+    - Volberg, Alexander
+    - Zhang, Haonan
+  date: 2024-06
+  issue: '2'
+  page-range: 1657-1676
+  parent:
+    title: Mathematische Annalen
+    type: periodical
+  serial-number:
+    doi: 10.1007/s00208-023-02680-0
+    issn: 0025-5831, 1432-1807
+  title: Noncommutative Bohnenblust--Hille inequalities
+  type: article
+  url:
+    date: '2025-09-15'
+    value: http://arxiv.org/abs/2210.14468
+  volume: '389'
+welshMatroidTheory1976:
+  author: Welsh, Dominic JA
+  date: '1976'
+  language: en
+  publisher:
+    location: London-New York
+    name: Academic Press
+  serial-number:
+    isbn: 978-0-12-744050-7
+  title: Matroid Theory
+  type: book
+  volume: '8'
+whiteCombinatorialGeometries1987:
+  date: '1987'
+  editor: White, Neil
+  publisher:
+    location: Cambridge
+    name: Cambridge University Press
+  serial-number:
+    doi: 10.1017/CBO9781107325715
+    isbn: 978-0-521-33339-9
+  title: Combinatorial Geometries
+  type: book
+  url:
+    date: '2023-06-30'
+    value: https://www.cambridge.org/core/books/combinatorial-geometries/9CEAE4F38296BA34B70149926F1A8FDB
+whitneyAbstractPropertiesLinear1935:
+  author: Whitney, Hassler
+  date: '1935'
+  issue: '3'
+  page-range: 509-533
+  parent:
+    title: American Journal of Mathematics
+    type: periodical
+  publisher:
+    name: Johns Hopkins University Press
+  serial-number:
+    doi: 10.2307/2371182
+    issn: 0002-9327
+  title: On the Abstract Properties of Linear Dependence
+  type: article
+  url:
+    date: '2022-03-09'
+    value: http://www.jstor.org/stable/2371182
+  volume: '57'
+whitneyColoringGraphs1932:
+  author: Whitney, Hassler
+  date: '1932'
+  issue: '4'
+  page-range: 688-718
+  parent:
+    title: Annals of Mathematics
+    type: periodical
+  publisher:
+    name: Annals of Mathematics
+  serial-number:
+    doi: 10.2307/1968214
+    issn: 0003-486X
+  title: The Coloring of Graphs
+  type: article
+  url:
+    date: '2022-10-20'
+    value: http://www.jstor.org/stable/1968214
+  volume: '33'
+williamsROTAWELSHCONJECTUREREPRESENTABLE:
+  author: Williams, Ethan
+  language: en
+  page-range: '19'
+  title: THE ROTA-WELSH CONJECTURE FOR REPRESENTABLE MATROIDS
+  type: article
+  url:
+    value: http://math.uchicago.edu/~may/REU2020/REUPapers/Williams.pdf
+zaslavskyMobiusFunctionCharacteristic1987:
+  author: Zaslavsky, Thomas
+  date: '1987'
+  editor: White, Neil
+  page-range: 114-138
+  publisher:
+    location: Cambridge
+    name: Cambridge University Press
+  serial-number:
+    doi: 10.1017/CBO9781107325715.009
+    isbn: 978-0-521-33339-9
+  title: The Möbius Function and the Characteristic Polynomial
+  type: chapter
+  url:
+    date: '2023-06-30'
+    value: https://www.cambridge.org/core/books/combinatorial-geometries/mobius-function-and-the-characteristic-polynomial/7B1E7F8ACC7FC095BA75B0A024306064
+zieglerLecturesPolytopes1995:
+  author: Ziegler, Günter M.
+  date: '1995'
+  publisher:
+    location: New York, NY
+    name: Springer
+  serial-number:
+    doi: 10.1007/978-1-4613-8431-1
+    isbn: 978-0-387-94365-7 978-1-4613-8431-1
+  title: Lectures on Polytopes
+  type: book
+  url:
+    date: '2023-04-18'
+    value: http://link.springer.com/10.1007/978-1-4613-8431-1
+  volume: '152'

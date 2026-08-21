@@ -15,3 +15,5 @@ $ f: {0,1}^n -> {0,1}. $
 
 The domain ${0,1}^n$ is the #emph[Boolean cube]; a point of it is an assignment
 of a bit to each of the $n$ coordinates.
+
+The standard reference is #local("/refs/odonnellAnalysisBooleanFunctions2021", text: [O'Donnell]).

@@ -54,6 +54,28 @@ output = "../public/notes"
 search = true
 search-content = true
 
+[refs]
+# Bibliographic works, exported from Zotero by Better BibTeX with "keep
+# updated" so it stays in sync automatically. `npm run refs:sync` reads it and
+# writes a note for every work cited under `dir` that does not have one yet.
+#
+# Hayagriva YAML, exported from Zotero. Better BibTeX can keep it updated
+# automatically, so it never has to be touched by hand.
+#
+# Inside trees/ under a `_` directory on purpose. Discovery skips `_` dirs and
+# only .typ/.typst are section extensions, so it can never become a page — while
+# typst-root *is* trees/, so a note drafting paper prose can reach the same file
+# natively:
+#
+#     #bibliography("/_bib/refs.yaml")
+#
+# That escape hatch is the reason for the location; a project-root path would
+# close it off permanently. wanshi resolves this against the project root either
+# way.
+bibliography = "trees/_bib/refs.yaml"
+
+dir = "refs"
+
 [serve]
 # Clicking [edit] on a served note opens it in Neovim. The `nvim://` scheme is
 # handled by ~/Applications/WanshiEdit.app, an AppleScript bundle that forwards
@@ -66,9 +88,14 @@ search-content = true
 # pages carry no edit link. wanshi appends the file's absolute path to this
 # prefix.
 edit = "nvim://file/"
-# Same directory as the publish output, so `wanshi serve --no-server` rebuilds
-# into the tree that `astro dev` is already serving — one port, one URL space.
-output = "../public/notes"
+# A scratch directory of its own, NOT `[build].output`. Serve mode ignores
+# `base-url` and hardcodes it to `/`, because miniserve serves this directory at
+# the root — so its pages link to `/welcome` and `/main.css` where the published
+# ones link to `/notes/welcome` and `/notes/main.css`. Pointing both modes at
+# `public/notes` therefore left whichever ran last serving links the other side
+# could not resolve. Gitignored; `scripts/notes-serve.ts` mirrors the two
+# generated indexes back into `public/notes` so nothing downstream goes stale.
+output = "../.wanshi-serve"
 command = ["miniserve", "<output>", "--index", "index.html", "--pretty-urls"]
 
 [publish]

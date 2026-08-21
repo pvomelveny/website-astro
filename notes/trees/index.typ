@@ -27,6 +27,10 @@ If you'd like to just get an idea of what I've been thinking about recently, che
 
 If you want to keep up to date, consider subscribing to my RSS feed.
 
+= References
+Works I have cited anywhere in these notes, each listing the notes that cite it.
+#local("/refs/index")
+
 = About
 
 #embed("/about", "About", open: false)

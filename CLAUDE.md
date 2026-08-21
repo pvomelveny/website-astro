@@ -182,6 +182,73 @@ When part of one gets done, **narrow the marker rather than deleting it** —
 rewrite it to name only what is still missing, so the spot stays findable.
 Delete it when the section is genuinely finished.
 
+### Citing papers and books
+
+Works are cited the same way notes are, so a citation lands in the graph:
+
+```typst
+The standard reference is #local("/refs/odonnellAnalysisBooleanFunctions2021", text: [O'Donnell]).
+```
+
+Cite first, then run `npm run refs:sync`. `notes:check` reports the citation as
+a dangling link until you do, and says so.
+
+**Zotero stays the source of truth.** `notes/trees/_bib/refs.yaml` is a Hayagriva
+export of the library — Better BibTeX can keep it updated automatically — and
+`refs:sync` generates `notes/trees/refs/<citekey>.typ` from it. Reference notes
+are **generated and regenerable**: sync refreshes ones it wrote earlier, so an
+upstream correction reaches the forest. Each carries a marker comment; delete
+the marker to take a file over by hand and sync will leave it alone.
+
+**Your thinking about a work goes in an ordinary note that links to the stub**,
+not in the stub. The work's page then lists every note citing it, which is the
+view a generated file cannot give you.
+
+Only cited works get a page, so the 71-entry library does not become 71 pages.
+Stubs carry `citekey`, `doi`, `type` and `container` as metadata — preserved in
+`wanshi.json`, invisible on the page (they are not in `[build].header-keys`), and
+usable as `#query(key: "type", value: "book")` filters.
+
+**Collecting a bibliography for a paper** is the payoff, and the reason this is
+worth more than a folder of PDFs:
+
+```sh
+npm run refs:export -- --from boolean/     # what the boolean notes cite
+npm run refs:export                        # everything the forest cites
+```
+
+Output matches the bibliography's format. `refs.yaml` is Hayagriva, so that is
+what comes out — Typst reads it natively. Point `[refs].bibliography` at a
+`.bib` instead if a paper needs BibTeX; hayagriva reads BibTeX but cannot write
+it, so converting that direction is refused rather than done lossily.
+
+Reference stubs are excluded from `/rss.xml` and the homepage list by
+`src/data/notes.ts` — a batch of newly synced works is not new writing — but
+they stay in the sitemap, since they are real pages.
+
+**Why the bibliography lives under `trees/_bib/`.** Discovery skips `_`-prefixed
+directories and only `.typ`/`.typst` are section extensions, so it is never a
+page and is never copied into the output — the library is not published. But
+`[build].typst-root` *is* `trees/`, so a note drafting paper prose can reach the
+same file natively:
+
+```typst
+Boolean analysis @odonnellAnalysisBooleanFunctions2021 is the standard text.
+#bibliography("/_bib/refs.yaml", title: "Works cited")
+```
+
+That renders numbered `[1]` citations with a formatted bibliography, which
+`#local()` does not — useful in a draft, but per-note and invisible to the graph,
+so it is not how to cite across the forest. A project-root path would close that
+option off permanently.
+
+**Point the Zotero auto-export at the new path** if you moved it: the export
+target is remembered by Better BibTeX, not by this repo.
+
+`wanshi serve` does notice writes to that file and runs a rebuild pass, but
+writes no pages — output hashing finds nothing changed — so Zotero re-exporting
+on every library edit costs a no-op, not churn.
+
 ### Writing in Neovim
 
 The editor config lives in `~/.config/nvim` (its own repo), not here — but the

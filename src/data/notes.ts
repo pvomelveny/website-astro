@@ -96,6 +96,12 @@ export function getNotes(): Note[] {
   for (const [slug, entry] of Object.entries(index)) {
     if (slug === "index") continue;
     if (plain(entry["collect"]) === "true") continue;
+    // A work cited from a note is not itself a post. Reference stubs are
+    // generated from the Zotero library by `npm run refs:sync`, so a batch of
+    // them would otherwise arrive in the feed as if they were new writing.
+    // They stay in the sitemap — see getNotePagePaths — since they are real,
+    // linkable pages.
+    if (plain(entry["data-taxon"]) === "reference") continue;
 
     notes.push({
       slug,
