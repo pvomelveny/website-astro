@@ -13,7 +13,8 @@ npm run dev          # build notes, then start the Astro dev server
 npm run build        # generate chrome → check notes → build notes → astro build → dist/
 npm run preview      # preview production build locally
 
-npm run notes:watch  # rebuild notes on save (run beside `npm run dev`)
+npm run notes:serve  # watch notes + serve them at localhost:8080
+npm run notes:watch  # watch notes without the server (run beside `npm run dev`)
 npm run notes:new -- <path>   # scaffold a note, e.g. `-- algebra/monoids`
 npm run notes:check  # validate the note graph (strict)
 npm run notes:build  # build notes only → public/notes/
@@ -21,9 +22,17 @@ npm run notes:chrome # regenerate the site chrome wanshi injects
 ```
 
 `npm run dev` builds the notes once and does not watch them — `astro dev` only
-watches Astro sources. To edit notes with live reload, run `npm run notes:watch`
-in a second terminal; it rebuilds into `public/notes/`, which the dev server is
-already serving.
+watches Astro sources.
+
+**To write notes, run `npm run notes:serve` and read them at
+`localhost:8080`**, not through the Astro dev server. It rebuilds on save and
+the page reloads itself. `npm run notes:watch` is the same thing without the
+server, for when the Astro dev server is what you are looking at: it keeps
+`wanshi.json` and `wanshi.graph.json` current — so the homepage list and the
+Neovim commands stay honest — but it does **not** refresh the pages under
+`/notes/`. Those come from `npm run notes:build`. The reason for the split is in
+Gotchas: serve mode and build mode emit different link roots and cannot write to
+the same directory.
 
 Requires [Typst](https://typst.app) and [wanshi](https://github.com/pvomelveny/wanshi)
 on `PATH` (`brew install typst`; `cargo install --path .` from a wanshi clone).
@@ -47,7 +56,7 @@ src/
   styles/         # global.css (design tokens + resets)
   types/          # shared TypeScript interfaces (Research, Note, etc.)
   scripts/        # client-side TS (abstract toggles)
-scripts/          # build-time TS — gen-wanshi-chrome.ts
+scripts/          # build-time TS — gen-wanshi-chrome.ts, notes-serve.ts
 notes/            # the wanshi project: Wanshi.toml, trees/, assets/, import-*.html
 public/           # CV PDF, headshot photo; notes/ generated here (gitignored)
 ```
@@ -118,7 +127,7 @@ the wanshi repo under `docs/users/`.
 
 ```sh
 npm run notes:new -- algebra/monoids   # creates notes/trees/algebra/monoids.typ
-npm run notes:watch                    # rebuild on save, beside `npm run dev`
+npm run notes:serve                    # rebuild on save, read at localhost:8080
 ```
 
 A note is a Typst file declaring metadata and linking to its neighbours:
@@ -162,6 +171,17 @@ Builds on #local("/semigroups").
 - Directories beginning with `_` are skipped — that is why `trees/_lib/` holds
   the bundled Typst library without becoming a page.
 
+### Marking unfinished sections
+
+Leave a `// TODO: <what is missing>` Typst comment wherever a note is not
+finished. Comments never reach the output, so a half-written note still builds,
+still checks clean, and can be published without leaking a marker onto the page.
+`grep -rn "// TODO" notes/trees` is the worklist.
+
+When part of one gets done, **narrow the marker rather than deleting it** —
+rewrite it to name only what is still missing, so the spot stays findable.
+Delete it when the section is genuinely finished.
+
 ### Writing in Neovim
 
 The editor config lives in `~/.config/nvim` (its own repo), not here — but the
@@ -192,8 +212,9 @@ keep their ordinary meanings.
 
 **Two freshness caveats.** Slug completion, backlinks and find read the
 *generated* `wanshi.json` and `wanshi.graph.json`, so they are only as current
-as the last build — keep `npm run notes:watch` running while writing. And
-tinymist needs the Typst root to be `notes/trees`, not the repo root, or every
+as the last build — keep `npm run notes:serve` (or `notes:watch`) running while
+writing, which refreshes both after every rebuild. And tinymist needs the Typst
+root to be `notes/trees`, not the repo root, or every
 note shows a spurious "file not found" on its `#import` line; the nvim config
 reads `[build].typst-root` out of `Wanshi.toml` to get this right.
 
@@ -250,14 +271,26 @@ import that loader rather than re-parsing the index.
   `notes/trees/`. wanshi keeps `public/notes/assets/` an exact mirror of
   `notes/assets/` and deletes anything else there, so do not put site files in
   it.
-- **`notes:watch` must pass `--indexes`.** `wanshi serve` defaults index output
-  *off*, and `[serve].output` deliberately points at the same directory as
-  `[build].output` so the watcher feeds the Astro dev server. The consequence:
-  a serve rebuild reconciles that directory and **deletes the `wanshi.json`
-  that `npm run build` wrote**. Nothing errors — `src/data/notes.ts` falls back
-  to an empty index — so the homepage list, the RSS feed and the notes' sitemap
-  entries just quietly empty out. If that script is ever simplified, keep the
-  flag.
+- **Serve mode and build mode cannot share an output directory.** Serve mode
+  ignores `base-url` and hardcodes it to `/` (`BuildMode::Serve` in wanshi's
+  `src/environment/config_access.rs`), because its miniserve serves the output
+  directory at the root. So `wanshi serve` writes `/welcome` and `/main.css`
+  where `wanshi build` writes `/notes/welcome` and `/notes/main.css`. Both wrote
+  into `public/notes/` until 2026-08-18, which meant a single `notes:watch`
+  silently replaced the published pages with ones whose every link and
+  stylesheet 404s under `/notes/`. `[serve].output` is therefore `.wanshi-serve/`
+  (gitignored), and **`public/notes/` belongs to `wanshi build` alone**.
+- **`scripts/notes-serve.ts` wraps `wanshi serve`, and both npm scripts go
+  through it.** It exists to pay back the one cost of that split: `wanshi.json`
+  and `wanshi.graph.json` are read out of the *build* output — by
+  `src/data/notes.ts`, and by the Neovim commands, which deliberately resolve
+  `[build].output` — so it copies both from the serve output after every
+  rebuild. It also owns the `--indexes --graph` flags, which are not optional:
+  serve mode leaves both *off* by default (separate flags — `--indexes` writes
+  `wanshi.json`, `--graph` writes `wanshi.graph.json`), and without them there is
+  nothing to mirror. Nothing errors in that case; the homepage list, the RSS
+  feed, the notes' sitemap entries and the Neovim backlinks just quietly go
+  stale. Only those two files ever cross between the directories.
 - **Creating a new `import-*.html` while `wanshi serve` is running has no
   effect** until you restart — a file that did not exist at startup is not
   watched.

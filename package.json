@@ -12,7 +12,8 @@
     "notes:chrome": "node scripts/gen-wanshi-chrome.ts",
     "notes:check": "wanshi check --strict --config notes/Wanshi.toml",
     "notes:build": "wanshi build --config notes/Wanshi.toml",
-    "notes:watch": "npm run notes:chrome && wanshi serve --no-server --indexes --config notes/Wanshi.toml",
+    "notes:watch": "npm run notes:chrome && node scripts/notes-serve.ts --no-server",
+    "notes:serve": "npm run notes:chrome && node scripts/notes-serve.ts",
     "notes:new": "wanshi new post --config notes/Wanshi.toml",
     "astro": "astro"
   },

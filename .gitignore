@@ -7,6 +7,11 @@ dist/
 # (wanshi's own build cache is ignored by notes/.gitignore.)
 public/notes/
 
+# wanshi serve's scratch output — `npm run notes:serve` / `notes:watch` build
+# here, kept apart from public/notes/ because serve mode rewrites every link to
+# be root-relative. See scripts/notes-serve.ts.
+.wanshi-serve/
+
 # Dependencies
 node_modules/
 

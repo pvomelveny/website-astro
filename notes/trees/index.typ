@@ -16,6 +16,7 @@ Feel free to explore. The organization may be a little chaotic.
 // there is no list to keep in step. See boolean/index.typ for the pattern.
 #query(from: "children", key: "area", value: "true")
 
+
 = Thoughts
 Not math, but general thoughts. Possibly tangentially related to math.
 
@@ -28,4 +29,5 @@ If you want to keep up to date, consider subscribing to my RSS feed.
 
 = About
 
-#embed("/about", "About these notes")
+#embed("/about", "About", open: false)
+
