@@ -10,12 +10,13 @@
   "taxon": "reference",
   "date": "2021",
   "author": "Ryan O'Donnell",
-  "citekey": "odonnellAnalysisBooleanFunctions2021",
+  "citekey": "odonnell2021",
   "type": "report",
   "doi": "10.48550/arXiv.2105.10386",
+  "url": "http://arxiv.org/abs/2105.10386",
   "parent": "refs/index",
 ))
 
-2021.
+Report.
 
-#external("https://doi.org/10.48550/arXiv.2105.10386", "doi:10.48550/arXiv.2105.10386")
+#external("https://arxiv.org/abs/2105.10386", "arXiv:2105.10386")
